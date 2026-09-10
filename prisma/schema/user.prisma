@@ -1,0 +1,17 @@
+model User {
+  id           String       @id @default(uuid())
+  email        String       @unique
+  passwordHash String?
+  role         Role         @default(TENANT)
+  authProvider AuthProvider @default(CREDENTIAL)
+  googleId     String?      @unique
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  profile      Profile?
+  properties   Property[]
+  applications Application[]
+  payments     Payment[]
+
+  @@map("users")
+}

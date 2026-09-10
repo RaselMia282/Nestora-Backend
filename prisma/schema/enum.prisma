@@ -1,0 +1,39 @@
+enum Role {
+    OWNER
+    TENANT
+    MANAGER
+
+    ADMIN
+}
+
+enum AuthProvider {
+    GOOGLE
+    CREDENTIAL
+}
+
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
+
+enum RoomStatus {
+  AVAILABLE
+  RESERVED
+  OCCUPIED
+}
+
+
+enum ApplicationStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+}
