@@ -1,5 +1,5 @@
 import config from "../config";
-import { prismaVersion } from "../generated/prisma/internal/prismaNamespace";
+// import { prismaVersion } from "../generated/prisma/internal/prismaNamespace";
 import { prisma } from "../lib/prisma";
 import { jwtUtilis } from "../utilis/jwt";
 import { Ilogin, IRegisterUser } from "./auth.interface";
