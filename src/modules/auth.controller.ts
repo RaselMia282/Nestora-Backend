@@ -29,13 +29,32 @@ const loginUser = catchAsync(
     if (!payload.success) {
       throw new Error(payload.error.message);
     }
-    const result = await authService.loginUserIntoDB(payload.data);
+    const { accessToken, refreshToken } = await authService.loginUserIntoDB(
+      payload.data,
+    );
+
+    res.cookie("accessToken", accessToken, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "lax",
+      maxAge: 1000 * 60 * 60 * 24,
+    });
+
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "lax",
+      maxAge: 1000 * 60 * 60 * 24 * 30,
+    });
 
     sendResponse(res, {
       success: true,
-      statusCode: httpStatus.CREATED,
+      statusCode: httpStatus.OK,
       message: "User login successful",
-      data: result,
+      data: {
+        accessToken,
+        refreshToken,
+      },
     });
   },
 );

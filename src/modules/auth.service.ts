@@ -1,6 +1,7 @@
 import config from "../config";
 import { prismaVersion } from "../generated/prisma/internal/prismaNamespace";
 import { prisma } from "../lib/prisma";
+import { jwtUtilis } from "../utilis/jwt";
 import { Ilogin, IRegisterUser } from "./auth.interface";
 import bcrypt from "bcryptjs";
 
@@ -68,6 +69,32 @@ const loginUserIntoDB = async (payload: Ilogin) => {
   if (!isPasswordMatched) {
     throw new Error("incorrect password");
   }
+
+  // jwt create
+  const jwtPayload = {
+    id: user.id,
+    email: user.email,
+    role: user.role,
+  };
+
+  // accessToken
+  const accessToken = jwtUtilis.createToken(
+    jwtPayload,
+    config.jwt_access_secret as string,
+    config.jwt_access_expire_in as string,
+  );
+
+  //  refreshToken
+  const refreshToken = jwtUtilis.createToken(
+    jwtPayload,
+    config.jwt_refresh_secret as string,
+    config.jwt_refresh_expire_in as string,
+  );
+
+  return {
+    accessToken,
+    refreshToken,
+  };
 };
 
 export const authService = {
