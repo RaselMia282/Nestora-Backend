@@ -1,6 +1,7 @@
 model User {
   id           String       @id @default(uuid())
   email        String       @unique
+  name         String?
   passwordHash String?
   role         Role         @default(TENANT)
   authProvider AuthProvider @default(CREDENTIAL)

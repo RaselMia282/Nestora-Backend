@@ -2,6 +2,7 @@ import express, { type Application, type Request, type Response } from "express"
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import config from "./config/index.js";
+import { authRouter } from "./modules/auth.routes.js";
 
 
 const app: Application = express();
@@ -25,6 +26,8 @@ app.get("/", (req: Request, res: Response) => {
   res.send("practices cloudinary,multer,redis etc");
 });
 
+
+app.use("/api/v1/auth",authRouter)
 
 
 export default app;
