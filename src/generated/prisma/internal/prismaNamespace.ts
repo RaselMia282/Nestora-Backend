@@ -1155,8 +1155,7 @@ export type RoomScalarFieldEnum = (typeof RoomScalarFieldEnum)[keyof typeof Room
 export const UserScalarFieldEnum = {
   id: 'id',
   email: 'email',
-  name: 'name',
-  passwordHash: 'passwordHash',
+  password: 'password',
   role: 'role',
   authProvider: 'authProvider',
   googleId: 'googleId',
