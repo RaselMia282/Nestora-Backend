@@ -1,7 +1,7 @@
 import config from "../config";
 import { prismaVersion } from "../generated/prisma/internal/prismaNamespace";
 import { prisma } from "../lib/prisma";
-import { IRegisterUser } from "./auth.interface";
+import { Ilogin, IRegisterUser } from "./auth.interface";
 import bcrypt from "bcryptjs";
 
 const registerUserIntoDb = async (payload: IRegisterUser) => {
@@ -49,6 +49,28 @@ const registerUserIntoDb = async (payload: IRegisterUser) => {
   return result;
 };
 
+const loginUserIntoDB = async (payload: Ilogin) => {
+  const { email, password } = payload;
+
+  const user = await prisma.user.findUnique({
+    where: { email },
+  });
+
+  if (!user) {
+    throw new Error("Invalid email or password");
+  }
+  if (!user.password) {
+    throw new Error("Please login with your Google account");
+  }
+
+  const isPasswordMatched = await bcrypt.compare(password, user.password);
+
+  if (!isPasswordMatched) {
+    throw new Error("incorrect password");
+  }
+};
+
 export const authService = {
   registerUserIntoDb,
+  loginUserIntoDB,
 };

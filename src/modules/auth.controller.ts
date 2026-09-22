@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { catchAsync } from "../utilis/catchAsync";
-import { registerUserSchema } from "./auth.validation";
+import { loginUserSchema, registerUserSchema } from "./auth.validation";
 import { authService } from "./auth.service";
 import { sendResponse } from "../utilis/sendResponse";
 import httpStatus from "http-status";
@@ -23,6 +23,24 @@ const registerUser = catchAsync(
   },
 );
 
+const loginUser = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const payload = loginUserSchema.safeParse(req.body);
+    if (!payload.success) {
+      throw new Error(payload.error.message);
+    }
+    const result = await authService.loginUserIntoDB(payload.data);
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.CREATED,
+      message: "User login successful",
+      data: result,
+    });
+  },
+);
+
 export const authController = {
   registerUser,
+  loginUser,
 };
