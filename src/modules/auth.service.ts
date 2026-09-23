@@ -97,9 +97,22 @@ const loginUserIntoDB = async (payload: Ilogin) => {
   };
 };
 
-const getMyProfileIntoDB = async()=>{
+const getMyProfileIntoDB = async (userId: string) => {
+  const result = await prisma.user.findUnique({
+    where: { id: userId },
+    include: {
+      profile: true,
+    },
 
-}
+    omit: {
+      password: true,
+    },
+  });
+  if (!result) {
+    throw new Error("User not found!");
+  }
+  return result;
+};
 
 export const authService = {
   registerUserIntoDb,
