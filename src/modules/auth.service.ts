@@ -1,9 +1,12 @@
+import { TokenPayload } from "google-auth-library";
 import config from "../config";
+import { googleClient } from "../lib/googleAuth";
 // import { prismaVersion } from "../generated/prisma/internal/prismaNamespace";
 import { prisma } from "../lib/prisma";
 import { jwtUtilis } from "../utilis/jwt";
-import { Ilogin, IRegisterUser } from "./auth.interface";
+import { IGoogleLogin, Ilogin, IRegisterUser } from "./auth.interface";
 import bcrypt from "bcryptjs";
+import { AuthProvider, Role } from "../generated/prisma/enums";
 
 const registerUserIntoDb = async (payload: IRegisterUser) => {
   const { email, password, role, firstName, lastName, phone, gender } = payload;
@@ -114,8 +117,73 @@ const getMyProfileIntoDB = async (userId: string) => {
   return result;
 };
 
+const googleLoginIntoDB = async (payload: IGoogleLogin) => {
+  let googleUser: TokenPayload | null | undefined = null;
+  try {
+    const ticket = await googleClient.verifyIdToken({
+      idToken: payload.idToken,
+      audience: config.google_client_id,
+    });
+
+    googleUser = ticket.getPayload();
+  } catch (error) {
+    console.log("Google Verification Error:", error);
+  }
+
+  // check validation
+  if (!googleUser || !googleUser.email) {
+    throw new Error("Invalid Google token or email missing");
+  }
+
+  const email = googleUser.email;
+
+  const googleId = googleUser.sub;
+  const firstName = googleUser.given_name || googleUser.name || "GOOGLE USER";
+  const lastName = googleUser.family_name || "";
+  const picture = googleUser.picture;
+
+  // find user in db
+  let user = await prisma.user.findUnique({
+    where: { email },
+  });
+  if (user && user.authProvider === AuthProvider.CREDENTIAL) {
+    throw new Error(
+      "An account already exists with this email. Please login using your password.",
+    );
+  }
+  // if does not exists then create user and profile
+
+  if (!user) {
+    user = await prisma.user.create({
+      data: {
+        email,
+        role: Role.TENANT,
+        authProvider: AuthProvider.GOOGLE,
+        googleId,
+
+        profile: {
+          create: {
+            firstName,
+            lastName,
+            avatarUrl: picture,
+          },
+        },
+      },
+    });
+  } else if (!user.googleId) {
+    user = await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        googleId,
+        authProvider: AuthProvider.GOOGLE,
+      },
+    });
+  }
+};
+
 export const authService = {
   registerUserIntoDb,
   loginUserIntoDB,
   getMyProfileIntoDB,
+  googleLoginIntoDB,
 };

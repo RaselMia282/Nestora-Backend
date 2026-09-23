@@ -8,6 +8,7 @@ const router = Router();
 router.post("/register",authController.registerUser)
 router.post("/login",authController.loginUser)
 router.get("/me",auth(Role.ADMIN,Role.MANAGER,Role.OWNER,Role.TENANT),authController.getMyProfile)
+router.post("/google-login",authController.googleLogin)
 
 
 export const authRouter = router;
