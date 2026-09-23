@@ -181,9 +181,15 @@ const googleLoginIntoDB = async (payload: IGoogleLogin) => {
   }
 };
 
+
+const updateProfileImgIntoDB = async()=>{
+
+}
+
 export const authService = {
   registerUserIntoDb,
   loginUserIntoDB,
   getMyProfileIntoDB,
   googleLoginIntoDB,
+  updateProfileImgIntoDB,
 };

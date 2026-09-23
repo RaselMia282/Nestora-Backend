@@ -90,13 +90,30 @@ const googleLogin = catchAsync(
     }
     const result = await authService.googleLoginIntoDB(payload.data);
 
-    
-
     sendResponse(res, {
       success: true,
       statusCode: httpStatus.OK,
       message: "Google login successful",
-      data:result,
+      data: result,
+    });
+  },
+);
+
+const updateProfileImg = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const userId = req.user?.id;
+    const file = req.file;
+
+    if (!file) {
+      throw new Error("Please upload an image file");
+    }
+    const result = await authService.updateProfileImgIntoDB(userId, file);
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Profile picture updated successfully",
+      data: result,
     });
   },
 );
@@ -106,4 +123,5 @@ export const authController = {
   loginUser,
   getMyProfile,
   googleLogin,
+  updateProfileImg,
 };
