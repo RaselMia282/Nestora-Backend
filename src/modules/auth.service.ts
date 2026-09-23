@@ -97,7 +97,12 @@ const loginUserIntoDB = async (payload: Ilogin) => {
   };
 };
 
+const getMyProfileIntoDB = async()=>{
+
+}
+
 export const authService = {
   registerUserIntoDb,
   loginUserIntoDB,
+  getMyProfileIntoDB,
 };

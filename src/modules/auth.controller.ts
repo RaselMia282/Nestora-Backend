@@ -59,7 +59,28 @@ const loginUser = catchAsync(
   },
 );
 
+const getMyProfile = catchAsync(async(req:Request,res:Response,next:NextFunction)=>{
+       const id = req.user?.id;
+       if(!id){
+        throw new Error("User not authenticated")
+       }
+
+       const result = await authService.getMyProfileIntoDB(id as string)
+
+
+       sendResponse(res,{
+        success:true,
+        statusCode:httpStatus.OK,
+        message:"User profile fetched successfully",
+        data: result
+       })
+})
+
+
+
+
 export const authController = {
   registerUser,
   loginUser,
-};
+  getMyProfile,
+}
