@@ -101,13 +101,13 @@ const googleLogin = catchAsync(
 
 const updateProfileImg = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const userId = req.user?.id;
+    const userId = req.user!.id;
     const file = req.file;
 
     if (!file) {
       throw new Error("Please upload an image file");
     }
-    const result = await authService.updateProfileImgIntoDB(userId, file);
+    const result = await authService.updateProfileImgIntoDB(userId, file.buffer);
 
     sendResponse(res, {
       success: true,

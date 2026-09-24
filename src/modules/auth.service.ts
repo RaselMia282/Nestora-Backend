@@ -7,6 +7,8 @@ import { jwtUtilis } from "../utilis/jwt";
 import { IGoogleLogin, Ilogin, IRegisterUser } from "./auth.interface";
 import bcrypt from "bcryptjs";
 import { AuthProvider, Role } from "../generated/prisma/enums";
+import { UploadApiResponse } from "cloudinary";
+import { cloudinary } from "../lib/cloudinary";
 
 const registerUserIntoDb = async (payload: IRegisterUser) => {
   const { email, password, role, firstName, lastName, phone, gender } = payload;
@@ -181,10 +183,45 @@ const googleLoginIntoDB = async (payload: IGoogleLogin) => {
   }
 };
 
+const updateProfileImgIntoDB = async (userId: string, buffer: Buffer) => {
+  if (!buffer) {
+    throw new Error("File buffer is required!");
+  }
 
-const updateProfileImgIntoDB = async()=>{
+  const cloudinaryResult = await new Promise<UploadApiResponse>(
+    (resolve, reject) => {
+      const uploadStream = cloudinary.uploader.upload_stream(
+        {
+          resource_type: "auto",
+          folder: "profile_pictures",
+        },
+        (error, result) => {
+          if (error) {
+            return reject(error);
+          }
+          if (!result) {
+            return reject(new Error("No result returned from Cloudinary"));
+          }
+          resolve(result);
+        },
+      );
 
-}
+      uploadStream.end(buffer);
+    },
+  );
+
+  const updatedProfile = await prisma.profile.update({
+    where: {
+      userId: userId,
+    },
+    data: {
+      avatarUrl: cloudinaryResult.secure_url,
+      avatarPublicId: cloudinaryResult.public_id,
+    },
+  });
+
+  return updatedProfile;
+};
 
 export const authService = {
   registerUserIntoDb,

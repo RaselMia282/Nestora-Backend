@@ -32,6 +32,7 @@ export type ProfileMinAggregateOutputType = {
   phone: string | null
   gender: $Enums.Gender | null
   avatarUrl: string | null
+  avatarPublicId: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -44,6 +45,7 @@ export type ProfileMaxAggregateOutputType = {
   phone: string | null
   gender: $Enums.Gender | null
   avatarUrl: string | null
+  avatarPublicId: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -56,6 +58,7 @@ export type ProfileCountAggregateOutputType = {
   phone: number
   gender: number
   avatarUrl: number
+  avatarPublicId: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -70,6 +73,7 @@ export type ProfileMinAggregateInputType = {
   phone?: true
   gender?: true
   avatarUrl?: true
+  avatarPublicId?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -82,6 +86,7 @@ export type ProfileMaxAggregateInputType = {
   phone?: true
   gender?: true
   avatarUrl?: true
+  avatarPublicId?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -94,6 +99,7 @@ export type ProfileCountAggregateInputType = {
   phone?: true
   gender?: true
   avatarUrl?: true
+  avatarPublicId?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -179,6 +185,7 @@ export type ProfileGroupByOutputType = {
   phone: string | null
   gender: $Enums.Gender | null
   avatarUrl: string | null
+  avatarPublicId: string | null
   createdAt: Date
   updatedAt: Date
   _count: ProfileCountAggregateOutputType | null
@@ -212,6 +219,7 @@ export type ProfileWhereInput = {
   phone?: Prisma.StringNullableFilter<"Profile"> | string | null
   gender?: Prisma.EnumGenderNullableFilter<"Profile"> | $Enums.Gender | null
   avatarUrl?: Prisma.StringNullableFilter<"Profile"> | string | null
+  avatarPublicId?: Prisma.StringNullableFilter<"Profile"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Profile"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Profile"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -225,6 +233,7 @@ export type ProfileOrderByWithRelationInput = {
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
   gender?: Prisma.SortOrderInput | Prisma.SortOrder
   avatarUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  avatarPublicId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
@@ -241,6 +250,7 @@ export type ProfileWhereUniqueInput = Prisma.AtLeast<{
   phone?: Prisma.StringNullableFilter<"Profile"> | string | null
   gender?: Prisma.EnumGenderNullableFilter<"Profile"> | $Enums.Gender | null
   avatarUrl?: Prisma.StringNullableFilter<"Profile"> | string | null
+  avatarPublicId?: Prisma.StringNullableFilter<"Profile"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Profile"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Profile"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -254,6 +264,7 @@ export type ProfileOrderByWithAggregationInput = {
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
   gender?: Prisma.SortOrderInput | Prisma.SortOrder
   avatarUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  avatarPublicId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.ProfileCountOrderByAggregateInput
@@ -272,6 +283,7 @@ export type ProfileScalarWhereWithAggregatesInput = {
   phone?: Prisma.StringNullableWithAggregatesFilter<"Profile"> | string | null
   gender?: Prisma.EnumGenderNullableWithAggregatesFilter<"Profile"> | $Enums.Gender | null
   avatarUrl?: Prisma.StringNullableWithAggregatesFilter<"Profile"> | string | null
+  avatarPublicId?: Prisma.StringNullableWithAggregatesFilter<"Profile"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Profile"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Profile"> | Date | string
 }
@@ -283,6 +295,7 @@ export type ProfileCreateInput = {
   phone?: string | null
   gender?: $Enums.Gender | null
   avatarUrl?: string | null
+  avatarPublicId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutProfileInput
@@ -296,6 +309,7 @@ export type ProfileUncheckedCreateInput = {
   phone?: string | null
   gender?: $Enums.Gender | null
   avatarUrl?: string | null
+  avatarPublicId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -307,6 +321,7 @@ export type ProfileUpdateInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutProfileNestedInput
@@ -320,6 +335,7 @@ export type ProfileUncheckedUpdateInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -332,6 +348,7 @@ export type ProfileCreateManyInput = {
   phone?: string | null
   gender?: $Enums.Gender | null
   avatarUrl?: string | null
+  avatarPublicId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -343,6 +360,7 @@ export type ProfileUpdateManyMutationInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -355,6 +373,7 @@ export type ProfileUncheckedUpdateManyInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -367,6 +386,7 @@ export type ProfileCountOrderByAggregateInput = {
   phone?: Prisma.SortOrder
   gender?: Prisma.SortOrder
   avatarUrl?: Prisma.SortOrder
+  avatarPublicId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -379,6 +399,7 @@ export type ProfileMaxOrderByAggregateInput = {
   phone?: Prisma.SortOrder
   gender?: Prisma.SortOrder
   avatarUrl?: Prisma.SortOrder
+  avatarPublicId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -391,6 +412,7 @@ export type ProfileMinOrderByAggregateInput = {
   phone?: Prisma.SortOrder
   gender?: Prisma.SortOrder
   avatarUrl?: Prisma.SortOrder
+  avatarPublicId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -447,6 +469,7 @@ export type ProfileCreateWithoutUserInput = {
   phone?: string | null
   gender?: $Enums.Gender | null
   avatarUrl?: string | null
+  avatarPublicId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -458,6 +481,7 @@ export type ProfileUncheckedCreateWithoutUserInput = {
   phone?: string | null
   gender?: $Enums.Gender | null
   avatarUrl?: string | null
+  avatarPublicId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -485,6 +509,7 @@ export type ProfileUpdateWithoutUserInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -496,6 +521,7 @@ export type ProfileUncheckedUpdateWithoutUserInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -510,6 +536,7 @@ export type ProfileSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   phone?: boolean
   gender?: boolean
   avatarUrl?: boolean
+  avatarPublicId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -523,6 +550,7 @@ export type ProfileSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   phone?: boolean
   gender?: boolean
   avatarUrl?: boolean
+  avatarPublicId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -536,6 +564,7 @@ export type ProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   phone?: boolean
   gender?: boolean
   avatarUrl?: boolean
+  avatarPublicId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -549,11 +578,12 @@ export type ProfileSelectScalar = {
   phone?: boolean
   gender?: boolean
   avatarUrl?: boolean
+  avatarPublicId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type ProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "firstName" | "lastName" | "phone" | "gender" | "avatarUrl" | "createdAt" | "updatedAt", ExtArgs["result"]["profile"]>
+export type ProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "firstName" | "lastName" | "phone" | "gender" | "avatarUrl" | "avatarPublicId" | "createdAt" | "updatedAt", ExtArgs["result"]["profile"]>
 export type ProfileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -577,6 +607,7 @@ export type $ProfilePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     phone: string | null
     gender: $Enums.Gender | null
     avatarUrl: string | null
+    avatarPublicId: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["profile"]>
@@ -1010,6 +1041,7 @@ export interface ProfileFieldRefs {
   readonly phone: Prisma.FieldRef<"Profile", 'String'>
   readonly gender: Prisma.FieldRef<"Profile", 'Gender'>
   readonly avatarUrl: Prisma.FieldRef<"Profile", 'String'>
+  readonly avatarPublicId: Prisma.FieldRef<"Profile", 'String'>
   readonly createdAt: Prisma.FieldRef<"Profile", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Profile", 'DateTime'>
 }
