@@ -3,12 +3,12 @@ model User {
   email String @unique
 
   password     String?
-  role         Role         @default(TENANT)
-  authProvider AuthProvider @default(CREDENTIAL)
-  googleId     String?      @unique
-  createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @updatedAt
-
+  role         Role          @default(TENANT)
+  authProvider AuthProvider  @default(CREDENTIAL)
+  googleId     String?       @unique
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  status       UserStatus    @default(ACTIVE)
   profile      Profile?
   properties   Property[]
   applications Application[]

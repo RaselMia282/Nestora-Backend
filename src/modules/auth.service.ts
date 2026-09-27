@@ -4,11 +4,22 @@ import { googleClient } from "../lib/googleAuth";
 // import { prismaVersion } from "../generated/prisma/internal/prismaNamespace";
 import { prisma } from "../lib/prisma";
 import { jwtUtilis } from "../utilis/jwt";
-import { IGoogleLogin, Ilogin, IRegisterUser } from "./auth.interface";
+import {
+  IForgotPassword,
+  IGoogleLogin,
+  Ilogin,
+  IRegisterUser,
+  IResetPassword,
+} from "./auth.interface";
 import bcrypt from "bcryptjs";
 import { AuthProvider, Role } from "../generated/prisma/enums";
 import { UploadApiResponse } from "cloudinary";
 import { cloudinary } from "../lib/cloudinary";
+import crypto from "crypto";
+import { redisClient } from "../lib/redis";
+import { transporter } from "../lib/nodemailer";
+import path from "path";
+import ejs, { name } from "ejs";
 
 const registerUserIntoDb = async (payload: IRegisterUser) => {
   const { email, password, role, firstName, lastName, phone, gender } = payload;
@@ -223,10 +234,120 @@ const updateProfileImgIntoDB = async (userId: string, buffer: Buffer) => {
   return updatedProfile;
 };
 
+const forgotPasswordIntoDB = async (payload: IForgotPassword) => {
+  const { email } = payload;
+
+  const isUserExists = await prisma.user.findUnique({
+    where: { email },
+    include: {
+      profile: true,
+    },
+  });
+  if (!isUserExists) {
+    throw new Error("User does not exists");
+  }
+  if (isUserExists.status === "SUSPENDED") {
+    throw new Error("User is suspend");
+  }
+
+  if (isUserExists.googleId || isUserExists.authProvider === "GOOGLE") {
+    throw new Error("Please login with email");
+  }
+
+  const otp = crypto.randomInt(100000, 1000000).toString();
+
+  const key = `forgot-password:${isUserExists.email}`;
+
+  const expirationMinutes = 5;
+
+  await redisClient.set(key, otp, {
+    expiration: {
+      type: "EX",
+      value: expirationMinutes*60,
+    },
+  });
+
+  const templatePath = path.join(
+    process.cwd(),
+    "src/templates/forgot-password.ejs",
+  );
+
+  const html = await ejs.renderFile(templatePath, {
+    name: `${isUserExists.profile?.firstName ?? ""} ${isUserExists.profile?.lastName ?? ""}`.trim(),
+    otp,
+    expirationMinutes: expirationMinutes,
+  });
+
+  //  nodemailer for sending email
+  await transporter.sendMail({
+    from: config.email_sender,
+    to: isUserExists.email,
+    subject: "Forgot Password",
+    html,
+  });
+};
+
+const resetPasswordIntoDB = async (payload: IResetPassword) => {
+  const { newPassword, email, otp } = payload;
+  const key = `forgot-password:${email}`;
+  const savedOtp = await redisClient.get(key);
+  if (!savedOtp) {
+    throw new Error("OTP has expired");
+  }
+
+  if (savedOtp !== otp) {
+    throw new Error("Invalid otp");
+  }
+  const user = await prisma.user.findUnique({
+    where: { email },
+    include: {
+      profile: true,
+    },
+  });
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  const hashedPassword = await bcrypt.hash(
+    newPassword,
+    Number(config.bcrypt_salt_rounds),
+  );
+
+  await prisma.user.update({
+    where: { email },
+    data: {
+      password: hashedPassword,
+    },
+  });
+
+  await redisClient.del(key);
+
+  // password reset sucess message
+  const templatePath = path.join(
+    process.cwd(),
+    "src/templates/reset-password-success.ejs",
+  );
+
+  const html = await ejs.renderFile(templatePath, {
+    name: `${user.profile?.firstName ?? ""} ${
+      user.profile?.lastName ?? ""
+    }`.trim(),
+  });
+
+  await transporter.sendMail({
+    from: config.email_sender,
+    to: user.email,
+    subject: "Reset Password",
+    html,
+  });
+};
+
 export const authService = {
   registerUserIntoDb,
   loginUserIntoDB,
   getMyProfileIntoDB,
   googleLoginIntoDB,
   updateProfileImgIntoDB,
+  forgotPasswordIntoDB,
+  resetPasswordIntoDB,
 };

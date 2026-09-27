@@ -37,3 +37,17 @@ enum PaymentStatus {
   COMPLETED
   FAILED
 }
+
+enum UserStatus {
+  ACTIVE
+  BLOCKED
+  SUSPENDED
+  DELETED
+}
+
+enum PropertyType {
+  APARTMENT
+  HOUSE
+  CONDO
+  VILLA
+}

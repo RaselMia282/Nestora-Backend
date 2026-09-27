@@ -21,4 +21,7 @@ router.patch(
   authController.updateProfileImg,
 );
 
+router.post("/forgot-password",auth(Role.ADMIN,Role.MANAGER,Role.OWNER,Role.TENANT),authController.forgotPassword)
+router.post("/reset-password",auth(Role.ADMIN,Role.MANAGER,Role.OWNER,Role.TENANT),authController.resetPassword)
+
 export const authRouter = router;

@@ -1,9 +1,11 @@
 import { NextFunction, Request, Response } from "express";
 import { catchAsync } from "../utilis/catchAsync";
 import {
+  forgotPasswordSchema,
   googleLoginSchema,
   loginUserSchema,
   registerUserSchema,
+  resetPasswordSchema,
 } from "./auth.validation";
 import { authService } from "./auth.service";
 import { sendResponse } from "../utilis/sendResponse";
@@ -107,12 +109,52 @@ const updateProfileImg = catchAsync(
     if (!file) {
       throw new Error("Please upload an image file");
     }
-    const result = await authService.updateProfileImgIntoDB(userId, file.buffer);
+    const result = await authService.updateProfileImgIntoDB(
+      userId,
+      file.buffer,
+    );
 
     sendResponse(res, {
       success: true,
       statusCode: httpStatus.OK,
       message: "Profile picture updated successfully",
+      data: result,
+    });
+  },
+);
+
+const forgotPassword = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const payload = forgotPasswordSchema.safeParse(req.body);
+
+    if (!payload.success) {
+      throw new Error(payload.error.message);
+    }
+
+    const result = await authService.forgotPasswordIntoDB(payload.data);
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: `Password reset OTP send to your email successfully:${payload.data.email}`,
+      data: result,
+    });
+  },
+);
+
+const resetPassword = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const payload = resetPasswordSchema.safeParse(req.body);
+    if (!payload.success) {
+      throw new Error(payload.error.message);
+    }
+
+    const result = await authService.resetPasswordIntoDB(payload.data);
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Password reset successfully! ",
       data: result,
     });
   },
@@ -124,4 +166,6 @@ export const authController = {
   getMyProfile,
   googleLogin,
   updateProfileImg,
+  forgotPassword,
+  resetPassword,
 };

@@ -154,6 +154,8 @@ export const PropertyScalarFieldEnum = {
   title: 'title',
   address: 'address',
   city: 'city',
+  propertyImg: 'propertyImg',
+  propertyImgPublicId: 'propertyImgPublicId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -183,7 +185,8 @@ export const UserScalarFieldEnum = {
   authProvider: 'authProvider',
   googleId: 'googleId',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  status: 'status'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
