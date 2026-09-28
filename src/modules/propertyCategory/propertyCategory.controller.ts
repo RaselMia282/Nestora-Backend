@@ -80,9 +80,23 @@ const updatePropertyCategory = catchAsync(
   },
 );
 
+
+const deletePropertyCategory = catchAsync(async(req:Request,res:Response,next:NextFunction)=>{
+      const {id} = req.params;
+      const result = await propertyCategoryService.deletePropertyCategoryIntoDB(id as string);
+
+     sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message:"Property category deleted successfully",
+      data: result,
+    }); 
+})
+
 export const propertyCategoryController = {
   createPropertyCategory,
   getAllPropertyCategory,
   getPropertyCategoryById,
   updatePropertyCategory,
+  deletePropertyCategory,
 };

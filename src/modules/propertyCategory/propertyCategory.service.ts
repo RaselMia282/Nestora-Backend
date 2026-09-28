@@ -63,9 +63,37 @@ const updatePropertyCategoryIntoDB = async (
   return updatePropertyCategory;
 };
 
+const deletePropertyCategoryIntoDB = async (id: string) => {
+  const isCategoryExists = await prisma.propertyCategory.findUnique({
+    where: { id },
+    include: {
+      _count: {
+        select: {
+          properties: true,
+        },
+      },
+    },
+  });
+
+  if (!isCategoryExists) {
+    throw new Error("Category does not exist");
+  }
+
+  if (isCategoryExists._count.properties > 0) {
+    throw new Error("Cannot delete category because properties exist");
+  }
+
+  const deleteCategory = await prisma.propertyCategory.delete({
+    where: { id },
+  });
+
+  return deleteCategory;
+};
+
 export const propertyCategoryService = {
   createPropertyCategoryIntoDB,
   getAllPropertyCategoryIntoDB,
   getPropertyCategoryByIdIntoDB,
   updatePropertyCategoryIntoDB,
+  deletePropertyCategoryIntoDB,
 };
