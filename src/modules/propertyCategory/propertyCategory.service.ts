@@ -1,5 +1,8 @@
 import { prisma } from "../../lib/prisma";
-import { ICreatePropertyCategory } from "./propertyCategory.interface";
+import {
+  ICreatePropertyCategory,
+  IUpdatePropertyCategory,
+} from "./propertyCategory.interface";
 
 const createPropertyCategoryIntoDB = async (
   payload: ICreatePropertyCategory,
@@ -39,8 +42,30 @@ const getPropertyCategoryByIdIntoDB = async (id: string) => {
   return result;
 };
 
+const updatePropertyCategoryIntoDB = async (
+  id: string,
+  payload: IUpdatePropertyCategory,
+) => {
+  const isPropertyCategoryExists = await prisma.propertyCategory.findUnique({
+    where: { id },
+  });
+  if (!isPropertyCategoryExists) {
+    throw new Error("Property category does not exist");
+  }
+
+  const updatePropertyCategory = await prisma.propertyCategory.update({
+    where: { id },
+    data: {
+      ...payload,
+    },
+  });
+
+  return updatePropertyCategory;
+};
+
 export const propertyCategoryService = {
   createPropertyCategoryIntoDB,
   getAllPropertyCategoryIntoDB,
   getPropertyCategoryByIdIntoDB,
+  updatePropertyCategoryIntoDB,
 };
