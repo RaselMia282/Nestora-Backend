@@ -502,10 +502,6 @@ export type FloatFieldUpdateOperationsInput = {
   divide?: number
 }
 
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
-}
-
 export type LeaseCreateNestedOneWithoutPaymentsInput = {
   create?: Prisma.XOR<Prisma.LeaseCreateWithoutPaymentsInput, Prisma.LeaseUncheckedCreateWithoutPaymentsInput>
   connectOrCreate?: Prisma.LeaseCreateOrConnectWithoutPaymentsInput

@@ -1,5 +1,6 @@
 import z from "zod";
-import { Gender, Role } from "../generated/prisma/enums";
+import { Gender, Role } from "../../generated/prisma/enums";
+
 
 export const registerUserSchema = z.object({
   firstName: z.string().min(2),

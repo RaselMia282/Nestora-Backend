@@ -71,3 +71,15 @@ export const UserStatus = {
 } as const
 
 export type UserStatus = (typeof UserStatus)[keyof typeof UserStatus]
+
+
+export const PropertyType = {
+  APARTMENT: 'APARTMENT',
+  HOUSE: 'HOUSE',
+  CONDO: 'CONDO',
+  VILLA: 'VILLA',
+  TOWNHOUSE: 'TOWNHOUSE',
+  DUPLEX: 'DUPLEX'
+} as const
+
+export type PropertyType = (typeof PropertyType)[keyof typeof PropertyType]

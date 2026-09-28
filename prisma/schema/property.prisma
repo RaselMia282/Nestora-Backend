@@ -1,20 +1,21 @@
 model Property {
-  id                  String       @id @default(uuid())
-  ownerId             String
-  title               String
-  address             String
-  city                String
-  propertyType        PropertyType
+  id      String @id @default(uuid())
+  ownerId String
+  title   String
+  address String
+  city    String
+
   propertyImg         String?
   propertyImgPublicId String?
-  createdAt           DateTime     @default(now())
-  updatedAt           DateTime     @updatedAt
+  categoryId          String
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
 
-  owner User   @relation(fields: [ownerId], references: [id], onDelete: Cascade)
-  rooms Room[]
+  category PropertyCategory @relation(fields: [categoryId], references: [id])
+  owner    User             @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  rooms    Room[]
 
   @@index([ownerId])
-  @@index([propertyType])
   @@index([city])
   @@map("properties")
 }

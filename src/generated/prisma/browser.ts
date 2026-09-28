@@ -18,6 +18,11 @@ export { Prisma }
 export * as $Enums from './enums'
 export * from './enums';
 /**
+ * Model PropertyCategory
+ * 
+ */
+export type PropertyCategory = Prisma.PropertyCategoryModel
+/**
  * Model Application
  * 
  */

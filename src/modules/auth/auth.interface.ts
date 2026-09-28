@@ -1,4 +1,5 @@
-import { Gender, Role } from "../generated/prisma/enums";
+import { Gender, Role } from "../../generated/prisma/enums";
+
 
 export interface IRegisterUser {
   email: string;

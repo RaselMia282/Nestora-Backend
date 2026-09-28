@@ -1,25 +1,22 @@
-import { TokenPayload } from "google-auth-library";
-import config from "../config";
-import { googleClient } from "../lib/googleAuth";
+// import { TokenPayload } from "google-auth-library";
+import ejs from "ejs"
+
 // import { prismaVersion } from "../generated/prisma/internal/prismaNamespace";
-import { prisma } from "../lib/prisma";
-import { jwtUtilis } from "../utilis/jwt";
-import {
-  IForgotPassword,
-  IGoogleLogin,
-  Ilogin,
-  IRegisterUser,
-  IResetPassword,
-} from "./auth.interface";
+import crypto from "crypto"
 import bcrypt from "bcryptjs";
-import { AuthProvider, Role } from "../generated/prisma/enums";
+import { IForgotPassword, IGoogleLogin, Ilogin, IRegisterUser, IResetPassword } from "./auth.interface";
+import { prisma } from "../../lib/prisma";
+import config from "../../config";
+import { jwtUtilis } from "../../utilis/jwt";
+import { googleClient } from "../../lib/googleAuth";
+import { AuthProvider, Role } from "../../generated/prisma/enums";
 import { UploadApiResponse } from "cloudinary";
-import { cloudinary } from "../lib/cloudinary";
-import crypto from "crypto";
-import { redisClient } from "../lib/redis";
-import { transporter } from "../lib/nodemailer";
+import { cloudinary } from "../../lib/cloudinary";
+import { redisClient } from "../../lib/redis";
 import path from "path";
-import ejs, { name } from "ejs";
+import { transporter } from "../../lib/nodemailer";
+import { TokenPayload } from "google-auth-library";
+
 
 const registerUserIntoDb = async (payload: IRegisterUser) => {
   const { email, password, role, firstName, lastName, phone, gender } = payload;

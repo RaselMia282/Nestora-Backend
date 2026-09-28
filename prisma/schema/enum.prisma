@@ -50,4 +50,6 @@ enum PropertyType {
   HOUSE
   CONDO
   VILLA
+  TOWNHOUSE
+  DUPLEX
 }

@@ -1,15 +1,12 @@
 import { NextFunction, Request, Response } from "express";
-import { catchAsync } from "../utilis/catchAsync";
-import {
-  forgotPasswordSchema,
-  googleLoginSchema,
-  loginUserSchema,
-  registerUserSchema,
-  resetPasswordSchema,
-} from "./auth.validation";
-import { authService } from "./auth.service";
-import { sendResponse } from "../utilis/sendResponse";
+
+
+
 import httpStatus from "http-status";
+import { catchAsync } from "../../utilis/catchAsync";
+import { forgotPasswordSchema, googleLoginSchema, loginUserSchema, registerUserSchema, resetPasswordSchema } from "./auth.validation";
+import { authService } from "./auth.service";
+import { sendResponse } from "../../utilis/sendResponse";
 
 const registerUser = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {

@@ -1,0 +1,17 @@
+model PropertyCategory {
+  id              String   @id @default(uuid())
+  name            String   @unique
+  slug            String   @unique
+  description     String?
+  categoryImg     String?
+  categoryImgPublicId String?
+  isActive        Boolean  @default(true)
+  sortOrder       Int      @default(0)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  properties Property[]
+
+  @@map("property_categories")
+}
+
