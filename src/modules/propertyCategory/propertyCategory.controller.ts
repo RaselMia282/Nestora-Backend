@@ -74,24 +74,50 @@ const updatePropertyCategory = catchAsync(
     sendResponse(res, {
       success: true,
       statusCode: httpStatus.OK,
-      message:"Property category updated successfully",
+      message: "Property category updated successfully",
       data: result,
     });
   },
 );
 
+const deletePropertyCategory = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+    const result = await propertyCategoryService.deletePropertyCategoryIntoDB(
+      id as string,
+    );
 
-const deletePropertyCategory = catchAsync(async(req:Request,res:Response,next:NextFunction)=>{
-      const {id} = req.params;
-      const result = await propertyCategoryService.deletePropertyCategoryIntoDB(id as string);
-
-     sendResponse(res, {
+    sendResponse(res, {
       success: true,
       statusCode: httpStatus.OK,
-      message:"Property category deleted successfully",
+      message: "Property category deleted successfully",
       data: result,
-    }); 
-})
+    });
+  },
+);
+
+const updatePropertyCategoryImage = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+    const file = req.file;
+    if (!file) {
+      throw new Error("Category image is required");
+    }
+
+    const result =
+      await propertyCategoryService.updatePropertyCategoryImageIntoDB(
+        id as string,
+        file.buffer,
+      );
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Property category Img updated successfully",
+      data: result,
+    });
+  },
+);
 
 export const propertyCategoryController = {
   createPropertyCategory,
@@ -99,4 +125,5 @@ export const propertyCategoryController = {
   getPropertyCategoryById,
   updatePropertyCategory,
   deletePropertyCategory,
+  updatePropertyCategoryImage,
 };

@@ -30,6 +30,7 @@ export type PropertyMinAggregateOutputType = {
   title: string | null
   address: string | null
   city: string | null
+  description: string | null
   propertyImg: string | null
   propertyImgPublicId: string | null
   categoryId: string | null
@@ -43,6 +44,7 @@ export type PropertyMaxAggregateOutputType = {
   title: string | null
   address: string | null
   city: string | null
+  description: string | null
   propertyImg: string | null
   propertyImgPublicId: string | null
   categoryId: string | null
@@ -56,6 +58,7 @@ export type PropertyCountAggregateOutputType = {
   title: number
   address: number
   city: number
+  description: number
   propertyImg: number
   propertyImgPublicId: number
   categoryId: number
@@ -71,6 +74,7 @@ export type PropertyMinAggregateInputType = {
   title?: true
   address?: true
   city?: true
+  description?: true
   propertyImg?: true
   propertyImgPublicId?: true
   categoryId?: true
@@ -84,6 +88,7 @@ export type PropertyMaxAggregateInputType = {
   title?: true
   address?: true
   city?: true
+  description?: true
   propertyImg?: true
   propertyImgPublicId?: true
   categoryId?: true
@@ -97,6 +102,7 @@ export type PropertyCountAggregateInputType = {
   title?: true
   address?: true
   city?: true
+  description?: true
   propertyImg?: true
   propertyImgPublicId?: true
   categoryId?: true
@@ -183,6 +189,7 @@ export type PropertyGroupByOutputType = {
   title: string
   address: string
   city: string
+  description: string | null
   propertyImg: string | null
   propertyImgPublicId: string | null
   categoryId: string
@@ -217,6 +224,7 @@ export type PropertyWhereInput = {
   title?: Prisma.StringFilter<"Property"> | string
   address?: Prisma.StringFilter<"Property"> | string
   city?: Prisma.StringFilter<"Property"> | string
+  description?: Prisma.StringNullableFilter<"Property"> | string | null
   propertyImg?: Prisma.StringNullableFilter<"Property"> | string | null
   propertyImgPublicId?: Prisma.StringNullableFilter<"Property"> | string | null
   categoryId?: Prisma.StringFilter<"Property"> | string
@@ -233,6 +241,7 @@ export type PropertyOrderByWithRelationInput = {
   title?: Prisma.SortOrder
   address?: Prisma.SortOrder
   city?: Prisma.SortOrder
+  description?: Prisma.SortOrderInput | Prisma.SortOrder
   propertyImg?: Prisma.SortOrderInput | Prisma.SortOrder
   propertyImgPublicId?: Prisma.SortOrderInput | Prisma.SortOrder
   categoryId?: Prisma.SortOrder
@@ -252,6 +261,7 @@ export type PropertyWhereUniqueInput = Prisma.AtLeast<{
   title?: Prisma.StringFilter<"Property"> | string
   address?: Prisma.StringFilter<"Property"> | string
   city?: Prisma.StringFilter<"Property"> | string
+  description?: Prisma.StringNullableFilter<"Property"> | string | null
   propertyImg?: Prisma.StringNullableFilter<"Property"> | string | null
   propertyImgPublicId?: Prisma.StringNullableFilter<"Property"> | string | null
   categoryId?: Prisma.StringFilter<"Property"> | string
@@ -268,6 +278,7 @@ export type PropertyOrderByWithAggregationInput = {
   title?: Prisma.SortOrder
   address?: Prisma.SortOrder
   city?: Prisma.SortOrder
+  description?: Prisma.SortOrderInput | Prisma.SortOrder
   propertyImg?: Prisma.SortOrderInput | Prisma.SortOrder
   propertyImgPublicId?: Prisma.SortOrderInput | Prisma.SortOrder
   categoryId?: Prisma.SortOrder
@@ -287,6 +298,7 @@ export type PropertyScalarWhereWithAggregatesInput = {
   title?: Prisma.StringWithAggregatesFilter<"Property"> | string
   address?: Prisma.StringWithAggregatesFilter<"Property"> | string
   city?: Prisma.StringWithAggregatesFilter<"Property"> | string
+  description?: Prisma.StringNullableWithAggregatesFilter<"Property"> | string | null
   propertyImg?: Prisma.StringNullableWithAggregatesFilter<"Property"> | string | null
   propertyImgPublicId?: Prisma.StringNullableWithAggregatesFilter<"Property"> | string | null
   categoryId?: Prisma.StringWithAggregatesFilter<"Property"> | string
@@ -299,6 +311,7 @@ export type PropertyCreateInput = {
   title: string
   address: string
   city: string
+  description?: string | null
   propertyImg?: string | null
   propertyImgPublicId?: string | null
   createdAt?: Date | string
@@ -314,6 +327,7 @@ export type PropertyUncheckedCreateInput = {
   title: string
   address: string
   city: string
+  description?: string | null
   propertyImg?: string | null
   propertyImgPublicId?: string | null
   categoryId: string
@@ -327,6 +341,7 @@ export type PropertyUpdateInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   propertyImg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   propertyImgPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -342,6 +357,7 @@ export type PropertyUncheckedUpdateInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   propertyImg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   propertyImgPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -356,6 +372,7 @@ export type PropertyCreateManyInput = {
   title: string
   address: string
   city: string
+  description?: string | null
   propertyImg?: string | null
   propertyImgPublicId?: string | null
   categoryId: string
@@ -368,6 +385,7 @@ export type PropertyUpdateManyMutationInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   propertyImg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   propertyImgPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -380,6 +398,7 @@ export type PropertyUncheckedUpdateManyInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   propertyImg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   propertyImgPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -403,6 +422,7 @@ export type PropertyCountOrderByAggregateInput = {
   title?: Prisma.SortOrder
   address?: Prisma.SortOrder
   city?: Prisma.SortOrder
+  description?: Prisma.SortOrder
   propertyImg?: Prisma.SortOrder
   propertyImgPublicId?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
@@ -416,6 +436,7 @@ export type PropertyMaxOrderByAggregateInput = {
   title?: Prisma.SortOrder
   address?: Prisma.SortOrder
   city?: Prisma.SortOrder
+  description?: Prisma.SortOrder
   propertyImg?: Prisma.SortOrder
   propertyImgPublicId?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
@@ -429,6 +450,7 @@ export type PropertyMinOrderByAggregateInput = {
   title?: Prisma.SortOrder
   address?: Prisma.SortOrder
   city?: Prisma.SortOrder
+  description?: Prisma.SortOrder
   propertyImg?: Prisma.SortOrder
   propertyImgPublicId?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
@@ -544,6 +566,7 @@ export type PropertyCreateWithoutCategoryInput = {
   title: string
   address: string
   city: string
+  description?: string | null
   propertyImg?: string | null
   propertyImgPublicId?: string | null
   createdAt?: Date | string
@@ -558,6 +581,7 @@ export type PropertyUncheckedCreateWithoutCategoryInput = {
   title: string
   address: string
   city: string
+  description?: string | null
   propertyImg?: string | null
   propertyImgPublicId?: string | null
   createdAt?: Date | string
@@ -600,6 +624,7 @@ export type PropertyScalarWhereInput = {
   title?: Prisma.StringFilter<"Property"> | string
   address?: Prisma.StringFilter<"Property"> | string
   city?: Prisma.StringFilter<"Property"> | string
+  description?: Prisma.StringNullableFilter<"Property"> | string | null
   propertyImg?: Prisma.StringNullableFilter<"Property"> | string | null
   propertyImgPublicId?: Prisma.StringNullableFilter<"Property"> | string | null
   categoryId?: Prisma.StringFilter<"Property"> | string
@@ -612,6 +637,7 @@ export type PropertyCreateWithoutRoomsInput = {
   title: string
   address: string
   city: string
+  description?: string | null
   propertyImg?: string | null
   propertyImgPublicId?: string | null
   createdAt?: Date | string
@@ -626,6 +652,7 @@ export type PropertyUncheckedCreateWithoutRoomsInput = {
   title: string
   address: string
   city: string
+  description?: string | null
   propertyImg?: string | null
   propertyImgPublicId?: string | null
   categoryId: string
@@ -654,6 +681,7 @@ export type PropertyUpdateWithoutRoomsInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   propertyImg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   propertyImgPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -668,6 +696,7 @@ export type PropertyUncheckedUpdateWithoutRoomsInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   propertyImg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   propertyImgPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -680,6 +709,7 @@ export type PropertyCreateWithoutOwnerInput = {
   title: string
   address: string
   city: string
+  description?: string | null
   propertyImg?: string | null
   propertyImgPublicId?: string | null
   createdAt?: Date | string
@@ -693,6 +723,7 @@ export type PropertyUncheckedCreateWithoutOwnerInput = {
   title: string
   address: string
   city: string
+  description?: string | null
   propertyImg?: string | null
   propertyImgPublicId?: string | null
   categoryId: string
@@ -733,6 +764,7 @@ export type PropertyCreateManyCategoryInput = {
   title: string
   address: string
   city: string
+  description?: string | null
   propertyImg?: string | null
   propertyImgPublicId?: string | null
   createdAt?: Date | string
@@ -744,6 +776,7 @@ export type PropertyUpdateWithoutCategoryInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   propertyImg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   propertyImgPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -758,6 +791,7 @@ export type PropertyUncheckedUpdateWithoutCategoryInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   propertyImg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   propertyImgPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -771,6 +805,7 @@ export type PropertyUncheckedUpdateManyWithoutCategoryInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   propertyImg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   propertyImgPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -782,6 +817,7 @@ export type PropertyCreateManyOwnerInput = {
   title: string
   address: string
   city: string
+  description?: string | null
   propertyImg?: string | null
   propertyImgPublicId?: string | null
   categoryId: string
@@ -794,6 +830,7 @@ export type PropertyUpdateWithoutOwnerInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   propertyImg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   propertyImgPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -807,6 +844,7 @@ export type PropertyUncheckedUpdateWithoutOwnerInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   propertyImg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   propertyImgPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -820,6 +858,7 @@ export type PropertyUncheckedUpdateManyWithoutOwnerInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   propertyImg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   propertyImgPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -864,6 +903,7 @@ export type PropertySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   title?: boolean
   address?: boolean
   city?: boolean
+  description?: boolean
   propertyImg?: boolean
   propertyImgPublicId?: boolean
   categoryId?: boolean
@@ -881,6 +921,7 @@ export type PropertySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   title?: boolean
   address?: boolean
   city?: boolean
+  description?: boolean
   propertyImg?: boolean
   propertyImgPublicId?: boolean
   categoryId?: boolean
@@ -896,6 +937,7 @@ export type PropertySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   title?: boolean
   address?: boolean
   city?: boolean
+  description?: boolean
   propertyImg?: boolean
   propertyImgPublicId?: boolean
   categoryId?: boolean
@@ -911,6 +953,7 @@ export type PropertySelectScalar = {
   title?: boolean
   address?: boolean
   city?: boolean
+  description?: boolean
   propertyImg?: boolean
   propertyImgPublicId?: boolean
   categoryId?: boolean
@@ -918,7 +961,7 @@ export type PropertySelectScalar = {
   updatedAt?: boolean
 }
 
-export type PropertyOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "ownerId" | "title" | "address" | "city" | "propertyImg" | "propertyImgPublicId" | "categoryId" | "createdAt" | "updatedAt", ExtArgs["result"]["property"]>
+export type PropertyOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "ownerId" | "title" | "address" | "city" | "description" | "propertyImg" | "propertyImgPublicId" | "categoryId" | "createdAt" | "updatedAt", ExtArgs["result"]["property"]>
 export type PropertyInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   category?: boolean | Prisma.PropertyCategoryDefaultArgs<ExtArgs>
   owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -947,6 +990,7 @@ export type $PropertyPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     title: string
     address: string
     city: string
+    description: string | null
     propertyImg: string | null
     propertyImgPublicId: string | null
     categoryId: string
@@ -1383,6 +1427,7 @@ export interface PropertyFieldRefs {
   readonly title: Prisma.FieldRef<"Property", 'String'>
   readonly address: Prisma.FieldRef<"Property", 'String'>
   readonly city: Prisma.FieldRef<"Property", 'String'>
+  readonly description: Prisma.FieldRef<"Property", 'String'>
   readonly propertyImg: Prisma.FieldRef<"Property", 'String'>
   readonly propertyImgPublicId: Prisma.FieldRef<"Property", 'String'>
   readonly categoryId: Prisma.FieldRef<"Property", 'String'>

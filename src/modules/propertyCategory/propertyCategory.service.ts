@@ -1,8 +1,10 @@
+import { UploadApiResponse } from "cloudinary";
 import { prisma } from "../../lib/prisma";
 import {
   ICreatePropertyCategory,
   IUpdatePropertyCategory,
 } from "./propertyCategory.interface";
+import { cloudinary } from "../../lib/cloudinary";
 
 const createPropertyCategoryIntoDB = async (
   payload: ICreatePropertyCategory,
@@ -90,10 +92,60 @@ const deletePropertyCategoryIntoDB = async (id: string) => {
   return deleteCategory;
 };
 
+const updatePropertyCategoryImageIntoDB = async (
+  id: string,
+  buffer: Buffer,
+) => {
+  const isCategoryExists = await prisma.propertyCategory.findUnique({
+    where: { id },
+  });
+
+  if (!isCategoryExists) {
+    throw new Error("Category does not exist");
+  }
+
+  if (isCategoryExists.categoryImgPublicId) {
+    await cloudinary.uploader.destroy(isCategoryExists.categoryImgPublicId);
+  }
+
+  const cloudinaryResult = await new Promise<UploadApiResponse>(
+    (resolve, reject) => {
+      const uploadStream = cloudinary.uploader.upload_stream(
+        {
+          folder: "property-categories",
+          resource_type: "auto",
+        },
+        (error, result) => {
+          if (error) return reject(error);
+
+          if (!result) {
+            return reject(new Error("Cloudinary upload failed"));
+          }
+
+          resolve(result);
+        },
+      );
+
+      uploadStream.end(buffer);
+    },
+  );
+
+  const updatedCategory = await prisma.propertyCategory.update({
+    where: { id },
+    data: {
+      categoryImg: cloudinaryResult.secure_url,
+      categoryImgPublicId: cloudinaryResult.public_id,
+    },
+  });
+
+  return updatedCategory;
+};
+
 export const propertyCategoryService = {
   createPropertyCategoryIntoDB,
   getAllPropertyCategoryIntoDB,
   getPropertyCategoryByIdIntoDB,
   updatePropertyCategoryIntoDB,
   deletePropertyCategoryIntoDB,
+  updatePropertyCategoryImageIntoDB,
 };

@@ -1223,6 +1223,7 @@ export const PropertyScalarFieldEnum = {
   title: 'title',
   address: 'address',
   city: 'city',
+  description: 'description',
   propertyImg: 'propertyImg',
   propertyImgPublicId: 'propertyImgPublicId',
   categoryId: 'categoryId',

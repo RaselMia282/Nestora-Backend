@@ -1,9 +1,10 @@
 model Property {
-  id      String @id @default(uuid())
-  ownerId String
-  title   String
-  address String
-  city    String
+  id          String  @id @default(uuid())
+  ownerId     String
+  title       String
+  address     String
+  city        String
+  description String? @db.Text
 
   propertyImg         String?
   propertyImgPublicId String?
