@@ -6,7 +6,9 @@ import {
   IUpdateProperty,
 } from "./property.interface";
 
-import { Prisma, Role } from "../../generated/prisma/client";
+import { Prisma,} from "../../generated/prisma/client";
+import { cloudinary } from "../../lib/cloudinary";
+import { UploadApiResponse } from "cloudinary";
 
 const createPropertyIntoDb = async (
   payload: ICreateProperty,
@@ -146,7 +148,7 @@ const updatePropertyIntoDB = async (id, payload: IUpdateProperty, ownerId) => {
   return result;
 };
 
-const deletePropertyIntoDB = async (id, ownerId) => {
+const deletePropertyIntoDB = async (id: string, ownerId: string) => {
   const isPropertyExists = await prisma.property.findUnique({
     where: { id },
   });
@@ -165,7 +167,50 @@ const deletePropertyIntoDB = async (id, ownerId) => {
   return result;
 };
 
-const uploadPropertyImgIntoDB = async () => {};
+const uploadPropertyImgIntoDB = async (id:string, ownerId:string, buffer: Buffer) => {
+  const isPropertyExists = await prisma.property.findUnique({
+    where: { id },
+  });
+  if (!isPropertyExists) {
+    throw new Error("Property does not exist");
+  }
+
+  if (isPropertyExists.ownerId !== ownerId) {
+    throw new Error("You are not authorized to upload Image");
+  }
+
+  if (isPropertyExists.propertyImgPublicId) {
+    await cloudinary.uploader.destroy(isPropertyExists.propertyImgPublicId);
+  }
+
+  const cloudinaryResult = await new Promise<UploadApiResponse>(
+    (resolve, reject) => {
+      const uploadStream = cloudinary.uploader.upload_stream(
+        {
+          folder: "property",
+          resource_type: "auto",
+        },
+        (error, result) => {
+          if (error) return reject(error);
+
+          if (!result) return reject(new Error("Cloudinary upload failed"));
+          resolve(result);
+        },
+      );
+      uploadStream.end(buffer);
+    },
+  );
+
+  const updateProperty = await prisma.property.update({
+    where: { id },
+    data: {
+      propertyImg: cloudinaryResult.secure_url,
+      propertyImgPublicId: cloudinaryResult.public_id,
+    },
+  });
+
+  return updateProperty;
+};
 
 export const propertyService = {
   createPropertyIntoDb,

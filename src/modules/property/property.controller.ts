@@ -114,7 +114,24 @@ const deleteProperty = catchAsync(
 );
 
 const uploadPropertyImg = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {},
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+    const ownerId = req.user.id;
+    const file = req.file;
+
+    const result = await propertyService.uploadPropertyImgIntoDB(
+      id as string,
+      ownerId as string,
+      file.buffer,
+    );
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Images uploaded successfully",
+      data: result,
+    });
+  },
 );
 
 export const propertyController = {
