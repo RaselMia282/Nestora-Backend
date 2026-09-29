@@ -53,3 +53,5 @@ enum PropertyType {
   TOWNHOUSE
   DUPLEX
 }
+
+
