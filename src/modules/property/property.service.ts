@@ -1,6 +1,10 @@
 import { Query } from "pg";
 import { prisma } from "../../lib/prisma";
-import { ICreateProperty, IGetAllPropertiesQuery, IUpdateProperty } from "./property.interface";
+import {
+  ICreateProperty,
+  IGetAllPropertiesQuery,
+  IUpdateProperty,
+} from "./property.interface";
 
 import { Prisma, Role } from "../../generated/prisma/client";
 
@@ -104,12 +108,12 @@ const getAllPropertiesIntoDb = async (payload: IGetAllPropertiesQuery) => {
   };
 };
 
-const getSinglePropertyIntoDb = async (id:string) => {
+const getSinglePropertyIntoDb = async (id: string) => {
   const result = await prisma.property.findUnique({
     where: { id },
-    include:{
-        category:true,
-    }
+    include: {
+      category: true,
+    },
   });
   if (!result) {
     throw new Error("Property does not exist");
@@ -117,34 +121,57 @@ const getSinglePropertyIntoDb = async (id:string) => {
   return result;
 };
 
-const updatePropertyIntoDB = async(id,payload:IUpdateProperty,ownerId)=>{
-         const isPropertyExists = await prisma.property.findUnique({
-          where:{id}
-         })
+const updatePropertyIntoDB = async (id, payload: IUpdateProperty, ownerId) => {
+  const isPropertyExists = await prisma.property.findUnique({
+    where: { id },
+  });
 
-         if(!isPropertyExists){
-          throw new Error("Property does not exists")
-         }
+  if (!isPropertyExists) {
+    throw new Error("Property does not exists");
+  }
 
-         if(isPropertyExists.ownerId !== ownerId){
-          throw new Error("You are not authorized")
-         }
+  if (isPropertyExists.ownerId !== ownerId) {
+    throw new Error("You are not authorized");
+  }
 
-         const result = await prisma.property.update({
-          where:{id},
-          data:{
-            ...payload
-          },
-          include:{
-            category:true,
-          }
-         })
-         return result 
-}
+  const result = await prisma.property.update({
+    where: { id },
+    data: {
+      ...payload,
+    },
+    include: {
+      category: true,
+    },
+  });
+  return result;
+};
+
+const deletePropertyIntoDB = async (id, ownerId) => {
+  const isPropertyExists = await prisma.property.findUnique({
+    where: { id },
+  });
+  if (!isPropertyExists) {
+    throw new Error("Property does not exist");
+  }
+
+  if (isPropertyExists.ownerId !== ownerId) {
+    throw new Error("You are not authorized to delete this property!");
+  }
+
+  const result = await prisma.property.delete({
+    where: { id },
+  });
+
+  return result;
+};
+
+const uploadPropertyImgIntoDB = async () => {};
 
 export const propertyService = {
   createPropertyIntoDb,
   getAllPropertiesIntoDb,
   getSinglePropertyIntoDb,
   updatePropertyIntoDB,
+  deletePropertyIntoDB,
+  uploadPropertyImgIntoDB,
 };

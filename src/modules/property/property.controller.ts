@@ -94,9 +94,34 @@ const updateProperty = catchAsync(
   },
 );
 
+const deleteProperty = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+    const ownerId = req.user.id;
+
+    const result = await propertyService.deletePropertyIntoDB(
+      id as string,
+      ownerId as string,
+    );
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Property deleted successfully",
+      data: result,
+    });
+  },
+);
+
+const uploadPropertyImg = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {},
+);
+
 export const propertyController = {
   createProperty,
   getAllProperties,
   getSingleProperty,
   updateProperty,
+  deleteProperty,
+  uploadPropertyImg,
 };
