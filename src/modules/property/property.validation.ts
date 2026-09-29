@@ -25,3 +25,25 @@ export const getAllPropertiesQuerySchema = z.object({
 
   sort: propertySortEnum.optional().default("latest"),
 });
+
+
+export const updatePropertySchema = z.object({
+  categoryId: z.string().uuid("Invalid category ID").optional(),
+
+  title: z
+    .string()
+    .min(3, "Property title must be at least 3 characters")
+    .optional(),
+
+  description: z.string().optional(),
+
+  address: z
+    .string()
+    .min(5, "Address must be at least 5 characters")
+    .optional(),
+
+  city: z
+    .string()
+    .min(2, "City must be at least 2 characters")
+    .optional(),
+});

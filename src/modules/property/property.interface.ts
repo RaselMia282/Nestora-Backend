@@ -18,3 +18,12 @@ export interface IGetAllPropertiesQuery {
   
   sort?: "latest" | "oldest";
 }
+
+
+export interface IUpdateProperty {
+  categoryId?: string;
+  title?: string;
+  description?: string;
+  address?: string;
+  city?: string;
+}

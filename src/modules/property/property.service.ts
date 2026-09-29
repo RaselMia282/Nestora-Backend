@@ -26,9 +26,7 @@ const createPropertyIntoDb = async (
   return result;
 };
 
-const getAllPropertiesIntoDb = async (
-  payload: IGetAllPropertiesQuery,
-) => {
+const getAllPropertiesIntoDb = async (payload: IGetAllPropertiesQuery) => {
   const {
     page = 1,
     limit = 10,
@@ -106,7 +104,26 @@ const getAllPropertiesIntoDb = async (
   };
 };
 
+const getSinglePropertyIntoDb = async (id:string) => {
+  const result = await prisma.property.findUnique({
+    where: { id },
+    include:{
+        category:true,
+    }
+  });
+  if (!result) {
+    throw new Error("Property does not exist");
+  }
+  return result;
+};
+
+const updatePropertyIntoDB = async()=>{
+
+}
+
 export const propertyService = {
   createPropertyIntoDb,
   getAllPropertiesIntoDb,
+  getSinglePropertyIntoDb,
+  updatePropertyIntoDB,
 };
