@@ -56,27 +56,34 @@ const getAllProperties = catchAsync(
   },
 );
 
-const getSingleProperty = catchAsync(async(req:Request,res:Response,next:NextFunction)=>{
-     const {id} = req.params
-  const result = await propertyService.getSinglePropertyIntoDb(id as string);
+const getSingleProperty = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+    const result = await propertyService.getSinglePropertyIntoDb(id as string);
     sendResponse(res, {
       success: true,
       statusCode: httpStatus.OK,
       message: "Single properties retrieved successfully",
       data: result,
     });
+  },
+);
 
-})
+const updateProperty = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+    const ownerId = req.user.id;
+    const payload = updatePropertySchema.safeParse(req.body);
 
-const updateProperty = catchAsync(async(req:Request,res:Response,next:NextFunction)=>{
-     const {id}=req.params;
-     const payload = updatePropertySchema.safeParse(req.body);
+    if (!payload.success) {
+      throw new Error(payload.error.message);
+    }
 
-     if(!payload.success){
-      throw new Error(payload.error.message)
-     }
-
-     const result = await propertyService.updatePropertyIntoDB(id,payload.data);
+    const result = await propertyService.updatePropertyIntoDB(
+      id,
+      payload.data,
+      ownerId,
+    );
 
     sendResponse(res, {
       success: true,
@@ -84,12 +91,8 @@ const updateProperty = catchAsync(async(req:Request,res:Response,next:NextFuncti
       message: "Property updated successfully",
       data: result,
     });
-
-
-
-             
-
-})
+  },
+);
 
 export const propertyController = {
   createProperty,

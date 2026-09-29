@@ -1,8 +1,8 @@
 import { Query } from "pg";
 import { prisma } from "../../lib/prisma";
-import { ICreateProperty, IGetAllPropertiesQuery } from "./property.interface";
+import { ICreateProperty, IGetAllPropertiesQuery, IUpdateProperty } from "./property.interface";
 
-import { Prisma } from "../../generated/prisma/client";
+import { Prisma, Role } from "../../generated/prisma/client";
 
 const createPropertyIntoDb = async (
   payload: ICreateProperty,
@@ -117,8 +117,29 @@ const getSinglePropertyIntoDb = async (id:string) => {
   return result;
 };
 
-const updatePropertyIntoDB = async()=>{
+const updatePropertyIntoDB = async(id,payload:IUpdateProperty,ownerId)=>{
+         const isPropertyExists = await prisma.property.findUnique({
+          where:{id}
+         })
 
+         if(!isPropertyExists){
+          throw new Error("Property does not exists")
+         }
+
+         if(isPropertyExists.ownerId !== ownerId){
+          throw new Error("You are not authorized")
+         }
+
+         const result = await prisma.property.update({
+          where:{id},
+          data:{
+            ...payload
+          },
+          include:{
+            category:true,
+          }
+         })
+         return result 
 }
 
 export const propertyService = {
