@@ -33,6 +33,19 @@ const createRoom = catchAsync(
   },
 );
 
+const getAllRoom = catchAsync(async(req:Request,res:Response,next:NextFunction)=>{
+          const result = await roomService.getAllRoomIntoDB(req.query)
+
+           sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Room fetched successfully",
+      data: result,
+    });
+          
+})
+
 export const roomController = {
   createRoom,
+  getAllRoom,
 };
