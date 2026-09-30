@@ -55,3 +55,12 @@ enum PropertyType {
 }
 
 
+
+enum RoomType {
+  SINGLE
+  DOUBLE
+  MASTER
+  SHARED
+}
+
+

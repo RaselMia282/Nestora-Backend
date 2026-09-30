@@ -83,3 +83,13 @@ export const PropertyType = {
 } as const
 
 export type PropertyType = (typeof PropertyType)[keyof typeof PropertyType]
+
+
+export const RoomType = {
+  SINGLE: 'SINGLE',
+  DOUBLE: 'DOUBLE',
+  MASTER: 'MASTER',
+  SHARED: 'SHARED'
+} as const
+
+export type RoomType = (typeof RoomType)[keyof typeof RoomType]

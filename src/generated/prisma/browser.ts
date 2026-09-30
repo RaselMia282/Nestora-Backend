@@ -58,6 +58,11 @@ export type Property = Prisma.PropertyModel
  */
 export type Room = Prisma.RoomModel
 /**
+ * Model RoomImage
+ * 
+ */
+export type RoomImage = Prisma.RoomImageModel
+/**
  * Model User
  * 
  */

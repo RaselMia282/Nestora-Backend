@@ -59,6 +59,7 @@ export const ModelName = {
   Profile: 'Profile',
   Property: 'Property',
   Room: 'Room',
+  RoomImage: 'RoomImage',
   User: 'User'
 } as const
 
@@ -194,6 +195,17 @@ export const RoomScalarFieldEnum = {
 } as const
 
 export type RoomScalarFieldEnum = (typeof RoomScalarFieldEnum)[keyof typeof RoomScalarFieldEnum]
+
+
+export const RoomImageScalarFieldEnum = {
+  id: 'id',
+  roomId: 'roomId',
+  imageUrl: 'imageUrl',
+  publicId: 'publicId',
+  createdAt: 'createdAt'
+} as const
+
+export type RoomImageScalarFieldEnum = (typeof RoomImageScalarFieldEnum)[keyof typeof RoomImageScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {

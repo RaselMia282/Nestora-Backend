@@ -2,15 +2,19 @@ model Room {
   id         String     @id @default(uuid())
   propertyId String
   roomNumber String
-  roomType   String
-  baseRent   Float
+  roomType   RoomType
+  baseRent   Decimal    @db.Decimal(10, 2)
   status     RoomStatus @default(AVAILABLE)
-  createdAt  DateTime   @default(now())
-  updatedAt  DateTime   @updatedAt
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   property     Property      @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  images       RoomImage[]
   listing      Listing?
   applications Application[]
 
+  @@unique([propertyId, roomNumber])
+  @@index([propertyId])
   @@map("rooms")
 }

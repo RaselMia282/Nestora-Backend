@@ -5,6 +5,8 @@ import config from "./config/index.js";
 import { authRouter } from "./modules/auth/auth.routes.js";
 import { propertyCategory } from "./modules/propertyCategory/propertyCategory.routes.js";
 import { propertyRoutes } from "./modules/property/property.router.js";
+import { roomRoutes } from "./modules/room/room.routes.js";
+
 
 
 const app: Application = express();
@@ -32,6 +34,7 @@ app.get("/", (req: Request, res: Response) => {
 app.use("/api/v1/auth",authRouter)
 app.use("/api/v1/property-categories",propertyCategory)
 app.use("/api/v1/properties",propertyRoutes)
+app.use("/api/v1/room",roomRoutes)
 
 
 export default app;

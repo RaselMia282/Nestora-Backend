@@ -405,6 +405,7 @@ export const ModelName = {
   Profile: 'Profile',
   Property: 'Property',
   Room: 'Room',
+  RoomImage: 'RoomImage',
   User: 'User'
 } as const
 
@@ -421,7 +422,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "propertyCategory" | "application" | "lease" | "listing" | "payment" | "profile" | "property" | "room" | "user"
+    modelProps: "propertyCategory" | "application" | "lease" | "listing" | "payment" | "profile" | "property" | "room" | "roomImage" | "user"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1017,6 +1018,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    RoomImage: {
+      payload: Prisma.$RoomImagePayload<ExtArgs>
+      fields: Prisma.RoomImageFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.RoomImageFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RoomImagePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.RoomImageFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RoomImagePayload>
+        }
+        findFirst: {
+          args: Prisma.RoomImageFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RoomImagePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.RoomImageFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RoomImagePayload>
+        }
+        findMany: {
+          args: Prisma.RoomImageFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RoomImagePayload>[]
+        }
+        create: {
+          args: Prisma.RoomImageCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RoomImagePayload>
+        }
+        createMany: {
+          args: Prisma.RoomImageCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.RoomImageCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RoomImagePayload>[]
+        }
+        delete: {
+          args: Prisma.RoomImageDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RoomImagePayload>
+        }
+        update: {
+          args: Prisma.RoomImageUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RoomImagePayload>
+        }
+        deleteMany: {
+          args: Prisma.RoomImageDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.RoomImageUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.RoomImageUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RoomImagePayload>[]
+        }
+        upsert: {
+          args: Prisma.RoomImageUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RoomImagePayload>
+        }
+        aggregate: {
+          args: Prisma.RoomImageAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateRoomImage>
+        }
+        groupBy: {
+          args: Prisma.RoomImageGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RoomImageGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.RoomImageCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RoomImageCountAggregateOutputType> | number
+        }
+      }
+    }
     User: {
       payload: Prisma.$UserPayload<ExtArgs>
       fields: Prisma.UserFieldRefs
@@ -1248,6 +1323,17 @@ export const RoomScalarFieldEnum = {
 export type RoomScalarFieldEnum = (typeof RoomScalarFieldEnum)[keyof typeof RoomScalarFieldEnum]
 
 
+export const RoomImageScalarFieldEnum = {
+  id: 'id',
+  roomId: 'roomId',
+  imageUrl: 'imageUrl',
+  publicId: 'publicId',
+  createdAt: 'createdAt'
+} as const
+
+export type RoomImageScalarFieldEnum = (typeof RoomImageScalarFieldEnum)[keyof typeof RoomImageScalarFieldEnum]
+
+
 export const UserScalarFieldEnum = {
   id: 'id',
   email: 'email',
@@ -1395,6 +1481,34 @@ export type EnumGenderFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaMod
  * Reference to a field of type 'Gender[]'
  */
 export type ListEnumGenderFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Gender[]'>
+    
+
+
+/**
+ * Reference to a field of type 'RoomType'
+ */
+export type EnumRoomTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RoomType'>
+    
+
+
+/**
+ * Reference to a field of type 'RoomType[]'
+ */
+export type ListEnumRoomTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RoomType[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Decimal'
+ */
+export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal'>
+    
+
+
+/**
+ * Reference to a field of type 'Decimal[]'
+ */
+export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal[]'>
     
 
 
@@ -1612,6 +1726,7 @@ export type GlobalOmitConfig = {
   profile?: Prisma.ProfileOmit
   property?: Prisma.PropertyOmit
   room?: Prisma.RoomOmit
+  roomImage?: Prisma.RoomImageOmit
   user?: Prisma.UserOmit
 }
 

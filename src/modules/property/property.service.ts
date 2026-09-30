@@ -6,7 +6,7 @@ import {
   IUpdateProperty,
 } from "./property.interface";
 
-import { Prisma,} from "../../generated/prisma/client";
+import { Prisma } from "../../generated/prisma/client";
 import { cloudinary } from "../../lib/cloudinary";
 import { UploadApiResponse } from "cloudinary";
 
@@ -167,7 +167,11 @@ const deletePropertyIntoDB = async (id: string, ownerId: string) => {
   return result;
 };
 
-const uploadPropertyImgIntoDB = async (id:string, ownerId:string, buffer: Buffer) => {
+const uploadPropertyImgIntoDB = async (
+  id: string,
+  ownerId: string,
+  buffer: Buffer,
+) => {
   const isPropertyExists = await prisma.property.findUnique({
     where: { id },
   });
@@ -177,10 +181,6 @@ const uploadPropertyImgIntoDB = async (id:string, ownerId:string, buffer: Buffer
 
   if (isPropertyExists.ownerId !== ownerId) {
     throw new Error("You are not authorized to upload Image");
-  }
-
-  if (isPropertyExists.propertyImgPublicId) {
-    await cloudinary.uploader.destroy(isPropertyExists.propertyImgPublicId);
   }
 
   const cloudinaryResult = await new Promise<UploadApiResponse>(
@@ -208,6 +208,14 @@ const uploadPropertyImgIntoDB = async (id:string, ownerId:string, buffer: Buffer
       propertyImgPublicId: cloudinaryResult.public_id,
     },
   });
+
+  if (isPropertyExists.propertyImgPublicId) {
+    try {
+      await cloudinary.uploader.destroy(isPropertyExists.propertyImgPublicId);
+    } catch (error) {
+      console.error("Failed to delete old property image:", error);
+    }
+  }
 
   return updateProperty;
 };

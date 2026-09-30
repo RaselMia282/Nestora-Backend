@@ -1,0 +1,12 @@
+model RoomImage {
+    id        String   @id @default(uuid())
+    roomId    String
+    imageUrl  String
+    publicId  String
+    createdAt DateTime @default(now())
+
+    room Room @relation(fields: [roomId], references: [id], onDelete: Cascade)
+
+    @@index([roomId])
+    @@map("room_images")
+}
