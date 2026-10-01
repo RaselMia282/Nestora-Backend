@@ -1,5 +1,5 @@
 import { prisma } from "../../lib/prisma";
-import { ICreateRoom } from "./room.interface";
+import { ICreateRoom, IUpdateRoom } from "./room.interface";
 
 const createRoomIntoDB = async (ownerId: string, payload: ICreateRoom) => {
   const { propertyId, roomNumber, roomType, baseRent } = payload;
@@ -107,7 +107,77 @@ const getAllRoomIntoDB = async (query: any) => {
   };
 };
 
+const getSingleRoomIntoDB = async (id: string) => {
+  const result = await prisma.room.findUnique({
+    where: { id },
+    include: {
+      property: true,
+      images: true,
+    },
+  });
+  if (!result) {
+    throw new Error("Room doest not exist");
+  }
+
+  return result;
+};
+
+const updateRoomIntoDB = async (
+  payload: IUpdateRoom,
+  ownerId: string,
+  roomId,
+) => {
+  const room = await prisma.room.findUnique({
+    where: { id: roomId },
+    include: {
+      property: true,
+      images: true,
+    },
+  });
+  if (!room) {
+    throw new Error("Room does not exist");
+  }
+
+  if (room.property.ownerId !== ownerId) {
+    throw new Error("You are not authorized");
+  }
+
+  const updateRoom = await prisma.room.update({
+    where: { id: roomId },
+    data: payload,
+  });
+
+  return updateRoom;
+};
+
+const deleteRoomIntoDB = async (roomId, ownerId) => {
+  const room = await prisma.room.findUnique({
+    where: { id: roomId },
+    include: { property: true },
+  });
+
+  if (!room) {
+    throw new Error("Room not found");
+  }
+
+  if (room.property.ownerId !== ownerId) {
+    throw new Error("You are not authorized to delete this room");
+  }
+
+  const deletedRoom = await prisma.room.delete({
+    where: { id: roomId },
+  });
+
+  return deletedRoom;
+};
+
+const uploadRoomImgIntoDB = async () => {};
+
 export const roomService = {
   createRoomIntoDB,
   getAllRoomIntoDB,
+  getSingleRoomIntoDB,
+  updateRoomIntoDB,
+  deleteRoomIntoDB,
+  uploadRoomImgIntoDB,
 };

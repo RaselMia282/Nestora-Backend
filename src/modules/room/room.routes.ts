@@ -3,7 +3,11 @@ import { roomController } from "./room.controller";
 
 const router = Router();
 router.post("/",roomController.createRoom);
-router.get("/",roomController.getAllRoom)
+router.get("/",roomController.getAllRoom);
+router.get("/",roomController.getSingleRoom);
+router.patch("/",roomController.updateRoom);
+router.delete("/",roomController.deleteRoom);
+router.patch("/",roomController.uploadRoomImg);
 
 
 
