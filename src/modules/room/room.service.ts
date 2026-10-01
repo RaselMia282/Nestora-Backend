@@ -1,5 +1,7 @@
+import { UploadApiResponse } from "cloudinary";
 import { prisma } from "../../lib/prisma";
 import { ICreateRoom, IUpdateRoom } from "./room.interface";
+import { cloudinary } from "../../lib/cloudinary";
 
 const createRoomIntoDB = async (ownerId: string, payload: ICreateRoom) => {
   const { propertyId, roomNumber, roomType, baseRent } = payload;
@@ -171,7 +173,53 @@ const deleteRoomIntoDB = async (roomId, ownerId) => {
   return deletedRoom;
 };
 
-const uploadRoomImgIntoDB = async () => {};
+const uploadRoomImgIntoDB = async (
+  id: string,
+  ownerId: string,
+  buffer: Buffer,
+) => {
+  const isRoomExists = await prisma.room.findUnique({
+    where: { id },
+    include: {
+      property: true,
+    },
+  });
+
+  if (!isRoomExists) {
+    throw new Error("Room does not exist");
+  }
+
+  if (isRoomExists.property.ownerId !== ownerId) {
+    throw new Error("You are not authorized to upload image");
+  }
+
+  const cloudinaryResult = await new Promise<UploadApiResponse>(
+    (resolve, reject) => {
+      const uploadStream = cloudinary.uploader.upload_stream(
+        {
+          folder: "property",
+          resource_type: "auto",
+        },
+        (error, result) => {
+          if (error) return reject(error);
+
+          if (!result) return reject(new Error("Cloudinary upload failed"));
+          resolve(result);
+        },
+      );
+      uploadStream.end(buffer);
+    },
+  );
+
+  const updateRoomImg = await prisma.roomImage.update({
+    where: { id },
+    data: {
+      imageUrl: cloudinaryResult.secure_url,
+      publicId: cloudinaryResult.public_id,
+    },
+  });
+  return updateRoomImg;
+};
 
 export const roomService = {
   createRoomIntoDB,

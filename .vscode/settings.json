@@ -4,6 +4,15 @@
     "prisma-smart-formatter.prisma.defaultFormatter": "Prisma.prisma",
     "workbench.colorCustomizations": {
         "statusBar.noFolderBackground": "#15158E",
-        "statusBar.noFolderForeground": "#FCFCFF"
+        "statusBar.noFolderForeground": "#FCFCFF",
+        "activityBar.background": "#15158E",
+        "titleBar.activeBackground": "#1E1EC7",
+        "titleBar.activeForeground": "#FCFCFF",
+        "titleBar.inactiveBackground": "#15158E",
+        "titleBar.inactiveForeground": "#FCFCFF",
+        "statusBar.background": "#15158E",
+        "statusBar.foreground": "#FCFCFF",
+        "statusBar.debuggingBackground": "#15158E",
+        "statusBar.debuggingForeground": "#FCFCFF"
     }
 }

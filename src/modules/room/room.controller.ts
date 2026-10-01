@@ -101,7 +101,27 @@ const deleteRoom = catchAsync(
 );
 
 const uploadRoomImg = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {},
+  async (req: Request, res: Response, next: NextFunction) => {
+    const roomId = req.params;
+    const ownerId = req.user.id;
+    const file = req.file;
+
+    if (!req.file) {
+      throw new Error("Please upload an image file");
+    }
+
+    const result = await roomService.updateRoomIntoDB(
+      roomId,
+      ownerId,
+      file.buffer,
+    );
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Room image uploaded successfully",
+      data: result,
+    });
+  },
 );
 
 export const roomController = {
