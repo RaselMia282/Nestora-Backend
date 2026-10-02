@@ -1,5 +1,5 @@
 import { prisma } from "../../lib/prisma";
-import { ICreateListing } from "./listing.interface";
+import { ICreateListing, IUpdateListing } from "./listing.interface";
 
 const createListingIntoDB = async (
   ownerId: string,
@@ -62,9 +62,7 @@ const getAllListingIntoDB = async (query: any) => {
   // Where condition
   const where: any = {};
 
-  // =========================
   // Room Filters
-  // =========================
 
   if (roomType || status || minRent || maxRent) {
     where.room = {};
@@ -93,9 +91,7 @@ const getAllListingIntoDB = async (query: any) => {
     }
   }
 
-  // =========================
   // Search
-  // =========================
 
   if (search) {
     where.OR = [
@@ -153,15 +149,11 @@ const getAllListingIntoDB = async (query: any) => {
     ];
   }
 
-  // =========================
   // Sorting
-  // =========================
 
   const order = sortOrder === "desc" ? "desc" : "asc";
 
-  // =========================
   // Total Count
-  // =========================
 
   const total = await prisma.listing.count({
     where,
@@ -169,9 +161,7 @@ const getAllListingIntoDB = async (query: any) => {
 
   const totalPages = Math.ceil(total / limitNumber);
 
-  // =========================
   // Get Listings
-  // =========================
 
   const listings = await prisma.listing.findMany({
     where,
@@ -189,9 +179,7 @@ const getAllListingIntoDB = async (query: any) => {
     },
   });
 
-  // =========================
   // Response
-  // =========================
 
   return {
     meta: {
@@ -204,13 +192,88 @@ const getAllListingIntoDB = async (query: any) => {
   };
 };
 
-const getSingleListingIntoDB = async () => {};
+const getSingleListingIntoDB = async (id: string) => {
+  const result = await prisma.listing.findUnique({
+    where: { id },
+    include: {
+      room: {
+        include: {
+          images: true,
+        },
+      },
+    },
+  });
+  if (!result) {
+    throw new Error("Listing not found");
+  }
+  return result;
+};
 
-const updateListingIntoDB = async () => {};
+const updateListingIntoDB = async (
+  ownerId,
+  listingId,
+  payload: IUpdateListing,
+) => {
+  const isListingExists = await prisma.listing.findUnique({
+    where: { id: listingId },
+    include: {
+      room: {
+        include: {
+          property: true,
+        },
+      },
+    },
+  });
 
-const deleteListingIntoDB = async () => {};
+  if (!isListingExists) {
+    throw new Error("Listing does not exist");
+  }
 
-const uploadListingImgIntoDB = async () => {};
+  if (isListingExists.room.property.ownerId !== ownerId) {
+    throw new Error("You are not authorized to update this listing");
+  }
+
+  const result = await prisma.listing.update({
+    where: { id: listingId },
+    data: {
+      ...payload,
+    },
+  });
+
+  return result;
+};
+
+const deleteListingIntoDB = async (ownerId,listingId) => {
+
+  const isListingExists = await prisma.listing.findUnique({
+        where:{
+          id:listingId
+        },
+        include:{
+          room:{
+            include:{
+              property:true,
+            }
+          }
+        }
+  })
+
+  if(!isListingExists){
+    throw new Error("Listing does not exist")
+  }
+
+  if(isListingExists.room.property.ownerId!==ownerId){
+    throw new Error("You are not authorized to delete this listing")
+  };
+
+  const deletedListing = await prisma.listing.delete({
+       where:{id:listingId},
+  })
+
+  return deletedListing;
+};
+
+
 
 export const listingService = {
   createListingIntoDB,
@@ -218,5 +281,5 @@ export const listingService = {
   getSingleListingIntoDB,
   updateListingIntoDB,
   deleteListingIntoDB,
-  uploadListingImgIntoDB,
+  
 };
