@@ -13,6 +13,8 @@ model User {
   properties   Property[]
   applications Application[]
   payments     Payment[]
-
+  identityVerification IdentityVerification?
   @@map("users")
 }
+
+

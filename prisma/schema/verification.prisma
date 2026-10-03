@@ -1,0 +1,18 @@
+model IdentityVerification {
+    id               String             @id @default(uuid())
+    userId           String             @unique
+    nidNumber        String?            @unique
+    nidFrontUrl      String?
+    nidFrontPublicId String?
+    nidBackUrl       String?
+    nidBackPublicId  String?
+    status           VerificationStatus @default(PENDING)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@index([status])
+    @@map("identity_verifications")
+}

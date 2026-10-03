@@ -93,3 +93,12 @@ export const RoomType = {
 } as const
 
 export type RoomType = (typeof RoomType)[keyof typeof RoomType]
+
+
+export const VerificationStatus = {
+  PENDING: 'PENDING',
+  VERIFIED: 'VERIFIED',
+  REJECTED: 'REJECTED'
+} as const
+
+export type VerificationStatus = (typeof VerificationStatus)[keyof typeof VerificationStatus]

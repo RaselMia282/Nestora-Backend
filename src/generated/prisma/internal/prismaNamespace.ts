@@ -406,7 +406,8 @@ export const ModelName = {
   Property: 'Property',
   Room: 'Room',
   RoomImage: 'RoomImage',
-  User: 'User'
+  User: 'User',
+  IdentityVerification: 'IdentityVerification'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -422,7 +423,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "propertyCategory" | "application" | "lease" | "listing" | "payment" | "profile" | "property" | "room" | "roomImage" | "user"
+    modelProps: "propertyCategory" | "application" | "lease" | "listing" | "payment" | "profile" | "property" | "room" | "roomImage" | "user" | "identityVerification"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1166,6 +1167,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    IdentityVerification: {
+      payload: Prisma.$IdentityVerificationPayload<ExtArgs>
+      fields: Prisma.IdentityVerificationFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.IdentityVerificationFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$IdentityVerificationPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.IdentityVerificationFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$IdentityVerificationPayload>
+        }
+        findFirst: {
+          args: Prisma.IdentityVerificationFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$IdentityVerificationPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.IdentityVerificationFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$IdentityVerificationPayload>
+        }
+        findMany: {
+          args: Prisma.IdentityVerificationFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$IdentityVerificationPayload>[]
+        }
+        create: {
+          args: Prisma.IdentityVerificationCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$IdentityVerificationPayload>
+        }
+        createMany: {
+          args: Prisma.IdentityVerificationCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.IdentityVerificationCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$IdentityVerificationPayload>[]
+        }
+        delete: {
+          args: Prisma.IdentityVerificationDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$IdentityVerificationPayload>
+        }
+        update: {
+          args: Prisma.IdentityVerificationUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$IdentityVerificationPayload>
+        }
+        deleteMany: {
+          args: Prisma.IdentityVerificationDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.IdentityVerificationUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.IdentityVerificationUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$IdentityVerificationPayload>[]
+        }
+        upsert: {
+          args: Prisma.IdentityVerificationUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$IdentityVerificationPayload>
+        }
+        aggregate: {
+          args: Prisma.IdentityVerificationAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateIdentityVerification>
+        }
+        groupBy: {
+          args: Prisma.IdentityVerificationGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.IdentityVerificationGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.IdentityVerificationCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.IdentityVerificationCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1347,6 +1422,22 @@ export const UserScalarFieldEnum = {
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const IdentityVerificationScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  nidNumber: 'nidNumber',
+  nidFrontUrl: 'nidFrontUrl',
+  nidFrontPublicId: 'nidFrontPublicId',
+  nidBackUrl: 'nidBackUrl',
+  nidBackPublicId: 'nidBackPublicId',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type IdentityVerificationScalarFieldEnum = (typeof IdentityVerificationScalarFieldEnum)[keyof typeof IdentityVerificationScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1567,6 +1658,20 @@ export type EnumUserStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$Prism
 export type ListEnumUserStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'UserStatus[]'>
     
 
+
+/**
+ * Reference to a field of type 'VerificationStatus'
+ */
+export type EnumVerificationStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'VerificationStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'VerificationStatus[]'
+ */
+export type ListEnumVerificationStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'VerificationStatus[]'>
+    
+
 /**
  * Batch Payload for updateMany & deleteMany & createMany
  */
@@ -1728,6 +1833,7 @@ export type GlobalOmitConfig = {
   room?: Prisma.RoomOmit
   roomImage?: Prisma.RoomImageOmit
   user?: Prisma.UserOmit
+  identityVerification?: Prisma.IdentityVerificationOmit
 }
 
 /* Types for Logging */

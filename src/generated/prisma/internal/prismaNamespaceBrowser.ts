@@ -60,7 +60,8 @@ export const ModelName = {
   Property: 'Property',
   Room: 'Room',
   RoomImage: 'RoomImage',
-  User: 'User'
+  User: 'User',
+  IdentityVerification: 'IdentityVerification'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -221,6 +222,22 @@ export const UserScalarFieldEnum = {
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const IdentityVerificationScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  nidNumber: 'nidNumber',
+  nidFrontUrl: 'nidFrontUrl',
+  nidFrontPublicId: 'nidFrontPublicId',
+  nidBackUrl: 'nidBackUrl',
+  nidBackPublicId: 'nidBackPublicId',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type IdentityVerificationScalarFieldEnum = (typeof IdentityVerificationScalarFieldEnum)[keyof typeof IdentityVerificationScalarFieldEnum]
 
 
 export const SortOrder = {

@@ -10,5 +10,8 @@ model Application {
   tenant User   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   lease  Lease?
 
+  @@index([roomId])
+  @@index([tenantId])
+  @@index([status])
   @@map("applications")
 }

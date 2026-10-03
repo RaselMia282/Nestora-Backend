@@ -89,3 +89,8 @@ export type RoomImage = Prisma.RoomImageModel
  * 
  */
 export type User = Prisma.UserModel
+/**
+ * Model IdentityVerification
+ * 
+ */
+export type IdentityVerification = Prisma.IdentityVerificationModel

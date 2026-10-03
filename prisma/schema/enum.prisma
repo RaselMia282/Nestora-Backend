@@ -64,3 +64,15 @@ enum RoomType {
 }
 
 
+
+enum VerificationStatus {
+  PENDING
+  VERIFIED
+  REJECTED
+}
+
+
+
+
+
+
