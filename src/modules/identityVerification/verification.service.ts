@@ -7,7 +7,7 @@ import { uploadToCloudinary } from "../../lib/cloudinaryUpload";
 const verifyIdentityIntoDB = async (
   userId,
   payload: ICreateIdentityVerification,
-  nidFont,
+  nidFront,
   nidBack,
 ) => {
   const user = await prisma.user.findUnique({
@@ -45,7 +45,7 @@ const verifyIdentityIntoDB = async (
   }
 
   const fontUpload = await uploadToCloudinary(
-    nidFont.buffer,
+    nidFront.buffer,
     "nestora/identity-verifications",
   );
   const backUpload = await uploadToCloudinary(
@@ -81,6 +81,23 @@ const verifyIdentityIntoDB = async (
   return result;
 };
 
+const getMyVerificationIntoDB = async (userId: string) => {
+  const result = await prisma.identityVerification.findUnique({
+    where: {  userId },
+    include: {
+      user: {
+        select: {
+          id: true,
+          email: true,
+        },
+      },
+    },
+  });
+
+  return result;
+};
+
 export const verificationService = {
   verifyIdentityIntoDB,
+  getMyVerificationIntoDB,
 };

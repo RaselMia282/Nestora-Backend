@@ -17,23 +17,22 @@ const verifyIdentity = catchAsync(
     }
 
     const files = req.files as {
-      nidFont?: Express.Multer.File[];
+      nidFront?: Express.Multer.File[];
       nidBack?: Express.Multer.File[];
     };
 
-    const nidFont = files.nidFont?.[0];
+    const nidFront = files.nidFront?.[0];
     const nidBack = files.nidBack?.[0];
 
-    if (!nidFont || !nidBack) {
+    if (!nidFront || !nidBack) {
       throw new Error("Both nid images are required");
     }
 
     const result = await verificationService.verifyIdentityIntoDB(
       userId,
       payload.data,
-      nidFont,
+      nidFront,
       nidBack,
-      
     );
 
     sendResponse(res, {
@@ -45,6 +44,25 @@ const verifyIdentity = catchAsync(
   },
 );
 
+const getMyVerification = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const userId = req.user?.id;
+    if (!userId) {
+      throw new Error("User is not authenticated");
+    }
+
+    const result = await verificationService.getMyVerificationIntoDB(userId as string);
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "My identity verification status retrieved successfully",
+      data: result,
+    });
+  },
+);
+
 export const verificationController = {
   verifyIdentity,
+  getMyVerification,
 };
