@@ -21,6 +21,11 @@ router.post(
   verificationController.verifyIdentity,
 );
 
-router.get("/me",auth(Role.ADMIN,Role.MANAGER,Role.OWNER,Role.TENANT),verificationController.getMyVerification)
+router.get("/me",auth(Role.ADMIN,Role.MANAGER,Role.OWNER,Role.TENANT),verificationController.getMyVerification);
+
+router.get("/pending-list",auth(Role.ADMIN,Role.OWNER),verificationController.getPendingVerification);
+
+router.patch("/:id/status",auth(Role.ADMIN,Role.OWNER),verificationController.updateVarificationStatus)
+
 
 export const nidVerificationRoutes = router;

@@ -51,7 +51,9 @@ const getMyVerification = catchAsync(
       throw new Error("User is not authenticated");
     }
 
-    const result = await verificationService.getMyVerificationIntoDB(userId as string);
+    const result = await verificationService.getMyVerificationIntoDB(
+      userId as string,
+    );
 
     sendResponse(res, {
       success: true,
@@ -62,7 +64,41 @@ const getMyVerification = catchAsync(
   },
 );
 
+const getPendingVerification = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const result = await verificationService.getPendingVerificationIntoDB();
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Pending verifications retrieved successfully",
+      data: result,
+    });
+  },
+);
+
+const updateVarificationStatus = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+    const { status } = req.body;
+
+    const result = await verificationService.updateVarificationStatusIntoDB(
+      id,
+      status,
+    );
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: `Identity verification ${status.toLowerCase()} successfully`,
+      data: result,
+    });
+  },
+);
+
 export const verificationController = {
   verifyIdentity,
   getMyVerification,
+  getPendingVerification,
+  updateVarificationStatus,
 };

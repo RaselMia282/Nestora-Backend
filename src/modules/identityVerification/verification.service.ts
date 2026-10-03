@@ -1,6 +1,9 @@
 import { VerificationStatus } from "../../generated/prisma/enums";
 import { prisma } from "../../lib/prisma";
-import { ICreateIdentityVerification } from "./verification.interface";
+import {
+  ICreateIdentityVerification,
+  IUpdateVerificationStatusPayload,
+} from "./verification.interface";
 
 import { uploadToCloudinary } from "../../lib/cloudinaryUpload";
 
@@ -83,7 +86,7 @@ const verifyIdentityIntoDB = async (
 
 const getMyVerificationIntoDB = async (userId: string) => {
   const result = await prisma.identityVerification.findUnique({
-    where: {  userId },
+    where: { userId },
     include: {
       user: {
         select: {
@@ -97,7 +100,56 @@ const getMyVerificationIntoDB = async (userId: string) => {
   return result;
 };
 
+const getPendingVerificationIntoDB = async () => {
+  const result = await prisma.identityVerification.findMany({
+    where: {
+      status: "PENDING",
+    },
+    include: {
+      user: {
+        select: {
+          id: true,
+          email: true,
+          profile: {
+            select: {
+              firstName: true,
+            },
+          },
+        },
+      },
+    },
+  });
+
+  return result;
+};
+
+const updateVarificationStatusIntoDB = async (
+  id,
+  status: VerificationStatus,
+) => {
+  const verification = await prisma.identityVerification.findUnique({
+    where: { id },
+  });
+
+  if (!verification) {
+    throw new Error("Verification record not found");
+  }
+
+  if (verification.status !== VerificationStatus.PENDING) {
+    throw new Error("Verification has already been processed");
+  }
+
+  const result = await prisma.identityVerification.update({
+    where: { id },
+    data: { status },
+  });
+
+  return result;
+};
+
 export const verificationService = {
   verifyIdentityIntoDB,
   getMyVerificationIntoDB,
+  getPendingVerificationIntoDB,
+  updateVarificationStatusIntoDB,
 };
