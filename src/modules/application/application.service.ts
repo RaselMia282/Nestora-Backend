@@ -1,6 +1,9 @@
 import { RoomStatus } from "../../generated/prisma/enums";
 import { prisma } from "../../lib/prisma";
-import { ICreateApplication } from "./application.interface";
+import {
+  ICreateApplication,
+  IUpdateApplication,
+} from "./application.interface";
 
 const createApplicationIntoDB = async (
   tenantId,
@@ -50,13 +53,100 @@ const createApplicationIntoDB = async (
   return result;
 };
 
-const getApplicationIntoDB = async () => {};
+const getApplicationIntoDB = async (tenantId: string) => {
+  const result = await prisma.application.findMany({
+    where: { id: tenantId },
+    include: {
+      room: {
+        include: {
+          property: true,
+        },
+      },
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
 
-const getSingleApplicationIntoDB = async () => {};
+  return result;
+};
 
-const updateApplicationIntoDB = async () => {};
+const getSingleApplicationIntoDB = async (tenantId, applicationId) => {
+  const result = await prisma.application.findFirst({
+    where: {
+      tenantId,
+      id: applicationId,
+    },
+    include: {
+      room: {
+        include: {
+          property: true,
+        },
+      },
+    },
+  });
 
-const deleteApplicationIntoDB = async () => {};
+  if (!result) {
+    throw new Error("Application not found");
+  }
+
+  return result;
+};
+
+const updateApplicationIntoDB = async (
+  tenantId,
+  applicationId,
+  payload: IUpdateApplication,
+) => {
+  const application = await prisma.application.findFirst({
+    where: {
+      tenantId,
+      id: applicationId,
+    },
+  });
+
+  if (!application) {
+    throw new Error("Application not found");
+  }
+
+  if (application.status !== "PENDING") {
+    throw new Error("Only pending application can be cancelled");
+  }
+
+  const result = await prisma.application.update({
+    where: { id: applicationId },
+    data: {
+      status: payload.status,
+    },
+  });
+
+  return result;
+};
+
+const deleteApplicationIntoDB = async (tenantId, applicationId) => {
+  const application = await prisma.application.findFirst({
+    where: {
+      id: applicationId,
+      tenantId,
+    },
+  });
+
+  if (!application) {
+    throw new Error("Application not found");
+  }
+
+  if (application.status !== "PENDING") {
+    throw new Error("Only pending application can be deleted");
+  }
+
+  const result = await prisma.application.delete({
+    where: {
+      id: applicationId,
+    },
+  });
+
+  return result;
+};
 
 export const applicationService = {
   createApplicationIntoDB,
