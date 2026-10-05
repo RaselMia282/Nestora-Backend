@@ -1,16 +1,15 @@
 enum Role {
-    OWNER
-    TENANT
-    MANAGER
+  OWNER
+  TENANT
+  MANAGER
 
-    ADMIN
+  ADMIN
 }
 
 enum AuthProvider {
-    GOOGLE
-    CREDENTIAL
+  GOOGLE
+  CREDENTIAL
 }
-
 
 enum Gender {
   MALE
@@ -24,14 +23,12 @@ enum RoomStatus {
   OCCUPIED
 }
 
-
 enum ApplicationStatus {
   PENDING
   APPROVED
   REJECTED
   CANCELLED
 }
-
 
 enum PaymentStatus {
   PENDING
@@ -55,8 +52,6 @@ enum PropertyType {
   DUPLEX
 }
 
-
-
 enum RoomType {
   SINGLE
   DOUBLE
@@ -64,22 +59,22 @@ enum RoomType {
   SHARED
 }
 
-
-
 enum VerificationStatus {
   PENDING
   VERIFIED
   REJECTED
 }
 
-
-
 enum LeaseStatus {
   ACTIVE
   TERMINATED
 }
 
+enum PaymentMethod {
+  CREDIT_CARD
+  SSLCOMMERZ
+  BKASH
 
-
-
-
+  CASH_ON_DELIVERY
+  STRIPE
+}

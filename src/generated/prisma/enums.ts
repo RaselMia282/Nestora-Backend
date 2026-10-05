@@ -111,3 +111,14 @@ export const LeaseStatus = {
 } as const
 
 export type LeaseStatus = (typeof LeaseStatus)[keyof typeof LeaseStatus]
+
+
+export const PaymentMethod = {
+  CREDIT_CARD: 'CREDIT_CARD',
+  SSLCOMMERZ: 'SSLCOMMERZ',
+  BKASH: 'BKASH',
+  CASH_ON_DELIVERY: 'CASH_ON_DELIVERY',
+  STRIPE: 'STRIPE'
+} as const
+
+export type PaymentMethod = (typeof PaymentMethod)[keyof typeof PaymentMethod]

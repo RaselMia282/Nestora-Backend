@@ -14,4 +14,4 @@ router.patch(
   propertyCategoryController.updatePropertyCategoryImage,
 );
 
-export const propertyCategory = router;
+export const propertyCategoryRoutes = router;
