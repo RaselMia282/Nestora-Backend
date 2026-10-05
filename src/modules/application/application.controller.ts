@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { catchAsync } from "../../utilis/catchAsync";
 import {
   createApplicationSchema,
+  updateApplicationByOwnerSchema,
   updateApplicationSchema,
 } from "./application.validation";
 import { sendResponse } from "../../utilis/sendResponse";
@@ -72,9 +73,13 @@ const getSingleApplication = catchAsync(
 const updateApplication = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const tenantId = req.user?.id;
-    const applicationId = req.params;
+    const applicationId = req.params.id;
 
     const payload = updateApplicationSchema.safeParse(req.body);
+
+    if (!payload.success) {
+      throw new Error(payload.error.message);
+    }
 
     const result = await applicationService.updateApplicationIntoDB(
       tenantId,
@@ -110,10 +115,39 @@ const deleteApplication = catchAsync(
   },
 );
 
+const updateApplicationStatusByOwner = catchAsync(
+  async (req: Request, res: Response) => {
+    const ownerId = req.user?.id;
+
+    const applicationId = req.params.id as string;
+
+    const payload = updateApplicationByOwnerSchema.safeParse(req.body);
+
+    if (!payload.success) {
+      throw new Error(payload.error.message);
+    }
+
+    const result =
+      await applicationService.updateApplicationStatusByOwnerIntoDB(
+        ownerId,
+        applicationId,
+        payload.data,
+      );
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Application status updated successfully",
+      data: result,
+    });
+  },
+);
+
 export const applicationController = {
   createApplication,
   getApplication,
   getSingleApplication,
   updateApplication,
   deleteApplication,
+  updateApplicationStatusByOwner,
 };

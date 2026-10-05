@@ -103,3 +103,11 @@ export const VerificationStatus = {
 } as const
 
 export type VerificationStatus = (typeof VerificationStatus)[keyof typeof VerificationStatus]
+
+
+export const LeaseStatus = {
+  ACTIVE: 'ACTIVE',
+  TERMINATED: 'TERMINATED'
+} as const
+
+export type LeaseStatus = (typeof LeaseStatus)[keyof typeof LeaseStatus]

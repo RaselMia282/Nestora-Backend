@@ -8,3 +8,8 @@ export interface ICreateApplication {
 export interface IUpdateApplication {
   status: ApplicationStatus;
 }
+
+
+export interface IUpdateApplicationByOwner {
+  status: "APPROVED" | "REJECTED";
+}

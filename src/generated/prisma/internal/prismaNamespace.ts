@@ -1317,7 +1317,8 @@ export const LeaseScalarFieldEnum = {
   securityDeposit: 'securityDeposit',
   isSigned: 'isSigned',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  status: 'status'
 } as const
 
 export type LeaseScalarFieldEnum = (typeof LeaseScalarFieldEnum)[keyof typeof LeaseScalarFieldEnum]
@@ -1544,6 +1545,20 @@ export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, '
  * Reference to a field of type 'Float[]'
  */
 export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+
+
+/**
+ * Reference to a field of type 'LeaseStatus'
+ */
+export type EnumLeaseStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'LeaseStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'LeaseStatus[]'
+ */
+export type ListEnumLeaseStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'LeaseStatus[]'>
     
 
 

@@ -46,6 +46,7 @@ export type LeaseMinAggregateOutputType = {
   isSigned: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
+  status: $Enums.LeaseStatus | null
 }
 
 export type LeaseMaxAggregateOutputType = {
@@ -58,6 +59,7 @@ export type LeaseMaxAggregateOutputType = {
   isSigned: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
+  status: $Enums.LeaseStatus | null
 }
 
 export type LeaseCountAggregateOutputType = {
@@ -70,6 +72,7 @@ export type LeaseCountAggregateOutputType = {
   isSigned: number
   createdAt: number
   updatedAt: number
+  status: number
   _all: number
 }
 
@@ -94,6 +97,7 @@ export type LeaseMinAggregateInputType = {
   isSigned?: true
   createdAt?: true
   updatedAt?: true
+  status?: true
 }
 
 export type LeaseMaxAggregateInputType = {
@@ -106,6 +110,7 @@ export type LeaseMaxAggregateInputType = {
   isSigned?: true
   createdAt?: true
   updatedAt?: true
+  status?: true
 }
 
 export type LeaseCountAggregateInputType = {
@@ -118,6 +123,7 @@ export type LeaseCountAggregateInputType = {
   isSigned?: true
   createdAt?: true
   updatedAt?: true
+  status?: true
   _all?: true
 }
 
@@ -217,6 +223,7 @@ export type LeaseGroupByOutputType = {
   isSigned: boolean
   createdAt: Date
   updatedAt: Date
+  status: $Enums.LeaseStatus
   _count: LeaseCountAggregateOutputType | null
   _avg: LeaseAvgAggregateOutputType | null
   _sum: LeaseSumAggregateOutputType | null
@@ -252,6 +259,7 @@ export type LeaseWhereInput = {
   isSigned?: Prisma.BoolFilter<"Lease"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Lease"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Lease"> | Date | string
+  status?: Prisma.EnumLeaseStatusFilter<"Lease"> | $Enums.LeaseStatus
   application?: Prisma.XOR<Prisma.ApplicationScalarRelationFilter, Prisma.ApplicationWhereInput>
   payments?: Prisma.PaymentListRelationFilter
 }
@@ -266,6 +274,7 @@ export type LeaseOrderByWithRelationInput = {
   isSigned?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   application?: Prisma.ApplicationOrderByWithRelationInput
   payments?: Prisma.PaymentOrderByRelationAggregateInput
 }
@@ -283,6 +292,7 @@ export type LeaseWhereUniqueInput = Prisma.AtLeast<{
   isSigned?: Prisma.BoolFilter<"Lease"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Lease"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Lease"> | Date | string
+  status?: Prisma.EnumLeaseStatusFilter<"Lease"> | $Enums.LeaseStatus
   application?: Prisma.XOR<Prisma.ApplicationScalarRelationFilter, Prisma.ApplicationWhereInput>
   payments?: Prisma.PaymentListRelationFilter
 }, "id" | "applicationId">
@@ -297,6 +307,7 @@ export type LeaseOrderByWithAggregationInput = {
   isSigned?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   _count?: Prisma.LeaseCountOrderByAggregateInput
   _avg?: Prisma.LeaseAvgOrderByAggregateInput
   _max?: Prisma.LeaseMaxOrderByAggregateInput
@@ -317,6 +328,7 @@ export type LeaseScalarWhereWithAggregatesInput = {
   isSigned?: Prisma.BoolWithAggregatesFilter<"Lease"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Lease"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Lease"> | Date | string
+  status?: Prisma.EnumLeaseStatusWithAggregatesFilter<"Lease"> | $Enums.LeaseStatus
 }
 
 export type LeaseCreateInput = {
@@ -328,6 +340,7 @@ export type LeaseCreateInput = {
   isSigned?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  status?: $Enums.LeaseStatus
   application: Prisma.ApplicationCreateNestedOneWithoutLeaseInput
   payments?: Prisma.PaymentCreateNestedManyWithoutLeaseInput
 }
@@ -342,6 +355,7 @@ export type LeaseUncheckedCreateInput = {
   isSigned?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  status?: $Enums.LeaseStatus
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutLeaseInput
 }
 
@@ -354,6 +368,7 @@ export type LeaseUpdateInput = {
   isSigned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumLeaseStatusFieldUpdateOperationsInput | $Enums.LeaseStatus
   application?: Prisma.ApplicationUpdateOneRequiredWithoutLeaseNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutLeaseNestedInput
 }
@@ -368,6 +383,7 @@ export type LeaseUncheckedUpdateInput = {
   isSigned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumLeaseStatusFieldUpdateOperationsInput | $Enums.LeaseStatus
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutLeaseNestedInput
 }
 
@@ -381,6 +397,7 @@ export type LeaseCreateManyInput = {
   isSigned?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  status?: $Enums.LeaseStatus
 }
 
 export type LeaseUpdateManyMutationInput = {
@@ -392,6 +409,7 @@ export type LeaseUpdateManyMutationInput = {
   isSigned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumLeaseStatusFieldUpdateOperationsInput | $Enums.LeaseStatus
 }
 
 export type LeaseUncheckedUpdateManyInput = {
@@ -404,6 +422,7 @@ export type LeaseUncheckedUpdateManyInput = {
   isSigned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumLeaseStatusFieldUpdateOperationsInput | $Enums.LeaseStatus
 }
 
 export type LeaseNullableScalarRelationFilter = {
@@ -421,6 +440,7 @@ export type LeaseCountOrderByAggregateInput = {
   isSigned?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  status?: Prisma.SortOrder
 }
 
 export type LeaseAvgOrderByAggregateInput = {
@@ -438,6 +458,7 @@ export type LeaseMaxOrderByAggregateInput = {
   isSigned?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  status?: Prisma.SortOrder
 }
 
 export type LeaseMinOrderByAggregateInput = {
@@ -450,6 +471,7 @@ export type LeaseMinOrderByAggregateInput = {
   isSigned?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  status?: Prisma.SortOrder
 }
 
 export type LeaseSumOrderByAggregateInput = {
@@ -502,6 +524,10 @@ export type FloatFieldUpdateOperationsInput = {
   divide?: number
 }
 
+export type EnumLeaseStatusFieldUpdateOperationsInput = {
+  set?: $Enums.LeaseStatus
+}
+
 export type LeaseCreateNestedOneWithoutPaymentsInput = {
   create?: Prisma.XOR<Prisma.LeaseCreateWithoutPaymentsInput, Prisma.LeaseUncheckedCreateWithoutPaymentsInput>
   connectOrCreate?: Prisma.LeaseCreateOrConnectWithoutPaymentsInput
@@ -525,6 +551,7 @@ export type LeaseCreateWithoutApplicationInput = {
   isSigned?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  status?: $Enums.LeaseStatus
   payments?: Prisma.PaymentCreateNestedManyWithoutLeaseInput
 }
 
@@ -537,6 +564,7 @@ export type LeaseUncheckedCreateWithoutApplicationInput = {
   isSigned?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  status?: $Enums.LeaseStatus
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutLeaseInput
 }
 
@@ -565,6 +593,7 @@ export type LeaseUpdateWithoutApplicationInput = {
   isSigned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumLeaseStatusFieldUpdateOperationsInput | $Enums.LeaseStatus
   payments?: Prisma.PaymentUpdateManyWithoutLeaseNestedInput
 }
 
@@ -577,6 +606,7 @@ export type LeaseUncheckedUpdateWithoutApplicationInput = {
   isSigned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumLeaseStatusFieldUpdateOperationsInput | $Enums.LeaseStatus
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutLeaseNestedInput
 }
 
@@ -589,6 +619,7 @@ export type LeaseCreateWithoutPaymentsInput = {
   isSigned?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  status?: $Enums.LeaseStatus
   application: Prisma.ApplicationCreateNestedOneWithoutLeaseInput
 }
 
@@ -602,6 +633,7 @@ export type LeaseUncheckedCreateWithoutPaymentsInput = {
   isSigned?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  status?: $Enums.LeaseStatus
 }
 
 export type LeaseCreateOrConnectWithoutPaymentsInput = {
@@ -629,6 +661,7 @@ export type LeaseUpdateWithoutPaymentsInput = {
   isSigned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumLeaseStatusFieldUpdateOperationsInput | $Enums.LeaseStatus
   application?: Prisma.ApplicationUpdateOneRequiredWithoutLeaseNestedInput
 }
 
@@ -642,6 +675,7 @@ export type LeaseUncheckedUpdateWithoutPaymentsInput = {
   isSigned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumLeaseStatusFieldUpdateOperationsInput | $Enums.LeaseStatus
 }
 
 
@@ -685,6 +719,7 @@ export type LeaseSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   isSigned?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  status?: boolean
   application?: boolean | Prisma.ApplicationDefaultArgs<ExtArgs>
   payments?: boolean | Prisma.Lease$paymentsArgs<ExtArgs>
   _count?: boolean | Prisma.LeaseCountOutputTypeDefaultArgs<ExtArgs>
@@ -700,6 +735,7 @@ export type LeaseSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   isSigned?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  status?: boolean
   application?: boolean | Prisma.ApplicationDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["lease"]>
 
@@ -713,6 +749,7 @@ export type LeaseSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   isSigned?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  status?: boolean
   application?: boolean | Prisma.ApplicationDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["lease"]>
 
@@ -726,9 +763,10 @@ export type LeaseSelectScalar = {
   isSigned?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  status?: boolean
 }
 
-export type LeaseOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "applicationId" | "startDate" | "endDate" | "monthlyRent" | "securityDeposit" | "isSigned" | "createdAt" | "updatedAt", ExtArgs["result"]["lease"]>
+export type LeaseOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "applicationId" | "startDate" | "endDate" | "monthlyRent" | "securityDeposit" | "isSigned" | "createdAt" | "updatedAt" | "status", ExtArgs["result"]["lease"]>
 export type LeaseInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   application?: boolean | Prisma.ApplicationDefaultArgs<ExtArgs>
   payments?: boolean | Prisma.Lease$paymentsArgs<ExtArgs>
@@ -757,6 +795,7 @@ export type $LeasePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     isSigned: boolean
     createdAt: Date
     updatedAt: Date
+    status: $Enums.LeaseStatus
   }, ExtArgs["result"]["lease"]>
   composites: {}
 }
@@ -1191,6 +1230,7 @@ export interface LeaseFieldRefs {
   readonly isSigned: Prisma.FieldRef<"Lease", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"Lease", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Lease", 'DateTime'>
+  readonly status: Prisma.FieldRef<"Lease", 'LeaseStatus'>
 }
     
 

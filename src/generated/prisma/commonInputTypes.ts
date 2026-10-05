@@ -178,6 +178,13 @@ export type FloatFilter<$PrismaModel = never> = {
   not?: Prisma.NestedFloatFilter<$PrismaModel> | number
 }
 
+export type EnumLeaseStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.LeaseStatus | Prisma.EnumLeaseStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.LeaseStatus[] | Prisma.ListEnumLeaseStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.LeaseStatus[] | Prisma.ListEnumLeaseStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumLeaseStatusFilter<$PrismaModel> | $Enums.LeaseStatus
+}
+
 export type FloatWithAggregatesFilter<$PrismaModel = never> = {
   equals?: number | Prisma.FloatFieldRefInput<$PrismaModel>
   in?: number[] | Prisma.ListFloatFieldRefInput<$PrismaModel>
@@ -192,6 +199,16 @@ export type FloatWithAggregatesFilter<$PrismaModel = never> = {
   _sum?: Prisma.NestedFloatFilter<$PrismaModel>
   _min?: Prisma.NestedFloatFilter<$PrismaModel>
   _max?: Prisma.NestedFloatFilter<$PrismaModel>
+}
+
+export type EnumLeaseStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.LeaseStatus | Prisma.EnumLeaseStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.LeaseStatus[] | Prisma.ListEnumLeaseStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.LeaseStatus[] | Prisma.ListEnumLeaseStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumLeaseStatusWithAggregatesFilter<$PrismaModel> | $Enums.LeaseStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumLeaseStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumLeaseStatusFilter<$PrismaModel>
 }
 
 export type EnumPaymentStatusFilter<$PrismaModel = never> = {
@@ -523,6 +540,13 @@ export type NestedEnumApplicationStatusWithAggregatesFilter<$PrismaModel = never
   _max?: Prisma.NestedEnumApplicationStatusFilter<$PrismaModel>
 }
 
+export type NestedEnumLeaseStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.LeaseStatus | Prisma.EnumLeaseStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.LeaseStatus[] | Prisma.ListEnumLeaseStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.LeaseStatus[] | Prisma.ListEnumLeaseStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumLeaseStatusFilter<$PrismaModel> | $Enums.LeaseStatus
+}
+
 export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
   equals?: number | Prisma.FloatFieldRefInput<$PrismaModel>
   in?: number[] | Prisma.ListFloatFieldRefInput<$PrismaModel>
@@ -537,6 +561,16 @@ export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
   _sum?: Prisma.NestedFloatFilter<$PrismaModel>
   _min?: Prisma.NestedFloatFilter<$PrismaModel>
   _max?: Prisma.NestedFloatFilter<$PrismaModel>
+}
+
+export type NestedEnumLeaseStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.LeaseStatus | Prisma.EnumLeaseStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.LeaseStatus[] | Prisma.ListEnumLeaseStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.LeaseStatus[] | Prisma.ListEnumLeaseStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumLeaseStatusWithAggregatesFilter<$PrismaModel> | $Enums.LeaseStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumLeaseStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumLeaseStatusFilter<$PrismaModel>
 }
 
 export type NestedEnumPaymentStatusFilter<$PrismaModel = never> = {

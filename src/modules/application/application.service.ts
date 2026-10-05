@@ -3,6 +3,7 @@ import { prisma } from "../../lib/prisma";
 import {
   ICreateApplication,
   IUpdateApplication,
+  IUpdateApplicationByOwner,
 } from "./application.interface";
 
 const createApplicationIntoDB = async (
@@ -148,10 +149,55 @@ const deleteApplicationIntoDB = async (tenantId, applicationId) => {
   return result;
 };
 
+const updateApplicationStatusByOwnerIntoDB = async (
+  ownerId: string,
+  applicationId: string,
+  payload: IUpdateApplicationByOwner,
+) => {
+  const application = await prisma.application.findUnique({
+    where: {
+      id: applicationId,
+    },
+    include: {
+      room: {
+        include: {
+          property: true,
+        },
+      },
+    },
+  });
+
+  if (!application) {
+    throw new Error("Application not found");
+  }
+
+  // Check property ownership
+  if (application.room.property.ownerId !== ownerId) {
+    throw new Error("You are not authorized to update this application");
+  }
+
+  // Only pending application can be processed
+  if (application.status !== "PENDING") {
+    throw new Error("Only pending applications can be approved or rejected");
+  }
+
+  const result = await prisma.application.update({
+    where: {
+      id: applicationId,
+    },
+    data: {
+      status: payload.status,
+    },
+  });
+
+  return result;
+};
+
 export const applicationService = {
   createApplicationIntoDB,
   getApplicationIntoDB,
   getSingleApplicationIntoDB,
   updateApplicationIntoDB,
   deleteApplicationIntoDB,
+  updateApplicationStatusByOwnerIntoDB,
 };

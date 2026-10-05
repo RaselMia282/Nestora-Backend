@@ -117,7 +117,8 @@ export const LeaseScalarFieldEnum = {
   securityDeposit: 'securityDeposit',
   isSigned: 'isSigned',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  status: 'status'
 } as const
 
 export type LeaseScalarFieldEnum = (typeof LeaseScalarFieldEnum)[keyof typeof LeaseScalarFieldEnum]
