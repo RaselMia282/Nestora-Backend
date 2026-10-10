@@ -26,14 +26,16 @@ const app: Application = express();
 //   }),
 // );
 
-cors({
-  origin: [
-    "http://localhost:3000",
-    "http://localhost:3001",
-    "https://nestora-fontend.onrender.com",
-  ],
-  credentials: true,
-})
+app.use(
+  cors({
+    origin: [
+      "http://localhost:3000",
+      "http://localhost:3001",
+      "https://nestora-fontend.onrender.com",
+    ],
+    credentials: true,
+  }),
+);
 
 
 app.use(express.json());
