@@ -16,24 +16,34 @@ import { nidVerificationRoutes } from "./modules/identityVerification/verificati
 import { leaseRoutes } from "./modules/lease/lease.router.js";
 import { paymentRoutes } from "./modules/payments/payments.routes.js";
 import { propertyCategoryRoutes } from "./modules/propertyCategory/propertyCategory.routes.js";
+import { dashboardRoutes } from "./modules/dashboard/dashboard.routes.js";
 
 const app: Application = express();
+// app.use(
+//   cors({
+//     origin: config.app_url,
+//     credentials: true,
+//   }),
+// );
+
+cors({
+  origin: [
+    "http://localhost:3000",
+    "http://localhost:3001",
+    "https://nestora-fontend.onrender.com",
+  ],
+  credentials: true,
+})
+
+
 app.use(express.json());
 app.use(cookieParser());
-
 
 app.use("/api/payment/webhook", express.raw({ type: "application/json" }));
 
 app.use(
   express.urlencoded({
     extended: true,
-  }),
-);
-
-app.use(
-  cors({
-    origin: config.app_url,
-    credentials: true,
   }),
 );
 
@@ -50,5 +60,6 @@ app.use("/api/v1/application", applicationRoutes);
 app.use("/api/v1/verification", nidVerificationRoutes);
 app.use("/api/v1/lease", leaseRoutes);
 app.use("/api/v1/payment", paymentRoutes);
+app.use("/api/v1/dashboard", dashboardRoutes);
 
 export default app;
