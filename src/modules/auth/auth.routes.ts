@@ -8,6 +8,8 @@ const router = Router();
 
 router.post("/register", authController.registerUser);
 router.post("/login", authController.loginUser);
+
+router.post("/logout", authController.logoutUser);
 router.get(
   "/me",
   auth(Role.ADMIN, Role.MANAGER, Role.OWNER, Role.TENANT),
@@ -21,7 +23,15 @@ router.patch(
   authController.updateProfileImg,
 );
 
-router.post("/forgot-password",auth(Role.ADMIN,Role.MANAGER,Role.OWNER,Role.TENANT),authController.forgotPassword)
-router.post("/reset-password",auth(Role.ADMIN,Role.MANAGER,Role.OWNER,Role.TENANT),authController.resetPassword)
+router.post(
+  "/forgot-password",
+  auth(Role.ADMIN, Role.MANAGER, Role.OWNER, Role.TENANT),
+  authController.forgotPassword,
+);
+router.post(
+  "/reset-password",
+  auth(Role.ADMIN, Role.MANAGER, Role.OWNER, Role.TENANT),
+  authController.resetPassword,
+);
 
 export const authRouter = router;

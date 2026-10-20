@@ -102,7 +102,8 @@ export const ApplicationScalarFieldEnum = {
   tenantId: 'tenantId',
   status: 'status',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  propertyId: 'propertyId'
 } as const
 
 export type ApplicationScalarFieldEnum = (typeof ApplicationScalarFieldEnum)[keyof typeof ApplicationScalarFieldEnum]
@@ -176,11 +177,15 @@ export const PropertyScalarFieldEnum = {
   address: 'address',
   city: 'city',
   description: 'description',
+  latitude: 'latitude',
+  longitude: 'longitude',
+  areaSqft: 'areaSqft',
   propertyImg: 'propertyImg',
   propertyImgPublicId: 'propertyImgPublicId',
   categoryId: 'categoryId',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  fullRent: 'fullRent'
 } as const
 
 export type PropertyScalarFieldEnum = (typeof PropertyScalarFieldEnum)[keyof typeof PropertyScalarFieldEnum]

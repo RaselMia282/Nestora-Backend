@@ -5,6 +5,8 @@ export interface ICreateProperty {
   description?: string;
   address: string;
   city: string;
+  latitude?: number;
+  longitude?: number;
 }
 
 
@@ -15,7 +17,7 @@ export interface IGetAllPropertiesQuery {
   address?:string;
   categoryId?: string;
   city?: string;
-  
+  category?:string;
   sort?: "latest" | "oldest";
 }
 

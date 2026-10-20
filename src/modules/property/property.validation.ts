@@ -6,6 +6,9 @@ export const createPropertySchema = z.object({
   description: z.string().optional(),
   address: z.string().min(5, "Address must be at least 5 characters"),
   city: z.string().min(2, "City must be at least 2 characters"),
+
+  latitude: z.number().optional(),
+  longitude: z.number().optional(),
 });
 
 const propertySortEnum = z.enum(["latest", "oldest"]);
@@ -21,11 +24,9 @@ export const getAllPropertiesQuerySchema = z.object({
 
   city: z.string().optional(),
   address: z.string().optional(),
-  
-
+  category: z.string().optional(),
   sort: propertySortEnum.optional().default("latest"),
 });
-
 
 export const updatePropertySchema = z.object({
   categoryId: z.string().uuid("Invalid category ID").optional(),
@@ -42,8 +43,5 @@ export const updatePropertySchema = z.object({
     .min(5, "Address must be at least 5 characters")
     .optional(),
 
-  city: z
-    .string()
-    .min(2, "City must be at least 2 characters")
-    .optional(),
+  city: z.string().min(2, "City must be at least 2 characters").optional(),
 });

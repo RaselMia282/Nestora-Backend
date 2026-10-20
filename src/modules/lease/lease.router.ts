@@ -23,6 +23,8 @@ router.patch(
   leaseController.terminateLease,
 );
 
-router.patch("/id/sign", auth(Role.TENANT), leaseController.signLease);
+router.patch("/:id/sign", auth(Role.TENANT), leaseController.signLease);
+
+router.get("/my-lease", auth(Role.TENANT), leaseController.getMyLease);
 
 export const leaseRoutes = router;

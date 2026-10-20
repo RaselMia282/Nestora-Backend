@@ -5,11 +5,11 @@ model Application {
   status    ApplicationStatus @default(PENDING)
   createdAt DateTime          @default(now())
   updatedAt DateTime          @updatedAt
-
+  propertyId String?     
   room   Room   @relation(fields: [roomId], references: [id], onDelete: Cascade)
   tenant User   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   lease  Lease?
-
+  property Property? @relation(fields: [propertyId], references: [id], onDelete: Cascade) 
   @@index([roomId])
   @@index([tenantId])
   @@index([status])

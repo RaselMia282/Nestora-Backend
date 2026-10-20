@@ -1,20 +1,23 @@
 model Property {
-  id          String  @id @default(uuid())
-  ownerId     String
-  title       String
-  address     String
-  city        String
-  description String? @db.Text
-
+  id                  String           @id @default(uuid())
+  ownerId             String
+  title               String
+  address             String
+  city                String
+  description         String?          @db.Text
+  latitude            Float?
+  longitude           Float?
+  areaSqft            Int?
   propertyImg         String?
   propertyImgPublicId String?
   categoryId          String
-  createdAt           DateTime @default(now())
-  updatedAt           DateTime @updatedAt
-
-  category PropertyCategory @relation(fields: [categoryId], references: [id])
-  owner    User             @relation(fields: [ownerId], references: [id], onDelete: Cascade)
-  rooms    Room[]
+  applications        Application[]    
+  createdAt           DateTime         @default(now())
+  updatedAt           DateTime         @updatedAt
+  fullRent            Decimal?         @db.Decimal(10, 2)
+  category            PropertyCategory @relation(fields: [categoryId], references: [id])
+  owner               User             @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  rooms               Room[]
 
   @@index([ownerId])
   @@index([city])

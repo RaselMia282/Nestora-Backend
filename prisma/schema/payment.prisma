@@ -1,6 +1,6 @@
 model Payment {
   id            String @id @default(uuid())
-  leaseId       String
+  leaseId       String @unique
   tenantId      String
   transactionId String @unique
   amount        Float

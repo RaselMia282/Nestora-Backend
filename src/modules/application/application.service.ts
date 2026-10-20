@@ -6,49 +6,98 @@ import {
   IUpdateApplicationByOwner,
 } from "./application.interface";
 
+// const createApplicationIntoDB = async (
+//   tenantId,
+//   payload: ICreateApplication,
+// ) => {
+//   const { listingId } = payload;
+
+//   // const isListingExists = await prisma.listing.findUnique({
+//   //   where: { id: listingId },
+//   //   include: {
+//   //     room: true,
+//   //   },
+//   // });
+
+//   const isRoomExists = await prisma.room.findUnique({
+//     where: { id: listingId }, // listingId-তে আমরা রুমের আইডি পাঠাচ্ছি
+// });
+//   if (!isRoomExists) {
+//     throw new Error("Listing does not exist");
+//   }
+
+//   if (!isRoomExists.isPublished) {
+//     throw new Error("This listing is not available");
+//   }
+
+//   if (isListingExists.room.status !== RoomStatus.AVAILABLE) {
+//     throw new Error("This room is not available for booking");
+//   }
+
+//   const isApplicationExists = await prisma.application.findFirst({
+//     where: { tenantId, roomId: isListingExists.roomId },
+//     include: {
+//       room: true,
+//     },
+//   });
+
+//   if (isApplicationExists) {
+//     throw new Error("You have already applied for this room");
+//   }
+
+//   const result = await prisma.application.create({
+//     data: {
+//       tenantId,
+//       roomId: isListingExists.roomId,
+//     },
+//     include: {
+//       room: true,
+//     },
+//   });
+
+//   return result;
+// };
+
 const createApplicationIntoDB = async (
-  tenantId,
-  payload: ICreateApplication,
+  tenantId: string,
+  payload: { listingId: string; type: "room" | "property" },
 ) => {
-  const { listingId } = payload;
+  const { listingId, type } = payload;
 
-  const isListingExists = await prisma.listing.findUnique({
-    where: { id: listingId },
-    include: {
-      room: true,
-    },
-  });
-  if (!isListingExists) {
-    throw new Error("Listing does not exist");
-  }
+  let roomId: string | null = null;
+  let propertyId: string | null = null;
 
-  if (!isListingExists.isPublished) {
-    throw new Error("This listing is not available");
-  }
-
-  if (isListingExists.room.status !== RoomStatus.AVAILABLE) {
-    throw new Error("This room is not available for booking");
+  if (type === "room") {
+    const room = await prisma.room.findUnique({ where: { id: listingId } });
+    if (!room) throw new Error("Room does not exist");
+    if (room.status !== RoomStatus.AVAILABLE)
+      throw new Error("This room is not available");
+    roomId = room.id;
+    propertyId = room.propertyId;
+  } else {
+    const property = await prisma.property.findUnique({
+      where: { id: listingId },
+    });
+    if (!property) throw new Error("Property does not exist");
+    propertyId = property.id;
   }
 
   const isApplicationExists = await prisma.application.findFirst({
-    where: { tenantId, roomId: isListingExists.roomId },
-    include: {
-      room: true,
+    where: {
+      tenantId,
+      ...(roomId ? { roomId } : { propertyId }),
     },
   });
-
-  if (isApplicationExists) {
-    throw new Error("You have already applied for this room");
-  }
+  if (isApplicationExists)
+    throw new Error("You have already applied for this listing");
 
   const result = await prisma.application.create({
     data: {
       tenantId,
-      roomId: isListingExists.roomId,
+      roomId,
+      propertyId,
     },
-    include: {
-      room: true,
-    },
+    include: { room: true, property: true },
   });
 
   return result;

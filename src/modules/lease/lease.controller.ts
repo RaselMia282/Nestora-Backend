@@ -115,6 +115,21 @@ const signLease = catchAsync(
   },
 );
 
+
+const getMyLease = catchAsync(async(req:Request,res:Response,next:NextFunction)=>{
+      
+  const tenantId = req.user.id;
+
+  const result = await leaseService.getMyLeaseIntoDB(tenantId);
+
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "My lease retrieved successfully",
+    data: result,
+  });
+})
+
 export const leaseController = {
   createLease,
   getAllLease,
@@ -122,4 +137,5 @@ export const leaseController = {
   updateLease,
   terminateLease,
   signLease,
+  getMyLease,
 };

@@ -97,6 +97,10 @@ const getAllRoomIntoDB = async (query: any) => {
     orderBy: {
       baseRent: sortOrder,
     },
+    include: {
+      images: true,
+      property:true,
+    },
   });
   return {
     meta: {

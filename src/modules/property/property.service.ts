@@ -14,7 +14,8 @@ const createPropertyIntoDb = async (
   payload: ICreateProperty,
   ownerId: string,
 ) => {
-  const { categoryId, title, description, address, city } = payload;
+  const { categoryId, title, description, address, city, latitude, longitude } =
+    payload;
 
   const result = await prisma.property.create({
     data: {
@@ -24,6 +25,8 @@ const createPropertyIntoDb = async (
       description,
       address,
       city,
+      latitude,
+      longitude,
     },
     include: {
       category: true,
@@ -38,6 +41,7 @@ const getAllPropertiesIntoDb = async (payload: IGetAllPropertiesQuery) => {
     limit = 10,
     search,
     categoryId,
+    category,
     city,
     sort = "latest",
   } = payload;
@@ -70,6 +74,9 @@ const getAllPropertiesIntoDb = async (payload: IGetAllPropertiesQuery) => {
   if (categoryId) {
     where.categoryId = categoryId;
   }
+  if (category) {
+    where.category = { slug: category };
+  }
 
   // city filter
   if (city) {
@@ -90,6 +97,7 @@ const getAllPropertiesIntoDb = async (payload: IGetAllPropertiesQuery) => {
 
     include: {
       category: true,
+      rooms: true,
     },
   });
 
@@ -115,6 +123,11 @@ const getSinglePropertyIntoDb = async (id: string) => {
     where: { id },
     include: {
       category: true,
+      rooms: {
+        include: {
+          images: true,
+        },
+      },
     },
   });
   if (!result) {

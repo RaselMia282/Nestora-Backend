@@ -12,7 +12,7 @@ const imageBasePath = path.join(
   "property-images",
 );
 
-const ownerId = "d3c6c458-67bf-4b9a-b447-3a7a3fae5e76";
+const ownerId = "62297cb5-e4da-494b-a63e-58291bec5832";
 
 const categoryIds = {
   apartment: "0ad8218e-5afa-4593-8734-434138853274",

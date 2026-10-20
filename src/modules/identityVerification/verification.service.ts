@@ -33,9 +33,9 @@ const verifyIdentityIntoDB = async (
     throw new Error("User is suspended");
   }
 
-  if (user.identityVerification?.status === VerificationStatus.PENDING) {
-    throw new Error("Your verification request is already pending approval");
-  }
+  // if (user.identityVerification?.status === VerificationStatus.PENDING) {
+  //   throw new Error("Your verification request is already pending approval");
+  // }
 
   const isExistsNid = await prisma.identityVerification.findUnique({
     where: { nidNumber: payload.nidNumber },

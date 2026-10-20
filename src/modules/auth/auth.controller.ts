@@ -1,12 +1,21 @@
 import { NextFunction, Request, Response } from "express";
 
-
-
 import httpStatus from "http-status";
 import { catchAsync } from "../../utilis/catchAsync";
-import { forgotPasswordSchema, googleLoginSchema, loginUserSchema, registerUserSchema, resetPasswordSchema } from "./auth.validation";
+import {
+  forgotPasswordSchema,
+  googleLoginSchema,
+  loginUserSchema,
+  registerUserSchema,
+  resetPasswordSchema,
+} from "./auth.validation";
 import { authService } from "./auth.service";
 import { sendResponse } from "../../utilis/sendResponse";
+import {
+  ACCESS_COOKIE_MAX_AGE,
+  cookieOptions,
+  REFRESH_COOKIE_MAX_AGE,
+} from "../../utilis/cookie";
 
 const registerUser = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -26,28 +35,57 @@ const registerUser = catchAsync(
   },
 );
 
+const logoutUser = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const cookieOptions = {
+      httpOnly: true,
+      secure: false,
+      sameSite: "lax" as const,
+    };
+
+    res.clearCookie("accessToken", cookieOptions);
+    res.clearCookie("refreshToken", cookieOptions);
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "User logout successful",
+      data: null,
+    });
+  },
+);
+
 const loginUser = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const payload = loginUserSchema.safeParse(req.body);
     if (!payload.success) {
       throw new Error(payload.error.message);
     }
-    const { accessToken, refreshToken } = await authService.loginUserIntoDB(
-      payload.data,
-    );
+    const { accessToken, refreshToken, user } =
+      await authService.loginUserIntoDB(payload.data);
+
+    // res.cookie("accessToken", accessToken, {
+    //   httpOnly: true,
+    //   secure: false,
+    //   sameSite: "lax",
+    //   maxAge: 1000 * 60 * 60 * 24,
+    // });
 
     res.cookie("accessToken", accessToken, {
-      httpOnly: true,
-      secure: false,
-      sameSite: "lax",
-      maxAge: 1000 * 60 * 60 * 24,
+      ...cookieOptions,
+      maxAge: ACCESS_COOKIE_MAX_AGE,
     });
 
+    // res.cookie("refreshToken", refreshToken, {
+    //   httpOnly: true,
+    //   secure: false,
+    //   sameSite: "lax",
+    //   maxAge: 1000 * 60 * 60 * 24 * 30,
+    // });
+
     res.cookie("refreshToken", refreshToken, {
-      httpOnly: true,
-      secure: false,
-      sameSite: "lax",
-      maxAge: 1000 * 60 * 60 * 24 * 30,
+      ...cookieOptions,
+      maxAge: REFRESH_COOKIE_MAX_AGE,
     });
 
     sendResponse(res, {
@@ -55,8 +93,7 @@ const loginUser = catchAsync(
       statusCode: httpStatus.OK,
       message: "User login successful",
       data: {
-        accessToken,
-        refreshToken,
+        user,
       },
     });
   },
@@ -160,6 +197,7 @@ const resetPassword = catchAsync(
 export const authController = {
   registerUser,
   loginUser,
+  logoutUser,
   getMyProfile,
   googleLogin,
   updateProfileImg,

@@ -28,6 +28,9 @@ const getAllPropertyCategoryIntoDB = async () => {
     orderBy: {
       createdAt: "desc",
     },
+    include:{
+      properties:true,
+    }
   });
 
   return result;
@@ -36,6 +39,9 @@ const getAllPropertyCategoryIntoDB = async () => {
 const getPropertyCategoryByIdIntoDB = async (id: string) => {
   const result = await prisma.propertyCategory.findUnique({
     where: { id },
+    include:{
+      properties:true,
+    }
   });
   if (!result) {
     throw new Error("Property category not found");

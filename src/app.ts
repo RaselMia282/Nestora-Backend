@@ -5,7 +5,7 @@ import express, {
 } from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import config from "./config/index.js";
+
 import { authRouter } from "./modules/auth/auth.routes.js";
 
 import { propertyRoutes } from "./modules/property/property.router.js";
@@ -36,7 +36,6 @@ app.use(
     credentials: true,
   }),
 );
-
 
 app.use(express.json());
 app.use(cookieParser());

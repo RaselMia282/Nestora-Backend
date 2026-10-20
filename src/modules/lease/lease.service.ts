@@ -1,4 +1,4 @@
-import { ApplicationStatus } from "../../generated/prisma/enums";
+import { ApplicationStatus, LeaseStatus } from "../../generated/prisma/enums";
 import { prisma } from "../../lib/prisma";
 import { ICreateLease, IUpdateLease } from "./lease.interface";
 
@@ -208,6 +208,34 @@ const signLeaseIntoDB = async (tenantId, leaseId) => {
   });
 };
 
+const getMyLeaseIntoDB = async (tenantId: string) => {
+  const lease = await prisma.lease.findFirst({
+    where: {
+      status: LeaseStatus.ACTIVE,
+      application: {
+        tenantId,
+      },
+    },
+    include: {
+      application: {
+        include: {
+          room: {
+            include: {
+              property: true,
+            },
+          },
+        },
+      },
+    },
+  });
+
+  if (!lease) {
+    throw new Error("No active lease found");
+  }
+
+  return lease;
+};
+
 export const leaseService = {
   createLeaseIntoDB,
   getAllLeaseIntoDB,
@@ -215,4 +243,5 @@ export const leaseService = {
   updateLeaseIntoDB,
   terminateLeaseIntoDB,
   signLeaseIntoDB,
+  getMyLeaseIntoDB,
 };

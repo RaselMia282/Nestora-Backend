@@ -1,10 +1,16 @@
 // import { TokenPayload } from "google-auth-library";
-import ejs from "ejs"
+import ejs from "ejs";
 
 // import { prismaVersion } from "../generated/prisma/internal/prismaNamespace";
-import crypto from "crypto"
+import crypto from "crypto";
 import bcrypt from "bcryptjs";
-import { IForgotPassword, IGoogleLogin, Ilogin, IRegisterUser, IResetPassword } from "./auth.interface";
+import {
+  IForgotPassword,
+  IGoogleLogin,
+  Ilogin,
+  IRegisterUser,
+  IResetPassword,
+} from "./auth.interface";
 import { prisma } from "../../lib/prisma";
 import config from "../../config";
 import { jwtUtilis } from "../../utilis/jwt";
@@ -16,7 +22,6 @@ import { redisClient } from "../../lib/redis";
 import path from "path";
 import { transporter } from "../../lib/nodemailer";
 import { TokenPayload } from "google-auth-library";
-
 
 const registerUserIntoDb = async (payload: IRegisterUser) => {
   const { email, password, role, firstName, lastName, phone, gender } = payload;
@@ -80,7 +85,7 @@ const loginUserIntoDB = async (payload: Ilogin) => {
   const isPasswordMatched = await bcrypt.compare(password, user.password);
 
   if (!isPasswordMatched) {
-    throw new Error("incorrect password");
+    throw new Error("Invalid email or password");
   }
 
   // jwt create
@@ -107,6 +112,11 @@ const loginUserIntoDB = async (payload: Ilogin) => {
   return {
     accessToken,
     refreshToken,
+    user: {
+      id: user.id,
+      email: user.email,
+      role: user.role,
+    },
   };
 };
 
@@ -260,7 +270,7 @@ const forgotPasswordIntoDB = async (payload: IForgotPassword) => {
   await redisClient.set(key, otp, {
     expiration: {
       type: "EX",
-      value: expirationMinutes*60,
+      value: expirationMinutes * 60,
     },
   });
 

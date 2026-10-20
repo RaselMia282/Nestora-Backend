@@ -1,3 +1,5 @@
+import Stripe from "stripe";
+import config from "../../config";
 import { PaymentMethod, PaymentStatus } from "../../generated/prisma/enums";
 import { prisma } from "../../lib/prisma";
 import { stripe } from "../../lib/stripe";
@@ -95,6 +97,113 @@ const createPaymentsIntoDB = async (
   };
 };
 
+// const handleWebhookIntoDB = async (payload: Buffer, signature: string) => {
+//   const endpointSecret = config.stripe_webhook_secret;
+//   const event = stripe.webhooks.constructEvent(
+//     payload,
+//     signature,
+//     endpointSecret as string,
+//   );
+
+//   switch (event.type) {
+//     case "checkout.session.completed": {
+//       const session = event.data.object as Stripe.Checkout.Session;
+//       const leaseId = session.metadata?.leaseId;
+
+//       if (leaseId) {
+//         await prisma.payment.update({
+//           where: {
+//             leaseId,
+//           },
+//           data: {
+//             status: PaymentStatus.COMPLETED,
+//             transactionId: session.payment_intent as string,
+
+//             paymentData: {
+//               checkUrl: session.url,
+//               sessionId: session.id,
+//               currency: session.currency || "usd",
+//               paymentStatus: session.payment_status,
+//             } as any,
+//           },
+//         });
+//       }
+//       break;
+//     }
+//   }
+// };
+
+const handleWebhookIntoDB = async (payload: Buffer, signature: string) => {
+  try {
+    console.log("🔥 WEBHOOK START");
+
+    const endpointSecret = config.stripe_webhook_secret;
+
+    const event = stripe.webhooks.constructEvent(
+      payload,
+      signature,
+      endpointSecret as string,
+    );
+
+    console.log("🔥 EVENT TYPE:", event.type);
+
+    switch (event.type) {
+      case "checkout.session.completed": {
+        const session = event.data.object as Stripe.Checkout.Session;
+
+        console.log("🔥 SESSION ID:", session.id);
+        console.log("🔥 METADATA:", session.metadata);
+
+        const leaseId = session.metadata?.leaseId;
+
+        console.log("🔥 LEASE ID:", leaseId);
+
+        if (leaseId) {
+          await prisma.payment.update({
+            where: {
+              leaseId,
+            },
+            data: {
+              status: PaymentStatus.COMPLETED,
+              transactionId: session.payment_intent as string,
+              paymentData: {
+                checkUrl: session.url,
+                sessionId: session.id,
+                currency: session.currency || "usd",
+                paymentStatus: session.payment_status,
+              } as any,
+            },
+          });
+
+          console.log("🔥 PAYMENT UPDATED");
+        }
+
+        break;
+      }
+    }
+
+    console.log("🔥 WEBHOOK SUCCESS");
+  } catch (error) {
+    console.error("🔥🔥 WEBHOOK ERROR:", error);
+    throw error;
+  }
+};
+
+const getMyPaymentIntoDB = async (tenantId: string) => {
+  const payments = await prisma.payment.findMany({
+    where: {
+      tenantId,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+
+  return payments;
+};
+
 export const paymentService = {
   createPaymentsIntoDB,
+  handleWebhookIntoDB,
+  getMyPaymentIntoDB,
 };

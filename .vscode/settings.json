@@ -3,6 +3,7 @@
     "prisma-smart-formatter.typescriptreact.defaultFormatter": "esbenp.prettier-vscode",
     "prisma-smart-formatter.prisma.defaultFormatter": "Prisma.prisma",
     "workbench.colorCustomizations": {
+        "editor.colorDecorators": false,
         "statusBar.noFolderBackground": "#15158E",
         "statusBar.noFolderForeground": "#FCFCFF",
         "activityBar.background": "#15158E",
