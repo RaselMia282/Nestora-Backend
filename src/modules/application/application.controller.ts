@@ -34,23 +34,46 @@ const createApplication = catchAsync(
   },
 );
 
+// const getApplication = catchAsync(
+//   async (req: Request, res: Response, next: NextFunction) => {
+//     const tenantId = req.user?.id;
+
+//     if (!tenantId) {
+//       throw new Error("Tenant is not authenticated");
+//     }
+
+//     const result = await applicationService.getApplicationIntoDB(tenantId);
+//     sendResponse(res, {
+//       success: true,
+//       statusCode: httpStatus.OK,
+//       message: "Application retrieved  successfully",
+//       data: result,
+//     });
+//   },
+// );
+
+
+
 const getApplication = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const tenantId = req.user?.id;
-    if (!tenantId) {
-      throw new Error("Tenant is not authenticated");
+    const userId = req.user?.id;
+    const role = req.user?.role; 
+    
+    if (!userId) {
+      throw new Error("User is not authenticated");
     }
 
-    const result = await applicationService.getApplicationIntoDB(tenantId);
+    
+    const result = await applicationService.getApplicationIntoDB(userId, role);
+    
     sendResponse(res, {
       success: true,
       statusCode: httpStatus.OK,
-      message: "Application retrieved  successfully",
+      message: "Application retrieved successfully",
       data: result,
     });
   },
 );
-
 const getSingleApplication = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const tenantId = req.user?.id;
@@ -118,6 +141,7 @@ const deleteApplication = catchAsync(
 const updateApplicationStatusByOwner = catchAsync(
   async (req: Request, res: Response) => {
     const ownerId = req.user?.id;
+    const role = req.user?.role;
 
     const applicationId = req.params.id as string;
 
@@ -130,6 +154,7 @@ const updateApplicationStatusByOwner = catchAsync(
     const result =
       await applicationService.updateApplicationStatusByOwnerIntoDB(
         ownerId,
+        role,
         applicationId,
         payload.data,
       );

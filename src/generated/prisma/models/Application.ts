@@ -161,7 +161,7 @@ export type ApplicationGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inte
 
 export type ApplicationGroupByOutputType = {
   id: string
-  roomId: string
+  roomId: string | null
   tenantId: string
   status: $Enums.ApplicationStatus
   createdAt: Date
@@ -192,13 +192,13 @@ export type ApplicationWhereInput = {
   OR?: Prisma.ApplicationWhereInput[]
   NOT?: Prisma.ApplicationWhereInput | Prisma.ApplicationWhereInput[]
   id?: Prisma.StringFilter<"Application"> | string
-  roomId?: Prisma.StringFilter<"Application"> | string
+  roomId?: Prisma.StringNullableFilter<"Application"> | string | null
   tenantId?: Prisma.StringFilter<"Application"> | string
   status?: Prisma.EnumApplicationStatusFilter<"Application"> | $Enums.ApplicationStatus
   createdAt?: Prisma.DateTimeFilter<"Application"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Application"> | Date | string
   propertyId?: Prisma.StringNullableFilter<"Application"> | string | null
-  room?: Prisma.XOR<Prisma.RoomScalarRelationFilter, Prisma.RoomWhereInput>
+  room?: Prisma.XOR<Prisma.RoomNullableScalarRelationFilter, Prisma.RoomWhereInput> | null
   tenant?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   lease?: Prisma.XOR<Prisma.LeaseNullableScalarRelationFilter, Prisma.LeaseWhereInput> | null
   property?: Prisma.XOR<Prisma.PropertyNullableScalarRelationFilter, Prisma.PropertyWhereInput> | null
@@ -206,7 +206,7 @@ export type ApplicationWhereInput = {
 
 export type ApplicationOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  roomId?: Prisma.SortOrder
+  roomId?: Prisma.SortOrderInput | Prisma.SortOrder
   tenantId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -223,13 +223,13 @@ export type ApplicationWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.ApplicationWhereInput | Prisma.ApplicationWhereInput[]
   OR?: Prisma.ApplicationWhereInput[]
   NOT?: Prisma.ApplicationWhereInput | Prisma.ApplicationWhereInput[]
-  roomId?: Prisma.StringFilter<"Application"> | string
+  roomId?: Prisma.StringNullableFilter<"Application"> | string | null
   tenantId?: Prisma.StringFilter<"Application"> | string
   status?: Prisma.EnumApplicationStatusFilter<"Application"> | $Enums.ApplicationStatus
   createdAt?: Prisma.DateTimeFilter<"Application"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Application"> | Date | string
   propertyId?: Prisma.StringNullableFilter<"Application"> | string | null
-  room?: Prisma.XOR<Prisma.RoomScalarRelationFilter, Prisma.RoomWhereInput>
+  room?: Prisma.XOR<Prisma.RoomNullableScalarRelationFilter, Prisma.RoomWhereInput> | null
   tenant?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   lease?: Prisma.XOR<Prisma.LeaseNullableScalarRelationFilter, Prisma.LeaseWhereInput> | null
   property?: Prisma.XOR<Prisma.PropertyNullableScalarRelationFilter, Prisma.PropertyWhereInput> | null
@@ -237,7 +237,7 @@ export type ApplicationWhereUniqueInput = Prisma.AtLeast<{
 
 export type ApplicationOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  roomId?: Prisma.SortOrder
+  roomId?: Prisma.SortOrderInput | Prisma.SortOrder
   tenantId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -253,7 +253,7 @@ export type ApplicationScalarWhereWithAggregatesInput = {
   OR?: Prisma.ApplicationScalarWhereWithAggregatesInput[]
   NOT?: Prisma.ApplicationScalarWhereWithAggregatesInput | Prisma.ApplicationScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Application"> | string
-  roomId?: Prisma.StringWithAggregatesFilter<"Application"> | string
+  roomId?: Prisma.StringNullableWithAggregatesFilter<"Application"> | string | null
   tenantId?: Prisma.StringWithAggregatesFilter<"Application"> | string
   status?: Prisma.EnumApplicationStatusWithAggregatesFilter<"Application"> | $Enums.ApplicationStatus
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Application"> | Date | string
@@ -266,7 +266,7 @@ export type ApplicationCreateInput = {
   status?: $Enums.ApplicationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  room: Prisma.RoomCreateNestedOneWithoutApplicationsInput
+  room?: Prisma.RoomCreateNestedOneWithoutApplicationsInput
   tenant: Prisma.UserCreateNestedOneWithoutApplicationsInput
   lease?: Prisma.LeaseCreateNestedOneWithoutApplicationInput
   property?: Prisma.PropertyCreateNestedOneWithoutApplicationsInput
@@ -274,7 +274,7 @@ export type ApplicationCreateInput = {
 
 export type ApplicationUncheckedCreateInput = {
   id?: string
-  roomId: string
+  roomId?: string | null
   tenantId: string
   status?: $Enums.ApplicationStatus
   createdAt?: Date | string
@@ -288,7 +288,7 @@ export type ApplicationUpdateInput = {
   status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  room?: Prisma.RoomUpdateOneRequiredWithoutApplicationsNestedInput
+  room?: Prisma.RoomUpdateOneWithoutApplicationsNestedInput
   tenant?: Prisma.UserUpdateOneRequiredWithoutApplicationsNestedInput
   lease?: Prisma.LeaseUpdateOneWithoutApplicationNestedInput
   property?: Prisma.PropertyUpdateOneWithoutApplicationsNestedInput
@@ -296,7 +296,7 @@ export type ApplicationUpdateInput = {
 
 export type ApplicationUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  roomId?: Prisma.StringFieldUpdateOperationsInput | string
+  roomId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -307,7 +307,7 @@ export type ApplicationUncheckedUpdateInput = {
 
 export type ApplicationCreateManyInput = {
   id?: string
-  roomId: string
+  roomId?: string | null
   tenantId: string
   status?: $Enums.ApplicationStatus
   createdAt?: Date | string
@@ -324,7 +324,7 @@ export type ApplicationUpdateManyMutationInput = {
 
 export type ApplicationUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  roomId?: Prisma.StringFieldUpdateOperationsInput | string
+  roomId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -526,14 +526,14 @@ export type ApplicationCreateWithoutLeaseInput = {
   status?: $Enums.ApplicationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  room: Prisma.RoomCreateNestedOneWithoutApplicationsInput
+  room?: Prisma.RoomCreateNestedOneWithoutApplicationsInput
   tenant: Prisma.UserCreateNestedOneWithoutApplicationsInput
   property?: Prisma.PropertyCreateNestedOneWithoutApplicationsInput
 }
 
 export type ApplicationUncheckedCreateWithoutLeaseInput = {
   id?: string
-  roomId: string
+  roomId?: string | null
   tenantId: string
   status?: $Enums.ApplicationStatus
   createdAt?: Date | string
@@ -562,14 +562,14 @@ export type ApplicationUpdateWithoutLeaseInput = {
   status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  room?: Prisma.RoomUpdateOneRequiredWithoutApplicationsNestedInput
+  room?: Prisma.RoomUpdateOneWithoutApplicationsNestedInput
   tenant?: Prisma.UserUpdateOneRequiredWithoutApplicationsNestedInput
   property?: Prisma.PropertyUpdateOneWithoutApplicationsNestedInput
 }
 
 export type ApplicationUncheckedUpdateWithoutLeaseInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  roomId?: Prisma.StringFieldUpdateOperationsInput | string
+  roomId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -582,14 +582,14 @@ export type ApplicationCreateWithoutPropertyInput = {
   status?: $Enums.ApplicationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  room: Prisma.RoomCreateNestedOneWithoutApplicationsInput
+  room?: Prisma.RoomCreateNestedOneWithoutApplicationsInput
   tenant: Prisma.UserCreateNestedOneWithoutApplicationsInput
   lease?: Prisma.LeaseCreateNestedOneWithoutApplicationInput
 }
 
 export type ApplicationUncheckedCreateWithoutPropertyInput = {
   id?: string
-  roomId: string
+  roomId?: string | null
   tenantId: string
   status?: $Enums.ApplicationStatus
   createdAt?: Date | string
@@ -628,7 +628,7 @@ export type ApplicationScalarWhereInput = {
   OR?: Prisma.ApplicationScalarWhereInput[]
   NOT?: Prisma.ApplicationScalarWhereInput | Prisma.ApplicationScalarWhereInput[]
   id?: Prisma.StringFilter<"Application"> | string
-  roomId?: Prisma.StringFilter<"Application"> | string
+  roomId?: Prisma.StringNullableFilter<"Application"> | string | null
   tenantId?: Prisma.StringFilter<"Application"> | string
   status?: Prisma.EnumApplicationStatusFilter<"Application"> | $Enums.ApplicationStatus
   createdAt?: Prisma.DateTimeFilter<"Application"> | Date | string
@@ -687,14 +687,14 @@ export type ApplicationCreateWithoutTenantInput = {
   status?: $Enums.ApplicationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  room: Prisma.RoomCreateNestedOneWithoutApplicationsInput
+  room?: Prisma.RoomCreateNestedOneWithoutApplicationsInput
   lease?: Prisma.LeaseCreateNestedOneWithoutApplicationInput
   property?: Prisma.PropertyCreateNestedOneWithoutApplicationsInput
 }
 
 export type ApplicationUncheckedCreateWithoutTenantInput = {
   id?: string
-  roomId: string
+  roomId?: string | null
   status?: $Enums.ApplicationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -730,7 +730,7 @@ export type ApplicationUpdateManyWithWhereWithoutTenantInput = {
 
 export type ApplicationCreateManyPropertyInput = {
   id?: string
-  roomId: string
+  roomId?: string | null
   tenantId: string
   status?: $Enums.ApplicationStatus
   createdAt?: Date | string
@@ -742,14 +742,14 @@ export type ApplicationUpdateWithoutPropertyInput = {
   status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  room?: Prisma.RoomUpdateOneRequiredWithoutApplicationsNestedInput
+  room?: Prisma.RoomUpdateOneWithoutApplicationsNestedInput
   tenant?: Prisma.UserUpdateOneRequiredWithoutApplicationsNestedInput
   lease?: Prisma.LeaseUpdateOneWithoutApplicationNestedInput
 }
 
 export type ApplicationUncheckedUpdateWithoutPropertyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  roomId?: Prisma.StringFieldUpdateOperationsInput | string
+  roomId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -759,7 +759,7 @@ export type ApplicationUncheckedUpdateWithoutPropertyInput = {
 
 export type ApplicationUncheckedUpdateManyWithoutPropertyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  roomId?: Prisma.StringFieldUpdateOperationsInput | string
+  roomId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -806,7 +806,7 @@ export type ApplicationUncheckedUpdateManyWithoutRoomInput = {
 
 export type ApplicationCreateManyTenantInput = {
   id?: string
-  roomId: string
+  roomId?: string | null
   status?: $Enums.ApplicationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -818,14 +818,14 @@ export type ApplicationUpdateWithoutTenantInput = {
   status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  room?: Prisma.RoomUpdateOneRequiredWithoutApplicationsNestedInput
+  room?: Prisma.RoomUpdateOneWithoutApplicationsNestedInput
   lease?: Prisma.LeaseUpdateOneWithoutApplicationNestedInput
   property?: Prisma.PropertyUpdateOneWithoutApplicationsNestedInput
 }
 
 export type ApplicationUncheckedUpdateWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  roomId?: Prisma.StringFieldUpdateOperationsInput | string
+  roomId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -835,7 +835,7 @@ export type ApplicationUncheckedUpdateWithoutTenantInput = {
 
 export type ApplicationUncheckedUpdateManyWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  roomId?: Prisma.StringFieldUpdateOperationsInput | string
+  roomId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -852,7 +852,7 @@ export type ApplicationSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   createdAt?: boolean
   updatedAt?: boolean
   propertyId?: boolean
-  room?: boolean | Prisma.RoomDefaultArgs<ExtArgs>
+  room?: boolean | Prisma.Application$roomArgs<ExtArgs>
   tenant?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   lease?: boolean | Prisma.Application$leaseArgs<ExtArgs>
   property?: boolean | Prisma.Application$propertyArgs<ExtArgs>
@@ -866,7 +866,7 @@ export type ApplicationSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   createdAt?: boolean
   updatedAt?: boolean
   propertyId?: boolean
-  room?: boolean | Prisma.RoomDefaultArgs<ExtArgs>
+  room?: boolean | Prisma.Application$roomArgs<ExtArgs>
   tenant?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   property?: boolean | Prisma.Application$propertyArgs<ExtArgs>
 }, ExtArgs["result"]["application"]>
@@ -879,7 +879,7 @@ export type ApplicationSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   createdAt?: boolean
   updatedAt?: boolean
   propertyId?: boolean
-  room?: boolean | Prisma.RoomDefaultArgs<ExtArgs>
+  room?: boolean | Prisma.Application$roomArgs<ExtArgs>
   tenant?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   property?: boolean | Prisma.Application$propertyArgs<ExtArgs>
 }, ExtArgs["result"]["application"]>
@@ -896,18 +896,18 @@ export type ApplicationSelectScalar = {
 
 export type ApplicationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "roomId" | "tenantId" | "status" | "createdAt" | "updatedAt" | "propertyId", ExtArgs["result"]["application"]>
 export type ApplicationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  room?: boolean | Prisma.RoomDefaultArgs<ExtArgs>
+  room?: boolean | Prisma.Application$roomArgs<ExtArgs>
   tenant?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   lease?: boolean | Prisma.Application$leaseArgs<ExtArgs>
   property?: boolean | Prisma.Application$propertyArgs<ExtArgs>
 }
 export type ApplicationIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  room?: boolean | Prisma.RoomDefaultArgs<ExtArgs>
+  room?: boolean | Prisma.Application$roomArgs<ExtArgs>
   tenant?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   property?: boolean | Prisma.Application$propertyArgs<ExtArgs>
 }
 export type ApplicationIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  room?: boolean | Prisma.RoomDefaultArgs<ExtArgs>
+  room?: boolean | Prisma.Application$roomArgs<ExtArgs>
   tenant?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   property?: boolean | Prisma.Application$propertyArgs<ExtArgs>
 }
@@ -915,14 +915,14 @@ export type ApplicationIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.
 export type $ApplicationPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Application"
   objects: {
-    room: Prisma.$RoomPayload<ExtArgs>
+    room: Prisma.$RoomPayload<ExtArgs> | null
     tenant: Prisma.$UserPayload<ExtArgs>
     lease: Prisma.$LeasePayload<ExtArgs> | null
     property: Prisma.$PropertyPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    roomId: string
+    roomId: string | null
     tenantId: string
     status: $Enums.ApplicationStatus
     createdAt: Date
@@ -1322,7 +1322,7 @@ readonly fields: ApplicationFieldRefs;
  */
 export interface Prisma__ApplicationClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  room<T extends Prisma.RoomDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.RoomDefaultArgs<ExtArgs>>): Prisma.Prisma__RoomClient<runtime.Types.Result.GetResult<Prisma.$RoomPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  room<T extends Prisma.Application$roomArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Application$roomArgs<ExtArgs>>): Prisma.Prisma__RoomClient<runtime.Types.Result.GetResult<Prisma.$RoomPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   tenant<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   lease<T extends Prisma.Application$leaseArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Application$leaseArgs<ExtArgs>>): Prisma.Prisma__LeaseClient<runtime.Types.Result.GetResult<Prisma.$LeasePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   property<T extends Prisma.Application$propertyArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Application$propertyArgs<ExtArgs>>): Prisma.Prisma__PropertyClient<runtime.Types.Result.GetResult<Prisma.$PropertyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
@@ -1760,6 +1760,25 @@ export type ApplicationDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.I
    * Limit how many Applications to delete.
    */
   limit?: number
+}
+
+/**
+ * Application.room
+ */
+export type Application$roomArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Room
+   */
+  select?: Prisma.RoomSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Room
+   */
+  omit?: Prisma.RoomOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RoomInclude<ExtArgs> | null
+  where?: Prisma.RoomWhereInput
 }
 
 /**

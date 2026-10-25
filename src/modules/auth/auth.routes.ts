@@ -16,6 +16,8 @@ router.get(
   authController.getMyProfile,
 );
 router.post("/google-login", authController.googleLogin);
+
+
 router.patch(
   "/profile-img",
   upload.single("profileImg"),

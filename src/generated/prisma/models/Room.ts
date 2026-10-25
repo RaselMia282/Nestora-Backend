@@ -398,6 +398,11 @@ export type RoomUncheckedUpdateManyInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
+export type RoomNullableScalarRelationFilter = {
+  is?: Prisma.RoomWhereInput | null
+  isNot?: Prisma.RoomWhereInput | null
+}
+
 export type RoomScalarRelationFilter = {
   is?: Prisma.RoomWhereInput
   isNot?: Prisma.RoomWhereInput
@@ -465,10 +470,12 @@ export type RoomCreateNestedOneWithoutApplicationsInput = {
   connect?: Prisma.RoomWhereUniqueInput
 }
 
-export type RoomUpdateOneRequiredWithoutApplicationsNestedInput = {
+export type RoomUpdateOneWithoutApplicationsNestedInput = {
   create?: Prisma.XOR<Prisma.RoomCreateWithoutApplicationsInput, Prisma.RoomUncheckedCreateWithoutApplicationsInput>
   connectOrCreate?: Prisma.RoomCreateOrConnectWithoutApplicationsInput
   upsert?: Prisma.RoomUpsertWithoutApplicationsInput
+  disconnect?: Prisma.RoomWhereInput | boolean
+  delete?: Prisma.RoomWhereInput | boolean
   connect?: Prisma.RoomWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.RoomUpdateToOneWithWhereWithoutApplicationsInput, Prisma.RoomUpdateWithoutApplicationsInput>, Prisma.RoomUncheckedUpdateWithoutApplicationsInput>
 }

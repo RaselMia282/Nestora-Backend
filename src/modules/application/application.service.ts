@@ -103,15 +103,48 @@ const createApplicationIntoDB = async (
   return result;
 };
 
-const getApplicationIntoDB = async (tenantId: string) => {
+// const getApplicationIntoDB = async (tenantId: string,role:string) => {
+//   const result = await prisma.application.findMany({
+//     where: { tenantId: tenantId },
+//     include: {
+//       room: {
+//         include: {
+//           property: true,
+//         },
+//       },
+//       property: true,
+//     },
+//     orderBy: {
+//       createdAt: "desc",
+//     },
+//   });
+
+//   return result;
+// };
+
+const getApplicationIntoDB = async (userId: string, role: string) => {
+  let whereClause: any = {};
+
+  if (role === "TENANT") {
+    whereClause = { tenantId: userId };
+  } else if (role === "OWNER") {
+    whereClause = { room: { property: { ownerId: userId } } };
+  }
+
   const result = await prisma.application.findMany({
-    where: { id: tenantId },
+    where: whereClause,
     include: {
+      tenant: {
+        include: {
+          profile: true,
+        },
+      },
       room: {
         include: {
           property: true,
         },
       },
+      property: true,
     },
     orderBy: {
       createdAt: "desc",
@@ -199,45 +232,72 @@ const deleteApplicationIntoDB = async (tenantId, applicationId) => {
 };
 
 const updateApplicationStatusByOwnerIntoDB = async (
-  ownerId: string,
+  userId: string,
+  role: string,
   applicationId: string,
   payload: IUpdateApplicationByOwner,
 ) => {
   const application = await prisma.application.findUnique({
-    where: {
-      id: applicationId,
-    },
+    where: { id: applicationId },
     include: {
-      room: {
-        include: {
-          property: true,
-        },
-      },
+      room: { include: { property: true } },
+      property: true,
     },
   });
 
-  if (!application) {
-    throw new Error("Application not found");
+  if (!application) throw new Error("Application not found");
+
+  if (role !== "ADMIN") {
+    const ownerId =
+      application.room?.property?.ownerId || application.property?.ownerId;
+    if (ownerId !== userId) throw new Error("You are not authorized");
   }
 
-  // Check property ownership
-  if (application.room.property.ownerId !== ownerId) {
-    throw new Error("You are not authorized to update this application");
-  }
-
-  // Only pending application can be processed
   if (application.status !== "PENDING") {
-    throw new Error("Only pending applications can be approved or rejected");
+    throw new Error("Only pending applications can be processed");
   }
 
+  
   const result = await prisma.application.update({
-    where: {
-      id: applicationId,
-    },
-    data: {
-      status: payload.status,
-    },
+    where: { id: applicationId },
+    data: { status: payload.status },
   });
+
+  
+  if (payload.status === "APPROVED") {
+    
+    const rentAmount = application.room
+      ? Number(application.room.baseRent)
+      : Number(application.property?.fullRent || 0);
+
+    
+    const securityDeposit = rentAmount * 2;
+
+    
+    const lease = await prisma.lease.create({
+      data: {
+        applicationId: application.id,
+        monthlyRent: rentAmount,
+        securityDeposit: securityDeposit,
+        startDate: new Date(),
+        endDate: new Date(new Date().setFullYear(new Date().getFullYear() + 1)),
+        status: "ACTIVE",
+        isSigned: true, 
+      },
+    });
+
+    
+    await prisma.payment.create({
+      data: {
+        leaseId: lease.id,
+        tenantId: application.tenantId,
+        amount: rentAmount, 
+        transactionId: `txn_${Date.now()}`, 
+        status: "PENDING",
+        paymentMethod: "CREDIT_CARD",
+      },
+    });
+  }
 
   return result;
 };

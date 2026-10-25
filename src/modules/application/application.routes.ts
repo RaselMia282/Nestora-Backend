@@ -5,22 +5,32 @@ import { Role } from "../../generated/prisma/enums";
 
 const router = Router();
 
+router.post("/", auth(), applicationController.createApplication);
 
-router.post("/",auth(), applicationController.createApplication);
-
-
-router.get("/",auth(Role.OWNER,Role.TENANT), applicationController.getApplication);
-
+router.get(
+  "/",
+  auth(Role.OWNER, Role.TENANT, Role.ADMIN),
+  applicationController.getApplication,
+);
 
 router.get("/:id", applicationController.getSingleApplication);
 
-router.patch("/:id",auth(Role.OWNER), applicationController.updateApplication);
+router.patch(
+  "/:id",
+  auth(Role.OWNER, Role.ADMIN),
+  applicationController.updateApplication,
+);
 
-router.delete("/:id", applicationController.deleteApplication);
+router.delete(
+  "/:id",
+  auth(Role.ADMIN, Role.OWNER),
+  applicationController.deleteApplication,
+);
 
-router.patch("/:id/status",auth(Role.OWNER,Role.ADMIN),applicationController.updateApplicationStatusByOwner)
+router.patch(
+  "/:id/status",
+  auth(Role.OWNER, Role.ADMIN),
+  applicationController.updateApplicationStatusByOwner,
+);
 
 export const applicationRoutes = router;
-
-
-

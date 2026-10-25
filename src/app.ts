@@ -7,7 +7,6 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 
 import { authRouter } from "./modules/auth/auth.routes.js";
-
 import { propertyRoutes } from "./modules/property/property.router.js";
 import { roomRoutes } from "./modules/room/room.routes.js";
 import { listingRoutes } from "./modules/listing/listing.routes.js";
@@ -19,34 +18,23 @@ import { propertyCategoryRoutes } from "./modules/propertyCategory/propertyCateg
 import { dashboardRoutes } from "./modules/dashboard/dashboard.routes.js";
 
 const app: Application = express();
-// app.use(
-//   cors({
-//     origin: config.app_url,
-//     credentials: true,
-//   }),
-// );
 
 app.use(
   cors({
     origin: [
       "http://localhost:3000",
       "http://localhost:3001",
-      "https://nestora-fontend.onrender.com",
+      "https://nestora-f.vercel.app",
     ],
     credentials: true,
   }),
 );
 
+app.use("/api/v1/payment/webhook", express.raw({ type: "application/json" }));
+
 app.use(express.json());
 app.use(cookieParser());
-
-app.use("/api/payment/webhook", express.raw({ type: "application/json" }));
-
-app.use(
-  express.urlencoded({
-    extended: true,
-  }),
-);
+app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Housing and Rental Platform");
