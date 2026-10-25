@@ -35,18 +35,40 @@ app.set("trust proxy", 1);
 //   }),
 // );
 
+// app.use(
+//   cors({
+//     origin: [
+//       "http://localhost:3000",
+//       "http://localhost:3001",
+//       "https://nestora-f.vercel.app",
+//       "https://nestora-f.onrender.com",
+//       "https://nestora-murex.vercel.app",
+//     ],
+//     credentials: true,
+//   }),
+// );
+
+
+
+
+const allowedOrigins = [
+  "http://localhost:3000",
+  "http://localhost:3001",
+  "https://nestora-f.onrender.com",
+  "https://nestora-f.vercel.app",
+  "https://nestora-murex.vercel.app",
+];
+
 app.use(
   cors({
-    origin: [
-      "http://localhost:3000",
-      "http://localhost:3001",
-      "https://nestora-f.vercel.app",
-      "https://nestora-f.onrender.com",
-      "https://nestora-murex.vercel.app",
-    ],
+    origin: allowedOrigins,
     credentials: true,
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   }),
 );
+
+
 
 app.use("/api/v1/payment/webhook", express.raw({ type: "application/json" }));
 
