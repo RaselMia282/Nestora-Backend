@@ -20,14 +20,29 @@ import { dashboardRoutes } from "./modules/dashboard/dashboard.routes.js";
 const app: Application = express();
 app.set("trust proxy", 1);
 
+// app.use(
+//   cors({
+//     origin: [
+//       "http://localhost:3000",
+//       "http://localhost:3001",
+//       "https://nestora-f.vercel.app",
+//       "nestora-f.vercel.app",
+//       "https://nestora-f.onrender.com",
+//       "https://nestora-f.vercel.app",
+//       "https:https://nestora-murex.vercel.app",
+//     ],
+//     credentials: true,
+//   }),
+// );
+
 app.use(
   cors({
     origin: [
       "http://localhost:3000",
       "http://localhost:3001",
       "https://nestora-f.vercel.app",
-      "nestora-f.vercel.app",
-      "https://nestora-f.vercel.app"
+      "https://nestora-f.onrender.com",
+      "https://nestora-murex.vercel.app",
     ],
     credentials: true,
   }),
