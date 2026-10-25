@@ -18,6 +18,7 @@ import { propertyCategoryRoutes } from "./modules/propertyCategory/propertyCateg
 import { dashboardRoutes } from "./modules/dashboard/dashboard.routes.js";
 
 const app: Application = express();
+app.set("trust proxy", 1);
 
 app.use(
   cors({
@@ -25,6 +26,8 @@ app.use(
       "http://localhost:3000",
       "http://localhost:3001",
       "https://nestora-f.vercel.app",
+      "nestora-f.vercel.app",
+      "https://nestora-f.vercel.app"
     ],
     credentials: true,
   }),
