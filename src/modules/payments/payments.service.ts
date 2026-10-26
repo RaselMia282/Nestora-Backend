@@ -214,11 +214,8 @@ const createPaymentsIntoDB = async (
       },
     ],
 
-    // success_url: `http://localhost:3001/dashboard/tenant/payments/success?sessionId={CHECKOUT_SESSION_ID}`,
-    // cancel_url: `http://localhost:3001/dashboard/tenant/payments/cancel?leaseId=${lease.id}`,
-
-    success_url: `https://nestora-f.vercel.app/dashboard/tenant/payments/success?sessionId={CHECKOUT_SESSION_ID}`,
-    cancel_url: `https://nestora-f.vercel.app/dashboard/tenant/payments/cancel?leaseId=${lease.id}`,
+    success_url: `https://nestora-f.onrender.com/dashboard/tenant/payments/success?sessionId={CHECKOUT_SESSION_ID}`,
+    cancel_url: `https://nestora-f.onrender.com/dashboard/tenant/payments/cancel?leaseId=${lease.id}`,
 
     metadata: {
       leaseId: lease.id,
