@@ -16,4 +16,10 @@ router.get(
   auth(Role.TENANT),
   RoommateController.getMyRoommateProfile,
 );
+
+router.patch(
+  "/profile/me",
+  auth(Role.TENANT),
+  RoommateController.updateRoommateProfile,
+);
 export const roommateRoutes = router;

@@ -1,6 +1,6 @@
 import { Role } from "../generated/prisma/enums";
 import { prisma } from "../lib/prisma";
-import { CreateRoommatePayload } from "./roommate.interface";
+import { CreateRoommatePayload, UpdateRoommatePayload } from "./roommate.interface";
 
 const createRoommateProfileIntoDB = async (
   userId: string,
@@ -58,7 +58,31 @@ const getMyRoommateProfileIntoDB = async (userId: string) => {
   return result;
 };
 
+
+const updateRoommateProfileIntoDB = async (
+  userId: string,
+  payload: UpdateRoommatePayload,
+) => {
+  // 1. Check existing profile
+  const isProfileExists = await prisma.roommateProfile.findUnique({
+    where: { userId },
+  });
+
+  if (!isProfileExists) {
+    throw new Error("Roommate profile not found");
+  }
+
+  // 2. Update profile
+  const result = await prisma.roommateProfile.update({
+    where: { userId },
+    data: payload,
+  });
+
+  return result;
+};
+
 export const roommateService = {
   createRoommateProfileIntoDB,
   getMyRoommateProfileIntoDB,
+  updateRoommateProfileIntoDB,
 };
