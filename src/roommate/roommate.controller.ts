@@ -28,6 +28,30 @@ const createRoommateProfile = catchAsync(
   },
 );
 
+
+
+const getMyRoommateProfile = catchAsync(
+  async (req: Request, res: Response) => {
+    const userId = req.user?.id;
+
+    if (!userId) {
+      throw new Error("You are not authenticated");
+    }
+
+    const result = await roommateService.getMyRoommateProfileIntoDB(
+      userId,
+    );
+
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: "My roommate profile retrieved successfully",
+      data: result,
+    });
+  },
+);
+
 export const RoommateController = {
   createRoommateProfile,
+  getMyRoommateProfile,
 };

@@ -46,6 +46,19 @@ const createRoommateProfileIntoDB = async (
   return createRoommate;
 };
 
+const getMyRoommateProfileIntoDB = async (userId: string) => {
+  const result = await prisma.roommateProfile.findUnique({
+    where: { userId },
+  });
+
+  if (!result) {
+    throw new Error("Roommate profile not found");
+  }
+
+  return result;
+};
+
 export const roommateService = {
   createRoommateProfileIntoDB,
+  getMyRoommateProfileIntoDB,
 };

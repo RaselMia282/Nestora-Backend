@@ -10,4 +10,10 @@ router.post(
   auth(Role.TENANT),
   RoommateController.createRoommateProfile,
 );
+
+router.get(
+  "/profile/me",
+  auth(Role.TENANT),
+  RoommateController.getMyRoommateProfile,
+);
 export const roommateRoutes = router;
