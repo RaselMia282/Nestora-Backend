@@ -1,6 +1,12 @@
+import { UploadApiResponse } from "cloudinary";
 import { Role } from "../generated/prisma/enums";
 import { prisma } from "../lib/prisma";
-import { CreateRoommatePayload, UpdateRoommatePayload } from "./roommate.interface";
+import {
+  CreateRoommatePayload,
+  UpdateRoommatePayload,
+} from "./roommate.interface";
+import { cloudinary } from "../lib/cloudinary";
+import { error } from "console";
 
 const createRoommateProfileIntoDB = async (
   userId: string,
@@ -58,7 +64,6 @@ const getMyRoommateProfileIntoDB = async (userId: string) => {
   return result;
 };
 
-
 const updateRoommateProfileIntoDB = async (
   userId: string,
   payload: UpdateRoommatePayload,
@@ -81,8 +86,133 @@ const updateRoommateProfileIntoDB = async (
   return result;
 };
 
+// const updateRoommateProfileImgIntoDB = async (
+//   userId: string,
+//   buffer: Buffer,
+// ) => {
+//   const isUserExists = await prisma.user.findUnique({
+//     where: { id: userId },
+//   });
+//   if (!isUserExists) {
+//     throw new Error("User not exists");
+//   }
+
+//   const isProfileExists = await prisma.roommateProfile.findUnique({
+//     where: { userId },
+//   });
+
+//   if (!isProfileExists) {
+//     throw new Error("Roommate profile not found");
+//   }
+
+//   const cloudinaryResult = await new Promise<UploadApiResponse>(
+//     (resolve, reject) => {
+//       const uploadStream = cloudinary.uploader.upload_stream(
+//         {
+//           resource_type: "auto",
+//           folder: "roommate_profile_img",
+//         },
+
+//         (error, result) => {
+//           if (error) {
+//             return reject(error);
+//           }
+
+//           if (!result) {
+//             return reject(new Error("No result returned from cloudinary "));
+//           }
+//           resolve(result);
+//         },
+//       );
+//       uploadStream.end(buffer);
+//     },
+//   );
+
+//   const updatedRoommateProfileImg = await prisma.roommateProfile.update({
+//     where: { userId },
+//     data: {
+//       profileImg: cloudinaryResult.secure_url,
+//       profileImgPublicId: cloudinaryResult.public_id,
+//     },
+//   });
+
+//   return updatedRoommateProfileImg;
+// };
+
+const updateRoommateProfileImgIntoDB = async (
+  userId: string,
+  buffer: Buffer,
+) => {
+  // 1. Check user exists
+  const isUserExists = await prisma.user.findUnique({
+    where: { id: userId },
+  });
+
+  if (!isUserExists) {
+    throw new Error("User not exists");
+  }
+
+  // 2. Check roommate profile exists
+  const isProfileExists = await prisma.roommateProfile.findUnique({
+    where: { userId },
+  });
+
+  if (!isProfileExists) {
+    throw new Error("Roommate profile not found");
+  }
+
+  // 3. Store old image public id
+  const oldPublicId = isProfileExists.profileImgPublicId;
+
+  // 4. Upload new image
+  const cloudinaryResult = await new Promise<UploadApiResponse>(
+    (resolve, reject) => {
+      const uploadStream = cloudinary.uploader.upload_stream(
+        {
+          resource_type: "auto",
+          folder: "roommate_profile_img",
+        },
+
+        (error, result) => {
+          if (error) {
+            return reject(error);
+          }
+
+          if (!result) {
+            return reject(new Error("No result returned from cloudinary"));
+          }
+
+          resolve(result);
+        },
+      );
+
+      uploadStream.end(buffer);
+    },
+  );
+
+  if (isProfileExists.profileImgPublicId) {
+    try {
+      await cloudinary.uploader.destroy(isProfileExists.profileImgPublicId);
+    } catch (error) {
+      console.error("Failed to delete old roommate profile image:", error);
+    }
+  }
+
+  // 6. Update database
+  const updatedRoommateProfileImg = await prisma.roommateProfile.update({
+    where: { userId },
+    data: {
+      profileImg: cloudinaryResult.secure_url,
+      profileImgPublicId: cloudinaryResult.public_id,
+    },
+  });
+
+  return updatedRoommateProfileImg;
+};
+
 export const roommateService = {
   createRoommateProfileIntoDB,
   getMyRoommateProfileIntoDB,
   updateRoommateProfileIntoDB,
+  updateRoommateProfileImgIntoDB,
 };

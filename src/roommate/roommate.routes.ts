@@ -3,6 +3,7 @@ import { Router } from "express";
 import { RoommateController } from "./roommate.controller";
 import { auth } from "../modules/auth/middleware";
 import { Role } from "../generated/prisma/enums";
+import { upload } from "../lib/multer";
 
 const router = Router();
 router.post(
@@ -23,3 +24,10 @@ router.patch(
   RoommateController.updateRoommateProfile,
 );
 export const roommateRoutes = router;
+
+router.patch(
+  "/profile/image",
+  auth(Role.TENANT),
+  upload.single("image"),
+  RoommateController.updateRoommateProfileImg,
+);

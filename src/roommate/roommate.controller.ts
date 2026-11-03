@@ -1,9 +1,13 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { sendResponse } from "../utilis/sendResponse";
 import { catchAsync } from "../utilis/catchAsync";
 import httpStatus from "http-status";
 import { roommateService } from "./roommate.service";
-import { createRoommateProfileSchema, updateRoommateProfileSchema } from "./roommate.validation";
+import {
+  createRoommateProfileSchema,
+  updateRoommateProfileSchema,
+} from "./roommate.validation";
+
 const createRoommateProfile = catchAsync(
   async (req: Request, res: Response) => {
     const userId = req.user?.id;
@@ -28,29 +32,22 @@ const createRoommateProfile = catchAsync(
   },
 );
 
+const getMyRoommateProfile = catchAsync(async (req: Request, res: Response) => {
+  const userId = req.user?.id;
 
+  if (!userId) {
+    throw new Error("You are not authenticated");
+  }
 
-const getMyRoommateProfile = catchAsync(
-  async (req: Request, res: Response) => {
-    const userId = req.user?.id;
+  const result = await roommateService.getMyRoommateProfileIntoDB(userId);
 
-    if (!userId) {
-      throw new Error("You are not authenticated");
-    }
-
-    const result = await roommateService.getMyRoommateProfileIntoDB(
-      userId,
-    );
-
-    sendResponse(res, {
-      statusCode: httpStatus.OK,
-      success: true,
-      message: "My roommate profile retrieved successfully",
-      data: result,
-    });
-  },
-);
-
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "My roommate profile retrieved successfully",
+    data: result,
+  });
+});
 
 const updateRoommateProfile = catchAsync(
   async (req: Request, res: Response) => {
@@ -80,10 +77,36 @@ const updateRoommateProfile = catchAsync(
   },
 );
 
+const updateRoommateProfileImg = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const userId = req.user?.id;
+    const file = req.file;
 
+    if (!userId) {
+      throw new Error("You are not authenticated");
+    }
+
+    if (!file) {
+      throw new Error("Please upload an image file");
+    }
+
+    const result = await roommateService.updateRoommateProfileImgIntoDB(
+      userId,
+      file.buffer,
+    );
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Profile picture updated successfully",
+      data: result,
+    });
+  },
+);
 
 export const RoommateController = {
   createRoommateProfile,
   getMyRoommateProfile,
   updateRoommateProfile,
+  updateRoommateProfileImg,
 };
