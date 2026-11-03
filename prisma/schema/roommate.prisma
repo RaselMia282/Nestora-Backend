@@ -1,0 +1,22 @@
+model RoommateProfile {
+    id                 String   @id @default(uuid())
+    userId             String   @unique
+    role               Role
+    profileImg         String?
+    profileImgPublicId String?
+    gender             String
+    occupation         String?
+    budget             Float
+    preferredArea      String?
+    lifestyle          String[]
+    bio                String?  @db.Text
+    embedding          Float[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    // Relations
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@map("roommate_profiles")
+}

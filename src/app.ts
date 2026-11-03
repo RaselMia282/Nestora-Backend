@@ -16,40 +16,10 @@ import { leaseRoutes } from "./modules/lease/lease.router.js";
 import { paymentRoutes } from "./modules/payments/payments.routes.js";
 import { propertyCategoryRoutes } from "./modules/propertyCategory/propertyCategory.routes.js";
 import { dashboardRoutes } from "./modules/dashboard/dashboard.routes.js";
+import { roommateRoutes } from "./roommate/roommate.routes.js";
 
 const app: Application = express();
 app.set("trust proxy", 1);
-
-// app.use(
-//   cors({
-//     origin: [
-//       "http://localhost:3000",
-//       "http://localhost:3001",
-//       "https://nestora-f.vercel.app",
-//       "nestora-f.vercel.app",
-//       "https://nestora-f.onrender.com",
-//       "https://nestora-f.vercel.app",
-//       "https:https://nestora-murex.vercel.app",
-//     ],
-//     credentials: true,
-//   }),
-// );
-
-// app.use(
-//   cors({
-//     origin: [
-//       "http://localhost:3000",
-//       "http://localhost:3001",
-//       "https://nestora-f.vercel.app",
-//       "https://nestora-f.onrender.com",
-//       "https://nestora-murex.vercel.app",
-//     ],
-//     credentials: true,
-//   }),
-// );
-
-
-
 
 const allowedOrigins = [
   "http://localhost:3000",
@@ -67,8 +37,6 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization"],
   }),
 );
-
-
 
 app.use("/api/v1/payment/webhook", express.raw({ type: "application/json" }));
 
@@ -90,5 +58,6 @@ app.use("/api/v1/verification", nidVerificationRoutes);
 app.use("/api/v1/lease", leaseRoutes);
 app.use("/api/v1/payment", paymentRoutes);
 app.use("/api/v1/dashboard", dashboardRoutes);
+app.use("/api/v1/roommate", roommateRoutes);
 
 export default app;

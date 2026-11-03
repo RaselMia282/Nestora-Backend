@@ -406,6 +406,7 @@ export const ModelName = {
   Property: 'Property',
   Room: 'Room',
   RoomImage: 'RoomImage',
+  RoommateProfile: 'RoommateProfile',
   User: 'User',
   IdentityVerification: 'IdentityVerification'
 } as const
@@ -423,7 +424,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "propertyCategory" | "application" | "lease" | "listing" | "payment" | "profile" | "property" | "room" | "roomImage" | "user" | "identityVerification"
+    modelProps: "propertyCategory" | "application" | "lease" | "listing" | "payment" | "profile" | "property" | "room" | "roomImage" | "roommateProfile" | "user" | "identityVerification"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1093,6 +1094,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    RoommateProfile: {
+      payload: Prisma.$RoommateProfilePayload<ExtArgs>
+      fields: Prisma.RoommateProfileFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.RoommateProfileFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RoommateProfilePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.RoommateProfileFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RoommateProfilePayload>
+        }
+        findFirst: {
+          args: Prisma.RoommateProfileFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RoommateProfilePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.RoommateProfileFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RoommateProfilePayload>
+        }
+        findMany: {
+          args: Prisma.RoommateProfileFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RoommateProfilePayload>[]
+        }
+        create: {
+          args: Prisma.RoommateProfileCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RoommateProfilePayload>
+        }
+        createMany: {
+          args: Prisma.RoommateProfileCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.RoommateProfileCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RoommateProfilePayload>[]
+        }
+        delete: {
+          args: Prisma.RoommateProfileDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RoommateProfilePayload>
+        }
+        update: {
+          args: Prisma.RoommateProfileUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RoommateProfilePayload>
+        }
+        deleteMany: {
+          args: Prisma.RoommateProfileDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.RoommateProfileUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.RoommateProfileUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RoommateProfilePayload>[]
+        }
+        upsert: {
+          args: Prisma.RoommateProfileUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RoommateProfilePayload>
+        }
+        aggregate: {
+          args: Prisma.RoommateProfileAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateRoommateProfile>
+        }
+        groupBy: {
+          args: Prisma.RoommateProfileGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RoommateProfileGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.RoommateProfileCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RoommateProfileCountAggregateOutputType> | number
+        }
+      }
+    }
     User: {
       payload: Prisma.$UserPayload<ExtArgs>
       fields: Prisma.UserFieldRefs
@@ -1414,6 +1489,26 @@ export const RoomImageScalarFieldEnum = {
 } as const
 
 export type RoomImageScalarFieldEnum = (typeof RoomImageScalarFieldEnum)[keyof typeof RoomImageScalarFieldEnum]
+
+
+export const RoommateProfileScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  role: 'role',
+  profileImg: 'profileImg',
+  profileImgPublicId: 'profileImgPublicId',
+  gender: 'gender',
+  occupation: 'occupation',
+  budget: 'budget',
+  preferredArea: 'preferredArea',
+  lifestyle: 'lifestyle',
+  bio: 'bio',
+  embedding: 'embedding',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type RoommateProfileScalarFieldEnum = (typeof RoommateProfileScalarFieldEnum)[keyof typeof RoommateProfileScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {
@@ -1898,6 +1993,7 @@ export type GlobalOmitConfig = {
   property?: Prisma.PropertyOmit
   room?: Prisma.RoomOmit
   roomImage?: Prisma.RoomImageOmit
+  roommateProfile?: Prisma.RoommateProfileOmit
   user?: Prisma.UserOmit
   identityVerification?: Prisma.IdentityVerificationOmit
 }

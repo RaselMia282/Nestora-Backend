@@ -63,6 +63,11 @@ export type Room = Prisma.RoomModel
  */
 export type RoomImage = Prisma.RoomImageModel
 /**
+ * Model RoommateProfile
+ * 
+ */
+export type RoommateProfile = Prisma.RoommateProfileModel
+/**
  * Model User
  * 
  */

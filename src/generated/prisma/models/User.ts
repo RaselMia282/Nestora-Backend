@@ -218,6 +218,7 @@ export type UserWhereInput = {
   properties?: Prisma.PropertyListRelationFilter
   applications?: Prisma.ApplicationListRelationFilter
   payments?: Prisma.PaymentListRelationFilter
+  roommate?: Prisma.XOR<Prisma.RoommateProfileNullableScalarRelationFilter, Prisma.RoommateProfileWhereInput> | null
   identityVerification?: Prisma.XOR<Prisma.IdentityVerificationNullableScalarRelationFilter, Prisma.IdentityVerificationWhereInput> | null
 }
 
@@ -235,6 +236,7 @@ export type UserOrderByWithRelationInput = {
   properties?: Prisma.PropertyOrderByRelationAggregateInput
   applications?: Prisma.ApplicationOrderByRelationAggregateInput
   payments?: Prisma.PaymentOrderByRelationAggregateInput
+  roommate?: Prisma.RoommateProfileOrderByWithRelationInput
   identityVerification?: Prisma.IdentityVerificationOrderByWithRelationInput
 }
 
@@ -255,6 +257,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   properties?: Prisma.PropertyListRelationFilter
   applications?: Prisma.ApplicationListRelationFilter
   payments?: Prisma.PaymentListRelationFilter
+  roommate?: Prisma.XOR<Prisma.RoommateProfileNullableScalarRelationFilter, Prisma.RoommateProfileWhereInput> | null
   identityVerification?: Prisma.XOR<Prisma.IdentityVerificationNullableScalarRelationFilter, Prisma.IdentityVerificationWhereInput> | null
 }, "id" | "email" | "googleId">
 
@@ -302,6 +305,7 @@ export type UserCreateInput = {
   properties?: Prisma.PropertyCreateNestedManyWithoutOwnerInput
   applications?: Prisma.ApplicationCreateNestedManyWithoutTenantInput
   payments?: Prisma.PaymentCreateNestedManyWithoutTenantInput
+  roommate?: Prisma.RoommateProfileCreateNestedOneWithoutUserInput
   identityVerification?: Prisma.IdentityVerificationCreateNestedOneWithoutUserInput
 }
 
@@ -319,6 +323,7 @@ export type UserUncheckedCreateInput = {
   properties?: Prisma.PropertyUncheckedCreateNestedManyWithoutOwnerInput
   applications?: Prisma.ApplicationUncheckedCreateNestedManyWithoutTenantInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutTenantInput
+  roommate?: Prisma.RoommateProfileUncheckedCreateNestedOneWithoutUserInput
   identityVerification?: Prisma.IdentityVerificationUncheckedCreateNestedOneWithoutUserInput
 }
 
@@ -336,6 +341,7 @@ export type UserUpdateInput = {
   properties?: Prisma.PropertyUpdateManyWithoutOwnerNestedInput
   applications?: Prisma.ApplicationUpdateManyWithoutTenantNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutTenantNestedInput
+  roommate?: Prisma.RoommateProfileUpdateOneWithoutUserNestedInput
   identityVerification?: Prisma.IdentityVerificationUpdateOneWithoutUserNestedInput
 }
 
@@ -353,6 +359,7 @@ export type UserUncheckedUpdateInput = {
   properties?: Prisma.PropertyUncheckedUpdateManyWithoutOwnerNestedInput
   applications?: Prisma.ApplicationUncheckedUpdateManyWithoutTenantNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutTenantNestedInput
+  roommate?: Prisma.RoommateProfileUncheckedUpdateOneWithoutUserNestedInput
   identityVerification?: Prisma.IdentityVerificationUncheckedUpdateOneWithoutUserNestedInput
 }
 
@@ -489,8 +496,18 @@ export type UserUpdateOneRequiredWithoutPropertiesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutPropertiesInput, Prisma.UserUpdateWithoutPropertiesInput>, Prisma.UserUncheckedUpdateWithoutPropertiesInput>
 }
 
-export type EnumRoleFieldUpdateOperationsInput = {
-  set?: $Enums.Role
+export type UserCreateNestedOneWithoutRoommateInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutRoommateInput, Prisma.UserUncheckedCreateWithoutRoommateInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutRoommateInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutRoommateNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutRoommateInput, Prisma.UserUncheckedCreateWithoutRoommateInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutRoommateInput
+  upsert?: Prisma.UserUpsertWithoutRoommateInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutRoommateInput, Prisma.UserUpdateWithoutRoommateInput>, Prisma.UserUncheckedUpdateWithoutRoommateInput>
 }
 
 export type EnumAuthProviderFieldUpdateOperationsInput = {
@@ -528,6 +545,7 @@ export type UserCreateWithoutApplicationsInput = {
   profile?: Prisma.ProfileCreateNestedOneWithoutUserInput
   properties?: Prisma.PropertyCreateNestedManyWithoutOwnerInput
   payments?: Prisma.PaymentCreateNestedManyWithoutTenantInput
+  roommate?: Prisma.RoommateProfileCreateNestedOneWithoutUserInput
   identityVerification?: Prisma.IdentityVerificationCreateNestedOneWithoutUserInput
 }
 
@@ -544,6 +562,7 @@ export type UserUncheckedCreateWithoutApplicationsInput = {
   profile?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
   properties?: Prisma.PropertyUncheckedCreateNestedManyWithoutOwnerInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutTenantInput
+  roommate?: Prisma.RoommateProfileUncheckedCreateNestedOneWithoutUserInput
   identityVerification?: Prisma.IdentityVerificationUncheckedCreateNestedOneWithoutUserInput
 }
 
@@ -576,6 +595,7 @@ export type UserUpdateWithoutApplicationsInput = {
   profile?: Prisma.ProfileUpdateOneWithoutUserNestedInput
   properties?: Prisma.PropertyUpdateManyWithoutOwnerNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutTenantNestedInput
+  roommate?: Prisma.RoommateProfileUpdateOneWithoutUserNestedInput
   identityVerification?: Prisma.IdentityVerificationUpdateOneWithoutUserNestedInput
 }
 
@@ -592,6 +612,7 @@ export type UserUncheckedUpdateWithoutApplicationsInput = {
   profile?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
   properties?: Prisma.PropertyUncheckedUpdateManyWithoutOwnerNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutTenantNestedInput
+  roommate?: Prisma.RoommateProfileUncheckedUpdateOneWithoutUserNestedInput
   identityVerification?: Prisma.IdentityVerificationUncheckedUpdateOneWithoutUserNestedInput
 }
 
@@ -608,6 +629,7 @@ export type UserCreateWithoutPaymentsInput = {
   profile?: Prisma.ProfileCreateNestedOneWithoutUserInput
   properties?: Prisma.PropertyCreateNestedManyWithoutOwnerInput
   applications?: Prisma.ApplicationCreateNestedManyWithoutTenantInput
+  roommate?: Prisma.RoommateProfileCreateNestedOneWithoutUserInput
   identityVerification?: Prisma.IdentityVerificationCreateNestedOneWithoutUserInput
 }
 
@@ -624,6 +646,7 @@ export type UserUncheckedCreateWithoutPaymentsInput = {
   profile?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
   properties?: Prisma.PropertyUncheckedCreateNestedManyWithoutOwnerInput
   applications?: Prisma.ApplicationUncheckedCreateNestedManyWithoutTenantInput
+  roommate?: Prisma.RoommateProfileUncheckedCreateNestedOneWithoutUserInput
   identityVerification?: Prisma.IdentityVerificationUncheckedCreateNestedOneWithoutUserInput
 }
 
@@ -656,6 +679,7 @@ export type UserUpdateWithoutPaymentsInput = {
   profile?: Prisma.ProfileUpdateOneWithoutUserNestedInput
   properties?: Prisma.PropertyUpdateManyWithoutOwnerNestedInput
   applications?: Prisma.ApplicationUpdateManyWithoutTenantNestedInput
+  roommate?: Prisma.RoommateProfileUpdateOneWithoutUserNestedInput
   identityVerification?: Prisma.IdentityVerificationUpdateOneWithoutUserNestedInput
 }
 
@@ -672,6 +696,7 @@ export type UserUncheckedUpdateWithoutPaymentsInput = {
   profile?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
   properties?: Prisma.PropertyUncheckedUpdateManyWithoutOwnerNestedInput
   applications?: Prisma.ApplicationUncheckedUpdateManyWithoutTenantNestedInput
+  roommate?: Prisma.RoommateProfileUncheckedUpdateOneWithoutUserNestedInput
   identityVerification?: Prisma.IdentityVerificationUncheckedUpdateOneWithoutUserNestedInput
 }
 
@@ -688,6 +713,7 @@ export type UserCreateWithoutProfileInput = {
   properties?: Prisma.PropertyCreateNestedManyWithoutOwnerInput
   applications?: Prisma.ApplicationCreateNestedManyWithoutTenantInput
   payments?: Prisma.PaymentCreateNestedManyWithoutTenantInput
+  roommate?: Prisma.RoommateProfileCreateNestedOneWithoutUserInput
   identityVerification?: Prisma.IdentityVerificationCreateNestedOneWithoutUserInput
 }
 
@@ -704,6 +730,7 @@ export type UserUncheckedCreateWithoutProfileInput = {
   properties?: Prisma.PropertyUncheckedCreateNestedManyWithoutOwnerInput
   applications?: Prisma.ApplicationUncheckedCreateNestedManyWithoutTenantInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutTenantInput
+  roommate?: Prisma.RoommateProfileUncheckedCreateNestedOneWithoutUserInput
   identityVerification?: Prisma.IdentityVerificationUncheckedCreateNestedOneWithoutUserInput
 }
 
@@ -736,6 +763,7 @@ export type UserUpdateWithoutProfileInput = {
   properties?: Prisma.PropertyUpdateManyWithoutOwnerNestedInput
   applications?: Prisma.ApplicationUpdateManyWithoutTenantNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutTenantNestedInput
+  roommate?: Prisma.RoommateProfileUpdateOneWithoutUserNestedInput
   identityVerification?: Prisma.IdentityVerificationUpdateOneWithoutUserNestedInput
 }
 
@@ -752,6 +780,7 @@ export type UserUncheckedUpdateWithoutProfileInput = {
   properties?: Prisma.PropertyUncheckedUpdateManyWithoutOwnerNestedInput
   applications?: Prisma.ApplicationUncheckedUpdateManyWithoutTenantNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutTenantNestedInput
+  roommate?: Prisma.RoommateProfileUncheckedUpdateOneWithoutUserNestedInput
   identityVerification?: Prisma.IdentityVerificationUncheckedUpdateOneWithoutUserNestedInput
 }
 
@@ -768,6 +797,7 @@ export type UserCreateWithoutPropertiesInput = {
   profile?: Prisma.ProfileCreateNestedOneWithoutUserInput
   applications?: Prisma.ApplicationCreateNestedManyWithoutTenantInput
   payments?: Prisma.PaymentCreateNestedManyWithoutTenantInput
+  roommate?: Prisma.RoommateProfileCreateNestedOneWithoutUserInput
   identityVerification?: Prisma.IdentityVerificationCreateNestedOneWithoutUserInput
 }
 
@@ -784,6 +814,7 @@ export type UserUncheckedCreateWithoutPropertiesInput = {
   profile?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
   applications?: Prisma.ApplicationUncheckedCreateNestedManyWithoutTenantInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutTenantInput
+  roommate?: Prisma.RoommateProfileUncheckedCreateNestedOneWithoutUserInput
   identityVerification?: Prisma.IdentityVerificationUncheckedCreateNestedOneWithoutUserInput
 }
 
@@ -816,6 +847,7 @@ export type UserUpdateWithoutPropertiesInput = {
   profile?: Prisma.ProfileUpdateOneWithoutUserNestedInput
   applications?: Prisma.ApplicationUpdateManyWithoutTenantNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutTenantNestedInput
+  roommate?: Prisma.RoommateProfileUpdateOneWithoutUserNestedInput
   identityVerification?: Prisma.IdentityVerificationUpdateOneWithoutUserNestedInput
 }
 
@@ -830,6 +862,91 @@ export type UserUncheckedUpdateWithoutPropertiesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   profile?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
+  applications?: Prisma.ApplicationUncheckedUpdateManyWithoutTenantNestedInput
+  payments?: Prisma.PaymentUncheckedUpdateManyWithoutTenantNestedInput
+  roommate?: Prisma.RoommateProfileUncheckedUpdateOneWithoutUserNestedInput
+  identityVerification?: Prisma.IdentityVerificationUncheckedUpdateOneWithoutUserNestedInput
+}
+
+export type UserCreateWithoutRoommateInput = {
+  id?: string
+  email: string
+  password?: string | null
+  role?: $Enums.Role
+  authProvider?: $Enums.AuthProvider
+  googleId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  status?: $Enums.UserStatus
+  profile?: Prisma.ProfileCreateNestedOneWithoutUserInput
+  properties?: Prisma.PropertyCreateNestedManyWithoutOwnerInput
+  applications?: Prisma.ApplicationCreateNestedManyWithoutTenantInput
+  payments?: Prisma.PaymentCreateNestedManyWithoutTenantInput
+  identityVerification?: Prisma.IdentityVerificationCreateNestedOneWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutRoommateInput = {
+  id?: string
+  email: string
+  password?: string | null
+  role?: $Enums.Role
+  authProvider?: $Enums.AuthProvider
+  googleId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  status?: $Enums.UserStatus
+  profile?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
+  properties?: Prisma.PropertyUncheckedCreateNestedManyWithoutOwnerInput
+  applications?: Prisma.ApplicationUncheckedCreateNestedManyWithoutTenantInput
+  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutTenantInput
+  identityVerification?: Prisma.IdentityVerificationUncheckedCreateNestedOneWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutRoommateInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutRoommateInput, Prisma.UserUncheckedCreateWithoutRoommateInput>
+}
+
+export type UserUpsertWithoutRoommateInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutRoommateInput, Prisma.UserUncheckedUpdateWithoutRoommateInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutRoommateInput, Prisma.UserUncheckedCreateWithoutRoommateInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutRoommateInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutRoommateInput, Prisma.UserUncheckedUpdateWithoutRoommateInput>
+}
+
+export type UserUpdateWithoutRoommateInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  authProvider?: Prisma.EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  profile?: Prisma.ProfileUpdateOneWithoutUserNestedInput
+  properties?: Prisma.PropertyUpdateManyWithoutOwnerNestedInput
+  applications?: Prisma.ApplicationUpdateManyWithoutTenantNestedInput
+  payments?: Prisma.PaymentUpdateManyWithoutTenantNestedInput
+  identityVerification?: Prisma.IdentityVerificationUpdateOneWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutRoommateInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  authProvider?: Prisma.EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  profile?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
+  properties?: Prisma.PropertyUncheckedUpdateManyWithoutOwnerNestedInput
   applications?: Prisma.ApplicationUncheckedUpdateManyWithoutTenantNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutTenantNestedInput
   identityVerification?: Prisma.IdentityVerificationUncheckedUpdateOneWithoutUserNestedInput
@@ -849,6 +966,7 @@ export type UserCreateWithoutIdentityVerificationInput = {
   properties?: Prisma.PropertyCreateNestedManyWithoutOwnerInput
   applications?: Prisma.ApplicationCreateNestedManyWithoutTenantInput
   payments?: Prisma.PaymentCreateNestedManyWithoutTenantInput
+  roommate?: Prisma.RoommateProfileCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutIdentityVerificationInput = {
@@ -865,6 +983,7 @@ export type UserUncheckedCreateWithoutIdentityVerificationInput = {
   properties?: Prisma.PropertyUncheckedCreateNestedManyWithoutOwnerInput
   applications?: Prisma.ApplicationUncheckedCreateNestedManyWithoutTenantInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutTenantInput
+  roommate?: Prisma.RoommateProfileUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutIdentityVerificationInput = {
@@ -897,6 +1016,7 @@ export type UserUpdateWithoutIdentityVerificationInput = {
   properties?: Prisma.PropertyUpdateManyWithoutOwnerNestedInput
   applications?: Prisma.ApplicationUpdateManyWithoutTenantNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutTenantNestedInput
+  roommate?: Prisma.RoommateProfileUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutIdentityVerificationInput = {
@@ -913,6 +1033,7 @@ export type UserUncheckedUpdateWithoutIdentityVerificationInput = {
   properties?: Prisma.PropertyUncheckedUpdateManyWithoutOwnerNestedInput
   applications?: Prisma.ApplicationUncheckedUpdateManyWithoutTenantNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutTenantNestedInput
+  roommate?: Prisma.RoommateProfileUncheckedUpdateOneWithoutUserNestedInput
 }
 
 
@@ -978,6 +1099,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   properties?: boolean | Prisma.User$propertiesArgs<ExtArgs>
   applications?: boolean | Prisma.User$applicationsArgs<ExtArgs>
   payments?: boolean | Prisma.User$paymentsArgs<ExtArgs>
+  roommate?: boolean | Prisma.User$roommateArgs<ExtArgs>
   identityVerification?: boolean | Prisma.User$identityVerificationArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
@@ -1024,6 +1146,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   properties?: boolean | Prisma.User$propertiesArgs<ExtArgs>
   applications?: boolean | Prisma.User$applicationsArgs<ExtArgs>
   payments?: boolean | Prisma.User$paymentsArgs<ExtArgs>
+  roommate?: boolean | Prisma.User$roommateArgs<ExtArgs>
   identityVerification?: boolean | Prisma.User$identityVerificationArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -1037,6 +1160,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     properties: Prisma.$PropertyPayload<ExtArgs>[]
     applications: Prisma.$ApplicationPayload<ExtArgs>[]
     payments: Prisma.$PaymentPayload<ExtArgs>[]
+    roommate: Prisma.$RoommateProfilePayload<ExtArgs> | null
     identityVerification: Prisma.$IdentityVerificationPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1447,6 +1571,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   properties<T extends Prisma.User$propertiesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$propertiesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PropertyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   applications<T extends Prisma.User$applicationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$applicationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ApplicationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   payments<T extends Prisma.User$paymentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  roommate<T extends Prisma.User$roommateArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$roommateArgs<ExtArgs>>): Prisma.Prisma__RoommateProfileClient<runtime.Types.Result.GetResult<Prisma.$RoommateProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   identityVerification<T extends Prisma.User$identityVerificationArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$identityVerificationArgs<ExtArgs>>): Prisma.Prisma__IdentityVerificationClient<runtime.Types.Result.GetResult<Prisma.$IdentityVerificationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1967,6 +2092,25 @@ export type User$paymentsArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   take?: number
   skip?: number
   distinct?: Prisma.PaymentScalarFieldEnum | Prisma.PaymentScalarFieldEnum[]
+}
+
+/**
+ * User.roommate
+ */
+export type User$roommateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the RoommateProfile
+   */
+  select?: Prisma.RoommateProfileSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the RoommateProfile
+   */
+  omit?: Prisma.RoommateProfileOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RoommateProfileInclude<ExtArgs> | null
+  where?: Prisma.RoommateProfileWhereInput
 }
 
 /**

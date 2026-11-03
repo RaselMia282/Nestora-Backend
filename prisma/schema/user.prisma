@@ -2,19 +2,19 @@ model User {
   id    String @id @default(uuid())
   email String @unique
 
-  password     String?
-  role         Role          @default(TENANT)
-  authProvider AuthProvider  @default(CREDENTIAL)
-  googleId     String?       @unique
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
-  status       UserStatus    @default(ACTIVE)
-  profile      Profile?
-  properties   Property[]
-  applications Application[]
-  payments     Payment[]
+  password             String?
+  role                 Role                  @default(TENANT)
+  authProvider         AuthProvider          @default(CREDENTIAL)
+  googleId             String?               @unique
+  createdAt            DateTime              @default(now())
+  updatedAt            DateTime              @updatedAt
+  status               UserStatus            @default(ACTIVE)
+  profile              Profile?
+  properties           Property[]
+  applications         Application[]
+  payments             Payment[]
+  roommate             RoommateProfile?
   identityVerification IdentityVerification?
+
   @@map("users")
 }
-
-
