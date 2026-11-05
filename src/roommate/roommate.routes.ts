@@ -23,7 +23,6 @@ router.patch(
   auth(Role.TENANT),
   RoommateController.updateRoommateProfile,
 );
-export const roommateRoutes = router;
 
 router.patch(
   "/profile/image",
@@ -31,3 +30,16 @@ router.patch(
   upload.single("image"),
   RoommateController.updateRoommateProfileImg,
 );
+
+router.get(
+  "/",
+  auth(Role.TENANT, Role.OWNER),
+  RoommateController.getAllRoommates,
+);
+
+router.get(
+  "/:id",
+  auth(Role.TENANT, Role.OWNER),
+  RoommateController.getSingleRoommate,
+);
+export const roommateRoutes = router;

@@ -104,9 +104,47 @@ const updateRoommateProfileImg = catchAsync(
   },
 );
 
+const getAllRoommates = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const currentUserId = req.user?.id;
+
+    if (!currentUserId) {
+      throw new Error("User not authenticated");
+    }
+
+    const result = await roommateService.getAllRoommatesIntoDB(
+      currentUserId,
+      req.query,
+    );
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Roommates retrieved successfully",
+      data: result,
+    });
+  },
+);
+
+const getSingleRoommate = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+    const result = await roommateService.getSingleRoommateIntoDB(id as string);
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Roommate details retrieved successfully",
+      data: result,
+    });
+  },
+);
+
 export const RoommateController = {
   createRoommateProfile,
   getMyRoommateProfile,
   updateRoommateProfile,
   updateRoommateProfileImg,
+  getAllRoommates,
+  getSingleRoommate,
 };

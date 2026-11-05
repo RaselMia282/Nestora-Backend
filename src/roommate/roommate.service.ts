@@ -6,7 +6,7 @@ import {
   UpdateRoommatePayload,
 } from "./roommate.interface";
 import { cloudinary } from "../lib/cloudinary";
-import { error } from "console";
+import { Prisma } from "../generated/prisma/client";
 
 const createRoommateProfileIntoDB = async (
   userId: string,
@@ -210,9 +210,109 @@ const updateRoommateProfileImgIntoDB = async (
   return updatedRoommateProfileImg;
 };
 
+const getAllRoommatesIntoDB = async (currentUserId: string, query: any) => {
+  const {
+    page = 1,
+    limit = 10,
+    search,
+    gender,
+    budget,
+    area,
+    sort = "latest",
+  } = query;
+
+  const skip = (Number(page) - 1) * Number(limit);
+
+  const where: Prisma.RoommateProfileWhereInput = {
+    NOT: { userId: currentUserId },
+  };
+
+  if (search) {
+    where.OR = [
+      { bio: { contains: search, mode: "insensitive" } },
+      { user: { email: { contains: search, mode: "insensitive" } } },
+    ];
+  }
+
+  // ৪. Filter: Gender
+  if (gender) {
+    where.gender = gender;
+  }
+
+  if (budget) {
+    where.budget = {
+      lte: Number(budget),
+    };
+  }
+
+  if (area) {
+    where.preferredArea = {
+      contains: area,
+      mode: "insensitive",
+    };
+  }
+
+  const roommates = await prisma.roommateProfile.findMany({
+    where,
+    skip,
+    take: Number(limit),
+    orderBy: {
+      createdAt: sort === "latest" ? "desc" : "asc",
+    },
+    include: {
+      user: {
+        select: {
+          id: true,
+          email: true,
+          profile: true,
+        },
+      },
+    },
+  });
+
+  const total = await prisma.roommateProfile.count({
+    where,
+  });
+
+  const totalPage = Math.ceil(total / Number(limit));
+
+  return {
+    data: roommates,
+    meta: {
+      page: Number(page),
+      limit: Number(limit),
+      total,
+      totalPage,
+    },
+  };
+};
+
+const getSingleRoommateIntoDB = async (id: string) => {
+  const result = await prisma.roommateProfile.findUnique({
+    where: { id: id },
+    include: {
+      user: {
+        select: {
+          id: true,
+          email: true,
+          profile: true,
+        },
+      },
+    },
+  });
+
+  if (!result) {
+    throw new Error("Roommate profile not found");
+  }
+
+  return result;
+};
+
 export const roommateService = {
   createRoommateProfileIntoDB,
   getMyRoommateProfileIntoDB,
   updateRoommateProfileIntoDB,
   updateRoommateProfileImgIntoDB,
+  getAllRoommatesIntoDB,
+  getSingleRoommateIntoDB,
 };

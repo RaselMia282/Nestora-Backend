@@ -58,6 +58,6 @@ app.use("/api/v1/verification", nidVerificationRoutes);
 app.use("/api/v1/lease", leaseRoutes);
 app.use("/api/v1/payment", paymentRoutes);
 app.use("/api/v1/dashboard", dashboardRoutes);
-app.use("/api/v1/roommate", roommateRoutes);
+app.use("/api/v1/roommates", roommateRoutes);
 
 export default app;

@@ -2,9 +2,7 @@ import { Prisma } from "../../src/generated/prisma/client";
 import { prisma } from "../../src/lib/prisma";
 
 
-// ───────────────────────────────────────────────────────────
-// Category অনুযায়ী ভাড়া (টাকা/মাস)
-// ───────────────────────────────────────────────────────────
+
 const RENT_RANGES: Record<string, { min: number; max: number }> = {
   Apartment: { min: 8_000, max: 25_000 },
   Condo: { min: 10_000, max: 35_000 },
@@ -14,9 +12,7 @@ const RENT_RANGES: Record<string, { min: number; max: number }> = {
   Villa: { min: 50_000, max: 2_00_000 },
 };
 
-// ───────────────────────────────────────────────────────────
-// Category অনুযায়ী area (sqft)
-// ───────────────────────────────────────────────────────────
+
 const AREA_RANGES: Record<string, { min: number; max: number }> = {
   Apartment: { min: 500, max: 1_500 },
   Condo: { min: 600, max: 1_800 },
@@ -62,11 +58,11 @@ async function run() {
   });
 
   if (properties.length === 0) {
-    console.log("✅ সব property-তে fullRent ও areaSqft আগেই সেট করা আছে।");
+    console.log("updated");
     return;
   }
 
-  console.log(`📦 ${properties.length} টা property আপডেট হবে...\n`);
+  console.log(`📦 ${properties.length}...\n`);
 
   let updated = 0;
 
@@ -93,7 +89,7 @@ async function run() {
     { maxWait: 10_000, timeout: 60_000 },
   );
 
-  console.log(`\n✅ ${updated} টা property আপডেট হয়েছে।`);
+  console.log(`\n✅ ${updated}`);
 }
 
 run()
